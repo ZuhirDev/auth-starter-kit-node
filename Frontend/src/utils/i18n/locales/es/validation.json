@@ -1,0 +1,16 @@
+{
+    "name": "El nombre es obligatorio.",
+    "required": "Este campo es obligatorio.",
+    "email": "La dirección de correo electrónico no es válida.",
+    "pattern": "El formato de este campo es incorrecto.",
+    "token": "Se requiere un token.",
+    "password": {
+      "min": "La contraseña debe tener al menos {{min}} caracteres.",
+      "max": "La contraseña no puede superar los {{max}} caracteres.",
+      "mismatch": "Las contraseñas no coinciden."
+    },
+    "otp": {
+      "min": "Tu código de un solo uso debe tener {{min}} caracteres."
+    }
+  }
+  

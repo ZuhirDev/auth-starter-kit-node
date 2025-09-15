@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@auth/*": ["./src/modules/auth/*"],
+      "@user/*": ["./src/modules/user/*"],
+      "@error/*": ["./src/modules/error/*"],
+      "@landing/*": ["./src/modules/landing/*"],
+    }
+  }
+}

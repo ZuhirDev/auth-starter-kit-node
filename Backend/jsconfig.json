@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "paths": {
+      "@/*": ["*"],
+      "#auth/*": ["features/auth/*"],
+      "#user/*": ["features/user/*"],
+      "#utils/*": ["utils/*"],
+      "#config/*": ["config/*"],
+      "#routes/*": ["routes/*"]
+    }
+  }
+}

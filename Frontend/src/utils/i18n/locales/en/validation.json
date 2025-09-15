@@ -1,0 +1,16 @@
+{
+    "name": "Name is required.",
+    "required": "This field is required.",
+    "email": "The email address is invalid.",
+    "pattern": "The field format is invalid.",
+    "token": "Token is required.",
+    "password": {
+      "min": "Password must be at least {{min}} characters.",
+      "max": "Password cannot exceed {{max}} characters.",
+      "mismatch": "Passwords do not match."
+    },
+    "otp": {
+      "min": "Your one-time password must be {{min}} characters."
+    }
+  }
+  

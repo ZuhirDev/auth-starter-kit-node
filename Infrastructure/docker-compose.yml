@@ -1,0 +1,58 @@
+services:
+  backend:
+    build:
+      context: ${NODE}
+      dockerfile: Dockerfile
+    container_name: ${CONTAINER_NAME_NODE}
+    depends_on:
+      - mongo
+    volumes:
+      - ${NODE}/:/app
+    networks:
+      - backend-network
+  mongo:
+    container_name: ${CONTAINER_NAME_MONGO}
+    image: mongo:latest
+    ports:
+      - ${MONGO_PORT}:27017
+    command: ["--noauth"]
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - backend-network
+  mongo-express:
+    image: mongo-express:latest # User: admin - Password: pass
+    ports:
+      - 8081:8081
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=mongo         
+      - ME_CONFIG_MONGODB_PORT=27017
+    depends_on:
+      - mongo
+    networks:
+      - backend-network
+  nginx:
+    image: nginx:alpine
+    container_name: ${CONTAINER_NAME_NGINX}
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ${REACT}/dist:/var/www/frontend/dist
+    depends_on:
+      - backend
+    networks:
+      - backend-network
+  maildev:
+    image: maildev/maildev
+    container_name: maildev
+    ports:
+      - "1025:1025"
+      - "1080:1080"
+    networks:
+      - backend-network
+volumes:
+  mongodb_data:
+networks: 
+  backend-network:
+    driver: bridge
