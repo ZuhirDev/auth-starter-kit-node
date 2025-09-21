@@ -14,11 +14,10 @@ export const formatUser = (user) => {
 
   const userObj = user.toObject ? user.toObject() : user;
 
-  const { _id, name, email, is2FAVerified, email_verified_at } = userObj;
+  const { _id, name, email, is2FAVerified, email_verified_at, roles, permissions } = userObj;
 
-  return { _id, name, email, is2FAVerified, email_verified_at };
+  return { _id, name, email, is2FAVerified, email_verified_at,roles,permissions };
 };
-
 
 export const updateUserById = async (id, updateData) => {
   return await User.findByIdAndUpdate(id, updateData, {
@@ -47,6 +46,10 @@ export const createUserService = async ({ name, email, password }) => {
   return user;
 };
 
-export const meService = async (req) => {
-  return await findUserById(req?.user?.id);
+export const meService = async (user) => {
+  return await findUserById(user.id);
+}
+
+export const getAllUsersService = async () => {
+  return await User.find();
 }

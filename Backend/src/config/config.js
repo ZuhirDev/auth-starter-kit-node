@@ -6,6 +6,7 @@ const CONFIG = {
     APP_NAME: process.env.APP_NAME,
     FRONTEND_URL: process.env.FRONTEND_URL,
     PORT: process.env.PORT || 3000,
+    
     MONGO_URL: process.env.MONGO_URL,
     JWT_SECRET: process.env.JWT_SECRET,
 
