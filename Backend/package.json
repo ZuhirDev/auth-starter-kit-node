@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --watch src/index.js",
+    "seed": "node  src/database/seeders/databaseSeeder.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -28,7 +29,9 @@
   "imports": {
     "#auth/*": "./src/features/auth/*",
     "#user/*": "./src/features/user/*",
+    "#rbac/*": "./src/features/user/rbac/*",
     "#utils/*": "./src/utils/*",
+    "#db/*": "./src/database/*",
     "#config/*": "./src/config/*",
     "#routes/*": "./src/routes/*"
   }

@@ -1,10 +1,11 @@
-import { createUserService, findUserByEmail, formatUser, updateUserById } from "#user/services/userService.js";
+import { createUserService, findUserByEmail, updateUserById } from "#user/services/userService.js";
 import { generateTempToken, generateToken, validateTempToken } from "#utils/jwt.js";
 import bcrypt from 'bcryptjs';
 import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema } from "#auth/validations/authValidation.js";
 import { validateRequest } from "#utils/validation.js";
 import { sendEmail } from "#config/mailer.js";
 import CONFIG from "#config/config.js";
+import { effectivePermissionsService } from "#user/services/userPermissionService.js";
 
 export const register = async (req, res) => {
     try {
@@ -29,7 +30,7 @@ export const register = async (req, res) => {
             } 
         });
 
-        return res.status(201).json({ message: 'User created successfully', data: formatUser(user) });
+        return res.status(201).json({ message: 'User created successfully' });
     } catch (error) {
         console.log("Error", error);
         return res.status(500).json({ error: 'Server error during creating user' });
@@ -49,7 +50,12 @@ export const login = async (req, res) => {
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
 
-        const token = generateToken({id: user._id});
+        const permissions = await effectivePermissionsService(user);
+
+        const token = generateToken({
+            id: user._id,
+            permissions: Array.from(permissions.keys()),
+        });
 
         res.cookie('token', token, {
             httpOnly: true,
@@ -58,7 +64,7 @@ export const login = async (req, res) => {
             maxAge: 30 * 60 * 1000,
         });
 
-        return res.status(200).json({ message: 'Login successful', data: formatUser(user) });
+        return res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.error('Login error:', error);
         return res.status(500).json({ error: 'Server error during login' });

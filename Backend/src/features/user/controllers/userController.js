@@ -1,4 +1,4 @@
-import { findUserById, formatUser, meService, updatePasswordService, updateUserById } from '#user/services/userService.js';
+import { findUserById, formatUser, getAllUsersService, meService, updatePasswordService, updateUserById } from '#user/services/userService.js';
 import { VerifyPasswordService } from '#auth/services/authService.js';
 import { validateRequest } from '#utils/validation.js';
 import { updatePasswordSchema, updateUserSchema, verifyEmailSchema } from '#user/validations/userValidation.js';
@@ -11,7 +11,7 @@ export const updateUser = async (req, res) => {
         const validation = await validateRequest(updateUserSchema, req.body);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
-        const { name} = validation.data;
+        const { name } = validation.data;
 
         const user = await findUserById(req.user.id);
         if(!user) return res.status(400).json({ message: 'User not found' });
@@ -40,9 +40,9 @@ export const updatePassword = async (req, res) => {
         const isMatch = await VerifyPasswordService(current_password, user.password);
         if (!isMatch) return res.status(401).json({ message: 'Current password is incorrect' });
 
-        const updatedPassword = await updatePasswordService(user.id, password);
+        await updatePasswordService(user.id, password);
 
-        return res.status(200).json({ message: 'Password updated successfully', data: formatUser(updatedPassword) });
+        return res.status(200).json({ message: 'Password updated successfully' });
     } catch (error) {
         console.log("Error", error);    
         return res.status(500).json({ error: 'Error updating password' });
@@ -51,8 +51,13 @@ export const updatePassword = async (req, res) => {
 
 export const me = async (req, res) => {
     try {
-        const user = await meService(req);
+        const user = await meService(req.user);
         if(!user) return res.status(404).json({ message: 'User not found' });
+
+        await user.populate([
+        { path: 'permissions' },
+        { path: 'roles', populate: { path: 'permissions' } }
+        ]);
 
         return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user) });
     } catch (error) {
@@ -113,5 +118,16 @@ export const verifyEmail = async (req, res) => {
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: 'Server error during reset password' });
+    }
+}
+
+export const getAllUsers = async (req, res) => {
+    try {
+        console.log(req.user)
+        const users = await getAllUsersService();
+
+        return res.status(200).json({ message: 'Users retrieved successfully', data: users.map(user => formatUser(user)) });
+    } catch (error) {
+        return res.status(500).json({ error: error });
     }
 }

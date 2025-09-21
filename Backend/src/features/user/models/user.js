@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const UserSchema = new mongoose.Schema({
     name: String,
@@ -23,7 +23,17 @@ const UserSchema = new mongoose.Schema({
     tempTokenExpires: {
         type: Date,
         default: null,
-    },    
+    },
+    roles: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Role',
+    }],
+    permissions: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Permission',
+    }]
+}, {
+    timestamps: true,
 });
 
 const User = mongoose.model('User', UserSchema);
