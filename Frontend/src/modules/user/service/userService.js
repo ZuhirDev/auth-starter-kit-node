@@ -1,6 +1,5 @@
 import { get, post } from '@/utils/xhr';
 
-
 export const meService = async () => {
     try {
         const response = await get({url: '/me'});

@@ -1,4 +1,24 @@
-import { post } from '@/utils/xhr';
+import { get, post } from '@/utils/xhr';
+
+export const refreshTokenService = async () => {
+    try {
+        const response = await get({url: '/refresh-token'});
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const authStatusService = async () => {
+    try {
+        const response = await get({url: '/auth/status'});
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export const registerService = async (data) => {
     const { name, email, password, password_confirmation } = data;

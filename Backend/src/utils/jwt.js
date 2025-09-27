@@ -1,11 +1,8 @@
-import CONFIG from '#config/config.js';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
-export const generateToken = (payload) => {
-    return jwt.sign(payload, CONFIG.JWT_SECRET, {
-        expiresIn: '30m',
-    });
+export const generateToken = (payload, secret, expiresIn = '15m') => {
+    return jwt.sign(payload, secret, { expiresIn});
 }
 
 export const generateTempToken = async (expieresTime = 30) => {
