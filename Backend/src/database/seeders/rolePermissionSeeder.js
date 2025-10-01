@@ -1,5 +1,5 @@
-import Permission from '#rbac/models/permission.js';
-import Role from '#rbac/models/role.js';
+import Permission from '#admin/permission/models/permission.js';
+import Role from '#admin/role/models/role.js';
 
 const permissionsData = [
   { name: 'create', resource: 'manage_permissions', description: '' },

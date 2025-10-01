@@ -1,6 +1,7 @@
-import { createPermissionService, deletePermissionService, getAllPermissionsService, getPermissionByIdService, updatePermissionService } from "#rbac/service/permissionService.js";
+import { createPermissionService, deletePermissionService, getAllPermissionsService, getPermissionByIdService, updatePermissionService } from "#admin/permission/service/permissionService.js";
 import { validateRequest } from "#utils/validation.js";
-import { createPermissionSchema, deletePermissionSchema, getPermissionByIdSchema, updatePermissionSchema } from "#rbac/validations/permissionValidation.js";
+import { createPermissionSchema, deletePermissionSchema, getPermissionByIdSchema, updatePermissionSchema } from "#admin/permission/validations/permissionValidation.js";
+import { Datatable } from "#helpers/datatable.js";
 
 export const createPermission = async (req, res) =>  {
     try {
@@ -21,8 +22,14 @@ export const createPermission = async (req, res) =>  {
 export const getAllPermissions = async (req, res) =>  {
     try {
         const permissions = await getAllPermissionsService();
+        const datatable = new Datatable(permissions, req.query);
+        const data = await datatable.toJson();
 
-        res.status(200).json({ message: 'Permissions retrieved successfully', data: permissions });
+        res.status(200).json({ 
+            message: 'Permissions retrieved successfully', 
+            data: data.data,
+            totalCount: data.totalCount
+        });
     } catch (error) {
         return res.status(500).json({ message: error });
     }

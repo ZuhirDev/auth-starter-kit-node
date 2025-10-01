@@ -1,6 +1,6 @@
 import express from 'express';
-import { addPermissionToRole, createRole, deleteRole, getAllRoles, getRoleById, removePermissionFromRole } from '#rbac/controllers/roleController.js';
-import { hasPermission } from '#rbac/middleware/hasPermissionMiddleware.js';
+import { addPermissionToRole, createRole, deleteRole, getAllRoles, getRoleById, removePermissionFromRole } from '#admin/role/controllers/roleController.js';
+import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
 
 const roleRouter = express.Router();
 

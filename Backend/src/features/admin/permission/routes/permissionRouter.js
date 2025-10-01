@@ -1,6 +1,6 @@
 import express from 'express';
-import { createPermission, deletePermission, getAllPermissions, getPermissionById, updatePermission } from '#rbac/controllers/permissionController.js';
-import { hasPermission } from '#rbac/middleware/hasPermissionMiddleware.js';
+import { createPermission, deletePermission, getAllPermissions, getPermissionById, updatePermission } from '#admin/permission/controllers/permissionController.js';
+import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
 
 const permissionRouter = express.Router();
 

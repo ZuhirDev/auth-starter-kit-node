@@ -2,7 +2,7 @@ import { getAllUsers, me, sendVerificationEmail, updatePassword, updateUser, ver
 import express from 'express';
 import { assignPermissionToUser, getUserPermission, removePermissionFromUser } from '#user/controllers/userPermissionController.js';
 import { assignRoleToUser, getUserRoles, removeRoleFromUser } from '#user/controllers/userRoleController.js';
-import { hasPermission } from '#rbac/middleware/hasPermissionMiddleware.js';
+import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
 
 const userRouter = express.Router();
 

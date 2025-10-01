@@ -1,4 +1,4 @@
-import Role from "#rbac/models/role.js";
+import Role from "#admin/role/models/role.js";
 
 export const createRoleService = async (name, description, permissions) => {
   const role = new Role({ name, description, permissions });

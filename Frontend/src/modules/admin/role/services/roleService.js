@@ -1,0 +1,54 @@
+import { del, patch, post } from "@/utils/xhr";
+
+export const createRoleService = async (data) => {
+    const { name, resource, description } = data;
+
+    try {
+        const response = await post({
+            url: `/roles`,
+            data: {
+                name, 
+                resource,
+                description
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const updateRoleService = async (data) => {
+    const { id, name, resource, description } = data; 
+
+    try {
+        const response = await patch({
+            url: `/roles`,
+            data: {
+                id,
+                name, 
+                resource,
+                description
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const deleteRoleService = async (data) => {
+    const { id } = data;
+
+    try {
+        const response = await del({
+            url: `/roles/${id}`,
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

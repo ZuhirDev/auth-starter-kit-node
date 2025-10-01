@@ -1,4 +1,4 @@
-import { Lock, Radio, Smartphone, User } from "lucide-react";
+import { Lock, LockKeyholeOpen, Radio, ShieldUser, Smartphone, User, Users } from "lucide-react";
 import UserUpdate from "./UserUpdate";
 import UserSecurity from "./UserSecurity";
 import UpdatePassword from "./passwords/UpdatePassword";
@@ -7,6 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Notification from "@/components/Notification";
+import AdminUsers from "@admin/user/pages/AdminUsers";
+import AdminRole from "@admin/role/pages/AdminRole";
+import AdminPermission from "@admin/permission/pages/AdminPermission";
 
 const tabs = [
   {
@@ -27,11 +30,29 @@ const tabs = [
     icon: Lock,
     component: UpdatePassword,
   },
+  // {
+  //   id: "tab4",
+  //   label: "Websocket",
+  //   icon: Radio,
+  //   component: Notification,
+  // },
   {
-    id: "tab4",
-    label: "Websocket",
-    icon: Radio,
-    component: Notification,
+    id: "tab5",
+    label: "Users",
+    icon: Users,
+    component: AdminUsers,
+  },
+  {
+    id: "tab6",
+    label: "Role",
+    icon: ShieldUser,
+    component: AdminRole,
+  },
+  {
+    id: "tab7",
+    label: "Permissions",
+    icon: LockKeyholeOpen,
+    component: AdminPermission,
   },
 ];
 

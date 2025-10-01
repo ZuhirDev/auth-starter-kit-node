@@ -3,8 +3,8 @@ import userRouter from '#user/routes/userRouter.js';
 import authRouter from '#auth/routes/authRouter.js';
 import { auth } from '#auth/middleware/authMiddleware.js';
 import { TwoFA } from '#auth/middleware/2faMiddleware.js';
-import roleRouter from '#rbac/routes/roleRouter.js';
-import permissionRouter from '#rbac/routes/permissionRouter.js';
+import roleRouter from '#admin/role/routes/roleRouter.js';
+import permissionRouter from '#admin/permission/routes/permissionRouter.js';
 
 const router = express.Router();
 

@@ -1,4 +1,4 @@
-import Permission from "#rbac/models/permission.js";
+import Permission from "#admin/permission/models/permission.js";
 
 export const createPermissionService = async (name, resource, description) => {
     const permission = new Permission({ name, resource, description });

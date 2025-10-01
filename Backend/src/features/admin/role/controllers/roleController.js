@@ -1,6 +1,6 @@
-import { addPermissionToRoleService, createRoleService, deleteRoleService, getAllRolesService, getRoleByIdService, removePermissionFromRoleService } from "#rbac/service/roleService.js";
+import { addPermissionToRoleService, createRoleService, deleteRoleService, getAllRolesService, getRoleByIdService, removePermissionFromRoleService } from "#admin/role/service/roleService.js";
 import { validateRequest } from "#utils/validation.js";
-import { addPermissionToRoleSchema, createRoleSchema, getRoleByIdSchema, removePermissionFromRoleSchema } from "#rbac/validations/roleValidation.js";
+import { addPermissionToRoleSchema, createRoleSchema, getRoleByIdSchema, removePermissionFromRoleSchema } from "#admin/role/validations/roleValidation.js";
 
 export const createRole = async (req, res) =>  {
     try {

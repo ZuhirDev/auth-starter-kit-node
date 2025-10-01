@@ -51,10 +51,9 @@ axios.interceptors.response.use(
                     isRefreshing = false;
 
                     if(error?.response?.status === 401 && !hasShownSessionExpired){
-                        console.log("Erroraso ", error.response)
                         hasShownSessionExpired = true;
 
-                        toast.info("Tu sesión ha expirado. Serás redirigido al inicio de sesión.");
+                        toast.info("Your session has expired, you will be redirected soon");
                         setTimeout(() => {
                             window.location.href = '/login';
                         }, 4000);
