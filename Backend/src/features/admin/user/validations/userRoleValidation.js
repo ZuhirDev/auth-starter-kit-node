@@ -8,12 +8,12 @@ const objectIdSchema = z.string().refine(
 
 export const assignRoleToUserSchema = z.object({
   userId: objectIdSchema,
-  roleId: objectIdSchema,
+  roleIds: z.array(objectIdSchema).min(1, { message: "At least one role ID is required" }),
 });
 
 export const removeRoleFromUserSchema = z.object({
   userId: objectIdSchema,
-  roleId: objectIdSchema,
+  roleIds: z.array(objectIdSchema).min(1, { message: "At least one role ID is required" }),
 });
 
 export const getUserRolesSchema = z.object({

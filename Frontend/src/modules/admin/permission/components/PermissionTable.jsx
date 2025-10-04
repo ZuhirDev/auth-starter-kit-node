@@ -5,10 +5,11 @@ import { Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { createPermissionService, deletePermissionService, updatePermissionService } from "@admin/permission/services/permissionService";
 import { toast } from "sonner";
+import { useUserPermissions } from "@user/hooks/useUserPermissions";
 
 const PermissionTable = () => {
-    const remote = "/permissions";
     const navigate = useNavigate();
+    const { hasPermission } = useUserPermissions();
 
     const columns = useMemo(() => [
         {
@@ -60,24 +61,25 @@ const PermissionTable = () => {
         }
     }
 
-
     return (
         <div className="p-6">
             <Datatable
                 columns={columns}
-                remote={remote}
+                remote={'/permissions/datatable'}
                 onCreateRow={handleCreatePermission}
                 onUpdateRow={handleUpdatePermission}
                 onDeleteRow={handleDeletePermission}
                 options={{
                     tableName: 'Permissions',
                     showAddButton: true,
+                    createRequiredPermission: 'create:manage_permissions',
                 }}
                 renderRowActions={({ row, table }) => (
                     <div className="flex gap-2">
                         <Button
                             variant="ghost"
                             size="icon"
+                            disabled={!hasPermission("update:manage_permissions")}
                             onClick={() => table.setEditingRow(row)}
                         >
                             <Pencil className="h-4 w-4" />
@@ -85,6 +87,7 @@ const PermissionTable = () => {
                         <Button
                             variant="ghost"
                             size="icon"
+                            disabled={!hasPermission("delete:manage_permissions")}
                             onClick={() => table.deleteRow(row)}
                         >
                             <Trash2 className="h-4 w-4" />

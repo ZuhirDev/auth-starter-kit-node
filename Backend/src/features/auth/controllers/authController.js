@@ -5,7 +5,7 @@ import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema 
 import { validateRequest } from "#utils/validation.js";
 import { sendEmail } from "#config/mailer.js";
 import CONFIG from "#config/config.js";
-import { effectivePermissionsService } from "#user/services/userPermissionService.js";
+import { effectivePermissionsService } from "#admin/user/services/userPermissionService.js";
 import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {

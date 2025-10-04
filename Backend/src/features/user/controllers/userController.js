@@ -60,7 +60,7 @@ export const me = async (req, res) => {
             { path: 'roles', populate: { path: 'permissions' } },
         ]);
 
-        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user) });
+        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions) });
     } catch (error) {
         return res.status(500).json({ error: 'Error updating password' });
     }
@@ -123,7 +123,19 @@ export const verifyEmail = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
+        const users = await getAllUsersService();
 
+        return res.status(200).json({ 
+            message: 'Users retrieved successfully', 
+            data: users,
+        });
+    } catch (error) {
+        return res.status(500).json({ error: error });
+    }
+}
+
+export const allUsersDatatable = async (req, res) => {
+    try {
         const users = await getAllUsersService();
 
         const datatable = new Datatable(users, req.query)

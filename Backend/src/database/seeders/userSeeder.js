@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import User from '#user/models/user.js';
-import Role from '#rbac/models/role.js';
+import Role from '#admin/role/models/role.js';
 
 const users = [
   { name: 'Administrador', email: 'admin@admin.es', password: '11111111' },

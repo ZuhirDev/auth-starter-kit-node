@@ -1,5 +1,5 @@
 import { flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import DatatableToolbar from '@/components/datatable/DatatableToolbar';
 import DatatableColumnFilter from '@/components/datatable/DatatableColumnFilter';
@@ -14,7 +14,7 @@ import Papa from 'papaparse';
 import { format } from 'date-fns';
 import useModal from '@/hooks/useModal';
 
-const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, onUpdateRow = () => {}, onDeleteRow = () => {}, renderRowActions, options = {} }) => {
+const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = () => {}, onUpdateRow = () => {}, onDeleteRow = () => {}, renderRowActions, options = {} }, ref) => {
   const { isOpen, open, close, data: deleteData } = useModal(); 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,7 +32,6 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
   const [editedRow, setEditedRow] = useState({});
   const [creatingRow, setCreatingRow] = useState(false);
 
-
   const [debouncedGlobalFilter] = useDebounce(globalFilter, 300);
   const [debouncedColumnFilters] = useDebounce(columnFilters, 300);
   const [debouncedSorting] = useDebounce(sorting, 0);
@@ -48,6 +47,7 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
     enableSorting: true,
     enableFiltering: true,
     enablePagination: true,
+    createRequiredPermission: null,
     ...options,
   };
 
@@ -86,6 +86,10 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useImperativeHandle(ref, () => ({
+    refresh: fetchData,
+  }), [fetchData]);
 
   const handleExportCSV = () => {
     const visibleColumns = table
@@ -145,6 +149,7 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
         enableHiding: false,
         enableExport: false,
         searchable: false,
+        editable: false,
       });
     }
 
@@ -157,6 +162,7 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
         enableSorting: false,
         enableExport: false,
         searchable: false,
+        editable: false,
         cell: ({ row, table }) => renderRowActions({ row, table }),
       });
     }
@@ -238,6 +244,7 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
         handleExportCSV={handleExportCSV}   
         onAddRowClick={() => table.setCreatingRow(true)}
         options={tableOptions}
+        requiredPermission={tableOptions.createRequiredPermission}
       />
 
       <div className="rounded-md border border-gray-200 dark:border-zinc-700 overflow-auto">
@@ -294,20 +301,22 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
 
                   return (
                     <TableCell key={column.id}>
-                      <input
-                        className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:border-zinc-700 dark:text-white"
-                        placeholder={column.columnDef.header}
-                        value={newRow[column.id] || ""}
-                        onChange={(e) => table.updateNewRow({ [column.id]: e.target.value })}
-                      />
+                      {column.columnDef.editable !== false && (
+                        <input
+                          className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:border-zinc-700 dark:text-white"
+                          placeholder={column.columnDef.header}
+                          value={newRow[column.id] || ""}
+                          onChange={(e) => table.updateNewRow({ [column.id]: e.target.value })}
+                        />
+                      )}
                     </TableCell>
                   );
                 })}
 
                 <TableCell colSpan={1}>
                   <div className="flex gap-2">
-                    <Button size="sm" onClick={() => table.saveCreatingRow()}>Guardar</Button>
-                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>Cancelar</Button>
+                    <Button size="sm" onClick={() => table.saveCreatingRow()}>Save</Button>
+                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>Cancel</Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -337,10 +346,10 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
                             {isEditing ? (
                               <div className="flex gap-2">
                                 <Button size="sm" onClick={() => table.saveEditingRow()}>
-                                  Guardar
+                                  Save
                                 </Button>
                                 <Button variant="ghost" size="sm" onClick={() => table.cancelEditing()}>
-                                  Cancelar
+                                  Cancel
                                 </Button>
                               </div>
                             ) : (
@@ -352,7 +361,7 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
 
                       return (
                         <TableCell key={cell.id}>
-                          {isEditing ? (
+                          {cell.column.columnDef.editable !== false && isEditing ? (
                             <input
                               className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:border-zinc-700 dark:text-white"
                               value={editedRow[columnId] ?? ""}
@@ -409,6 +418,6 @@ const Datatable = ({ columns, remote, initialSorting, onCreateRow = () => {}, on
     </div>
   );
 
-};
+});
 
 export default Datatable;

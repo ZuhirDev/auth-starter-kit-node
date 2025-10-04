@@ -1,6 +1,8 @@
-import { addPermissionToRoleService, createRoleService, deleteRoleService, getAllRolesService, getRoleByIdService, removePermissionFromRoleService } from "#admin/role/service/roleService.js";
+import { addPermissionsToRoleService, createRoleService, deleteRoleService, getAllRolesService, getRoleByIdService, removePermissionsFromRoleService, updateRoleService } from "#admin/role/service/roleService.js";
 import { validateRequest } from "#utils/validation.js";
-import { addPermissionToRoleSchema, createRoleSchema, getRoleByIdSchema, removePermissionFromRoleSchema } from "#admin/role/validations/roleValidation.js";
+import { addPermissionToRoleSchema, createRoleSchema, getRoleByIdSchema, removePermissionFromRoleSchema, updateRoleSchema } from "#admin/role/validations/roleValidation.js";
+import { Datatable } from "#helpers/datatable.js";
+import id from "zod/v4/locales/id.cjs";
 
 export const createRole = async (req, res) =>  {
     try {
@@ -18,11 +20,43 @@ export const createRole = async (req, res) =>  {
     }
 }
 
+export const updateRole = async (req, res) =>  {
+    try {
+        const validation = await validateRequest(updateRoleSchema, req.body);
+        if(!validation.success) return res.status(400).json({ errors: validation.errors });
+
+        const { id, name, description, permissions } = validation.data;
+
+        const newRole = await updateRoleService(id, {name, description, permissions});
+        if(!newRole) return res.status(400).json({ message: 'Error creating Role' });
+
+        res.status(201).json({ message: 'Role updated successfully', data: newRole });
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
+}
+
 export const getAllRoles = async (req, res) =>  {
     try {
         const roles = await getAllRolesService();
 
         res.status(200).json({ message: 'Roles retrieved successfully', data: roles });
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
+}
+
+export const allRolesDatatable = async (req, res) =>  {
+    try {
+        const roles = await getAllRolesService();
+        const datatable = new Datatable(roles, req.query);
+        const data = await datatable.toJson();
+
+        res.status(200).json({ 
+            message: 'Roles retrieved successfully', 
+            data: data.data,
+            totalCount: data.totalCount
+        });
     } catch (error) {
         return res.status(500).json({ message: error });
     }
@@ -49,13 +83,13 @@ export const addPermissionToRole = async (req, res) =>  {
         const validation = await validateRequest(addPermissionToRoleSchema, req.body);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
-        const { id, permissionId } = validation.data;
+        const { id, permissionIds } = validation.data;
 
         const role = await getRoleByIdService(id);
         if(!role) return res.status(404).json({ message: 'Role not found' });
 
-        const roleUpdated = await addPermissionToRoleService(role, permissionId);
-        if(!roleUpdated) return res.status(400).json({ message: 'Permission already exists in role' });
+        const roleUpdated = await addPermissionsToRoleService(role, permissionIds);
+        if(!roleUpdated) return res.status(400).json({ message: 'No permissions were added' });
 
         res.status(200).json({ message: 'Permission added to role successfully', data: roleUpdated });
     } catch (error) {
@@ -68,13 +102,13 @@ export const removePermissionFromRole = async (req, res) =>  {
         const validation = await validateRequest(removePermissionFromRoleSchema, req.body);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
-        const { id, permissionId } = validation.data;
+        const { id, permissionIds } = validation.data;
 
         const role = await getRoleByIdService(id);
         if(!role) return res.status(404).json({ message: 'Role not found' });
 
-        const removedRole = await removePermissionFromRoleService(role, permissionId);
-        if(!removedRole) return res.status(400).json({ message: 'Permission not found in role' });
+        const removedRole = await removePermissionsFromRoleService(role, permissionIds);
+        if(!removedRole) return res.status(400).json({ message: 'No permissions were removed' });
 
         res.status(200).json({ message: 'Role removed successfully', data: removedRole });
     } catch (error) {

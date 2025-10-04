@@ -3,15 +3,12 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { ColumnsIcon, Plus, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useUserPermissions } from "@user/hooks/useUserPermissions";
 
-const DatatableToolbar = ({
-  table,
-  handleExportCSV,
-  onAddRowClick,
-  options,
-}) => {
+const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requiredPermission = null }) => {
+
+  const { hasPermission } = useUserPermissions();
   const [showSearch, setShowSearch] = useState(false);
-
   const { showSearch: showSearchOption, showExport, showColumnVisibility, showAddButton } = options;
 
   return (
@@ -104,6 +101,7 @@ const DatatableToolbar = ({
         <Button
           variant="outline"
           size="sm"
+          disabled={requiredPermission && !hasPermission(requiredPermission)}
           onClick={onAddRowClick}
           className="dark:border-zinc-700 dark:text-zinc-200"
         >

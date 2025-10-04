@@ -1,38 +1,37 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef } from "react";
 import Datatable from "@/components/datatable/Datatable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { createUserService, deleteUserService, updateUserService } from "../services/adminUserService";
+import { useUserPermissions } from "@user/hooks/useUserPermissions";
+import useModal from "@/hooks/useModal";
+import UserManager from "./UserManager";
 
 const UsersTable = () => {
-  const remote = "/users";
   const navigate = useNavigate();
+  const refTable = useRef(null);
+  const { hasPermission } = useUserPermissions();
+  const { isOpen, open, close, data } = useModal();
 
   const columns = useMemo(() => [
     {
-      id: "naadfame",
-      accessorKey: "naadfme",
-      header: "Nombre",
-      cell: ({ row }) => <span className="font-medium">{console.log(row.original)}</span>,
-    },
-    {
       id: "name",
       accessorKey: "name",
-      header: "Nombre",
+      header: "Name",
       cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
     },
     {
       id: "email",
       accessorKey: "email",
-      header: "Correo electrónico",
+      header: "Email",
     },
     {
       id: "email_verified_at",
       accessorKey: "email_verified_at",
-      header: "Verificado",
+      header: "Verified",
       cell: ({ row }) =>
         row.original.email_verified_at ? (
           <Badge variant="outline" className="text-green-600 border-green-600">
@@ -61,7 +60,11 @@ const UsersTable = () => {
     },
   ], [navigate]);
 
-  
+  const closeUserManager = () => {
+    close();
+    refTable.current?.refresh();
+  };
+
   const handleDeleteUsers = async (id) => {
     try {
       const response = await deleteUserService({ id });
@@ -92,27 +95,32 @@ const UsersTable = () => {
   return (
     <div className="p-6">
       <Datatable
+        ref={refTable}
         columns={columns}
-        remote={remote}
+        remote={'/users/datatable'}
         onCreateRow={handleCreateUsers}
         onUpdateRow={handleUpdateUsers}
         onDeleteRow={handleDeleteUsers}
         options={{
           tableName: 'Users',
           showAddButton: true,
+          createRequiredPermission: 'create:manage_users',
         }}
         renderRowActions={({ row, table }) => (
           <div className="flex gap-2">
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => alert("Hacer componente para la edicion de Users") }
+              size="sm"
+              variant="outline" 
+              disabled={!hasPermission('update:manage_users')}
+              onClick={() => open(row.original) }
             >
-              <Pencil className="h-4 w-4" />
+              <Edit className="mr-1.5 h-3 w-3" />
+              Manage
             </Button>
             <Button
               variant="ghost"
               size="icon"
+              disabled={!hasPermission('delete:manage_users')}
               onClick={() => table.deleteRow(row)}
             >
               <Trash2 className="h-4 w-4" />
@@ -120,6 +128,14 @@ const UsersTable = () => {
           </div>
         )}            
       />
+
+      { isOpen && (
+        <UserManager 
+          open={isOpen}
+          user={data}
+          close={closeUserManager}
+        />
+      )}
     </div>
   );
 };

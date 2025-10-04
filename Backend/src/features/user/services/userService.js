@@ -9,14 +9,16 @@ export const findUserById = async (id) => {
   return await User.findById(id);
 };
 
-export const formatUser = (user) => {
+export const formatUser = (user, effectivePermissions = null) => {
   if (!user) return null;
 
   const userObj = user.toObject ? user.toObject() : user;
 
-  const { _id, name, email, is2FAVerified, email_verified_at, roles, permissions } = userObj;
+  const { _id, name, email, is2FAVerified, email_verified_at } = userObj;
 
-  return { _id, name, email, is2FAVerified, email_verified_at,roles,permissions };
+  const permissions = effectivePermissions ? Array.from(effectivePermissions) : [];
+
+  return { _id, name, email, is2FAVerified, email_verified_at, permissions};
 };
 
 export const updateUserById = async (id, updateData) => {
@@ -51,5 +53,5 @@ export const meService = async (user) => {
 }
 
 export const getAllUsersService = async () => {
-  return await User.find();
+  return await User.find().populate('permissions').populate('roles');
 }

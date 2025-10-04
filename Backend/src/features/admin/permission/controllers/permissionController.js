@@ -22,6 +22,19 @@ export const createPermission = async (req, res) =>  {
 export const getAllPermissions = async (req, res) =>  {
     try {
         const permissions = await getAllPermissionsService();
+
+        res.status(200).json({ 
+            message: 'Permissions retrieved successfully', 
+            data: permissions,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: error });
+    }
+}
+
+export const allPermissionsDatatable = async (req, res) =>  {
+    try {
+        const permissions = await getAllPermissionsService();
         const datatable = new Datatable(permissions, req.query);
         const data = await datatable.toJson();
 

@@ -1,21 +1,21 @@
 import { validateRequest } from "#utils/validation.js";
-import { assignPermissionToUserSchema, getUserPermissionSchema, removePermissionFromUserSchema } from "#user/validations/userPermissionValidation.js";
-import { assignPermissionToUserService, removePermissionFromUserService } from "#user/services/userPermissionService.js";
+import { assignPermissionToUserSchema, getUserPermissionSchema, removePermissionFromUserSchema } from "#admin/user/validations/userPermissionValidation.js";
+import {  assignPermissionsToUserService, removePermissionsFromUserService } from "#admin/user/services/userPermissionService.js";
 import { findUserById, formatUser } from "#user/services/userService.js";
 
-export const assignPermissionToUser = async (req, res) => {
+export const assignPermissionsToUser = async (req, res) => {
     try {
         const validation = await validateRequest(assignPermissionToUserSchema, req.body);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
-        const { userId, permissionId } = validation.data;
+        const { userId, permissionIds } = validation.data;
 
         const user = await findUserById(userId);
         if(!user) return res.status(404).json({ message: 'User not found' });
 
         await user.populate('permissions');
 
-        const userPermission = await assignPermissionToUserService(user, permissionId);
+        const userPermission = await assignPermissionsToUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  already assigned to user" });
 
         return res.status(200).json({ message: "Permission assigned to user successfully", data: formatUser(userPermission) });
@@ -25,19 +25,19 @@ export const assignPermissionToUser = async (req, res) => {
     }
 }
 
-export const removePermissionFromUser = async (req, res) => {
+export const removePermissionsFromUser = async (req, res) => {
     try {
         const validation = await validateRequest(removePermissionFromUserSchema, req.body);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
-        const { userId, permissionId } = validation.data;
+        const { userId, permissionIds } = validation.data;
 
         const user = await findUserById(userId);
         if(!user) return res.status(404).json({ message: 'User not found' });
 
         await user.populate('permissions');
 
-        const userPermission = await removePermissionFromUserService(user, permissionId);
+        const userPermission = await removePermissionsFromUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  not assigned to user" });
 
         return res.status(200).json({ message: "Permission removed from user successfully", data: formatUser(userPermission) });

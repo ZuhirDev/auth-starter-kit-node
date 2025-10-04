@@ -10,6 +10,7 @@ import Notification from "@/components/Notification";
 import AdminUsers from "@admin/user/pages/AdminUsers";
 import AdminRole from "@admin/role/pages/AdminRole";
 import AdminPermission from "@admin/permission/pages/AdminPermission";
+import { useUserPermissions } from "../hooks/useUserPermissions";
 
 const tabs = [
   {
@@ -39,18 +40,21 @@ const tabs = [
   {
     id: "tab5",
     label: "Users",
+    permission: 'read:manage_users',
     icon: Users,
     component: AdminUsers,
   },
   {
     id: "tab6",
     label: "Role",
+    permission: 'read:manage_roles',
     icon: ShieldUser,
     component: AdminRole,
   },
   {
     id: "tab7",
     label: "Permissions",
+    permission: 'read:manage_permissions',
     icon: LockKeyholeOpen,
     component: AdminPermission,
   },
@@ -58,7 +62,7 @@ const tabs = [
 
 const UserPanel = () => {
   const [activeTab, setActiveTab] = useState("tab1");
-
+  const { hasPermission } = useUserPermissions();
   const activeTabObj = tabs.find((tab) => tab.id === activeTab);
 
   return (
@@ -90,11 +94,12 @@ const UserPanel = () => {
               <Card className="sticky top-4 bg-background/80 backdrop-blur-md border border-border shadow-sm">
                 <CardContent className="p-4 sm:p-6">
                   <nav className="flex justify-center lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2">
-                    {tabs.map(({ id, label, icon: Icon }) => (
+                    {tabs.map(({ id, label, icon: Icon, permission }) => (
                       <Button
                         key={id}
                         variant={activeTab === id ? "default" : "ghost"}
                         onClick={() => setActiveTab(id)}
+                        disabled={permission && !hasPermission(permission)}
                         className={`flex-1 sm:flex-none justify-center lg:justify-start gap-2 rounded-full transition duration-200 ${
                           activeTab === id
                             ? "bg-primary text-primary-foreground shadow-sm"

@@ -8,12 +8,12 @@ const objectIdSchema = z.string().refine(
 
 export const assignPermissionToUserSchema = z.object({
   userId: objectIdSchema,
-  permissionId: objectIdSchema,
+  permissionIds: z.array(objectIdSchema).min(1, { message: "At least one role ID is required" }),
 });
 
 export const removePermissionFromUserSchema = z.object({
   userId: objectIdSchema,
-  permissionId: objectIdSchema,
+  permissionIds: z.array(objectIdSchema).min(1, { message: "At least one role ID is required" }),
 });
 
 export const getUserPermissionSchema = z.object({

@@ -52,3 +52,75 @@ export const deleteUserService = async (data) => {
         throw error;
     }
 }
+
+export const assignRolesToUserService = async (data) => {
+    const { id, roleIds } = data;
+
+    try {
+        const response = await post({
+            url: `/user/assign-roles`,
+            data: {
+                userId: id,
+                roleIds,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const removeRolesToUserService = async (data) => {
+    const { id, roleIds } = data;
+
+    try {
+        const response = await post({
+            url: `/user/remove-roles`,
+            data: {
+                userId: id,
+                roleIds,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const assignPermissionsToUserService = async (data) => {
+    const { id, permissionIds } = data;
+
+    try {
+        const response = await post({
+            url: `/user/assign-permissions`,
+            data: {
+                userId: id,
+                permissionIds,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const removePermissionsToUserService = async (data) => {
+    const { id, permissionIds } = data;
+
+    try {
+        const response = await post({
+            url: `/user/remove-permissions`,
+            data: {
+                userId: id,
+                permissionIds,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}

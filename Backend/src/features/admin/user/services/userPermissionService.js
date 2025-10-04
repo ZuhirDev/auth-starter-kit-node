@@ -1,18 +1,25 @@
 
 
-export const assignPermissionToUserService = async (user, permissionId) => {
-    if (user.permissions.includes(permissionId)) return null;
+export const assignPermissionsToUserService = async (user, permissionIds = []) => {
+    const existsPerm = user.permissions.map((perm) => perm._id.toString());
 
-    user.permissions.push(permissionId);
+    const newIds = permissionIds.filter((id) => !existsPerm.includes(id));
+
+    if (newIds.length === 0) return null;
+
+    user.permissions.push(...newIds);
     await user.save();
 
     return user;
 }
 
-export const removePermissionFromUserService = async (user, permissionId) => {
-    if (!user.permissions.map((perm) => perm._id.toString()).includes(permissionId)) return null;
+export const removePermissionsFromUserService = async (user, permissionIds = []) => {
+    if (!permissionIds.length) return user;
 
-    user.permissions = user.permissions.filter((permission) => permission._id.toString() !== permissionId);
+    user.permissions = user.permissions.filter(
+        (perm) => !permissionIds.includes(perm._id.toString())
+    );
+
     await user.save();
 
     return user;

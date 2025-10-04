@@ -11,6 +11,11 @@ const permissionsData = [
   { name: 'read', resource: 'manage_roles', description: '' },
   { name: 'update', resource: 'manage_roles', description: '' },
   { name: 'delete', resource: 'manage_roles', description: '' },
+
+  { name: 'create', resource: 'manage_users', description: '' },
+  { name: 'read', resource: 'manage_users', description: '' },
+  { name: 'update', resource: 'manage_users', description: '' },
+  { name: 'delete', resource: 'manage_users', description: '' },
 ];
 
 const rolePermissionSeeder = async () => {
@@ -26,7 +31,7 @@ const rolePermissionSeeder = async () => {
 
     const role = new Role({
       name: 'role_permission_manager',
-      description: 'Rol encargado de la gestión completa de roles y permisos.',
+      description: "Role responsible for the complete management of users, roles, and permissions",
       permissions: permissionIds,
     });
 
