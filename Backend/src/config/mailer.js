@@ -15,27 +15,22 @@ const transport = nodemailer.createTransport({
 
 export default transport;
 
-const hbsConfig = async ({ feature }) => {
+const layoutsPath = path.resolve(`src/mails/layouts`);
+const partialsPath = path.resolve(`src/mails/partials`);
+const viewPath = path.resolve(`src/mails`);
 
-  const layoutsPath = path.resolve(`src/features/${feature}/emails/layouts`);
-  const partialsPath = path.resolve(`src/features/${feature}/emails/partials`);
-  const viewPath = path.resolve(`src/features/${feature}/emails`);
-  
-  transport.use('compile', hbs({
-    viewEngine: {
-      extname: '.hbs',
-      layoutsDir: layoutsPath,
-      partialsDir: partialsPath,
-      defaultLayout: false, 
-    },
-    viewPath: viewPath,
-    extName: '.hbs',
-  }));
-}
+transport.use('compile', hbs({
+  viewEngine: {
+    extname: '.hbs',
+    layoutsDir: layoutsPath,
+    partialsDir: partialsPath,
+    defaultLayout: false, 
+  },
+  viewPath: viewPath,
+  extName: '.hbs',
+}));
 
 export const sendEmail = async ({ to, subject, feature, template, context }) => {
-
-  await hbsConfig({ feature });
 
   try {
     await transport.sendMail({

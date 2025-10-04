@@ -12,14 +12,14 @@ import { Label } from '@/components/ui/label';
 import Logo from '@/assets/img/landing-1.webp'
 import { PasswordInput } from '@/components/ui/password-input';
 import { ArrowLeft } from 'lucide-react';
-import AUTH_ROUTES from '../routes/paths';
-import USER_ROUTES from '@/modules/user/routes/path';
+import AUTH_ROUTES from '@auth/routes/paths';
+import USER_ROUTES from '@user/routes/path';
 
 const LoginPage = () => {
   const { t } = useTranslation();
 
   const loginSchema = z.object({
-    email: z.string().email(t('validation:email')),
+    email: z.email(t('validation:email')),
     password: z.string().min(8, t('validation:password.min', { min: 8 })),
   });
 

@@ -9,8 +9,9 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@user": path.resolve(__dirname, "./src/modules/user"),
+      "@admin": path.resolve(__dirname, "./src/modules/admin"),
       "@auth": path.resolve(__dirname, "./src/modules/auth"),
+      "@user": path.resolve(__dirname, "./src/modules/user"),
       "@error": path.resolve(__dirname, "./src/modules/error"),
       "@landing": path.resolve(__dirname, "./src/modules/landing"),
     },

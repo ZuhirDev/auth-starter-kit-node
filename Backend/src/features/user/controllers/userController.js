@@ -5,6 +5,7 @@ import { updatePasswordSchema, updateUserSchema, verifyEmailSchema } from '#user
 import { sendEmail } from '#config/mailer.js';
 import CONFIG from '#config/config.js';
 import { generateTempToken, validateTempToken } from '#utils/jwt.js';
+import { Datatable } from '#helpers/datatable.js';
 
 export const updateUser = async (req, res) => {
     try {
@@ -55,11 +56,11 @@ export const me = async (req, res) => {
         if(!user) return res.status(404).json({ message: 'User not found' });
 
         await user.populate([
-        { path: 'permissions' },
-        { path: 'roles', populate: { path: 'permissions' } }
+            { path: 'permissions' },
+            { path: 'roles', populate: { path: 'permissions' } },
         ]);
 
-        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user) });
+        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions) });
     } catch (error) {
         return res.status(500).json({ error: 'Error updating password' });
     }
@@ -78,8 +79,7 @@ export const sendVerificationEmail = async (req, res) => {
 
         await sendEmail({ 
             to: user.email, 
-            subject: `Reset your ${CONFIG.APP_NAME} password`, 
-            feature:'user',
+            subject: `Verify your ${CONFIG.APP_NAME} account`, 
             template: 'verify_email',
             context: {
                 name: user.name,
@@ -123,10 +123,29 @@ export const verifyEmail = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        console.log(req.user)
         const users = await getAllUsersService();
 
-        return res.status(200).json({ message: 'Users retrieved successfully', data: users.map(user => formatUser(user)) });
+        return res.status(200).json({ 
+            message: 'Users retrieved successfully', 
+            data: users,
+        });
+    } catch (error) {
+        return res.status(500).json({ error: error });
+    }
+}
+
+export const allUsersDatatable = async (req, res) => {
+    try {
+        const users = await getAllUsersService();
+
+        const datatable = new Datatable(users, req.query)
+        const response = await datatable.toJson();
+
+        return res.status(200).json({ 
+            message: 'Users retrieved successfully', 
+            data: response.data,
+            totalCount: response.totalCount,
+        });
     } catch (error) {
         return res.status(500).json({ error: error });
     }

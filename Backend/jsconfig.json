@@ -5,8 +5,9 @@
       "@/*": ["*"],
       "#auth/*": ["features/auth/*"],
       "#user/*": ["features/user/*"],
-      "#rbac/*": ["features/user/rbac/*"],
+      "#admin/*": ["features/admin/*"],
       "#utils/*": ["utils/*"],
+      "#helpers/*": ["helpers/*"],
       "#db/*": ["database/*"],
       "#config/*": ["config/*"],
       "#routes/*": ["routes/*"]

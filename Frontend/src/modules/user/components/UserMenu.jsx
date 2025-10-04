@@ -1,11 +1,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import Logout from "@/modules/auth/components/Logout";
+import Logout from "@auth/components/Logout";
 import { UserIcon } from "lucide-react";
 import React from 'react';
 import { Link } from "react-router-dom";
-import { useAuth } from "@/modules/auth/context/AuthContext";
+import { useAuth } from "@auth/context/AuthContext";
 
 const getInitials = (name, lastName) => {
   const firstInitial = name ? name.charAt(0).toUpperCase() : "";

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { disable2FAService, enable2FAService, loginService, logoutService, registerService, verify2FAService } from "@auth/services/authService";
-import { meService } from "@/modules/user/service/userService";
+import { authStatusService, disable2FAService, enable2FAService, loginService, logoutService, registerService, verify2FAService } from "@auth/services/authService";
+import { meService } from "@user/service/userService";
 
 const AuthContext = createContext();
  
@@ -17,15 +17,29 @@ export const AuthProvider = ({ children }) => {
             setUser({...response.data, need_verify_2fa: response.need_verify_2fa });
     
         } catch (error) {
-            console.log("Error: ", error);
+            console.log("Error ", error);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchData();
+        checkAuthStatus();
     }, []);
+
+    const checkAuthStatus = async () => {
+        try {
+            const response = await authStatusService();
+
+            if(response?.authenticated) return await fetchData();
+
+            setUser(null);
+            setLoading(false);
+
+        } catch (error) {
+            throw error;
+        }
+    }
 
     const register = async (data) => {
         try {
@@ -50,6 +64,7 @@ export const AuthProvider = ({ children }) => {
     const logout = async () => {
         try {
             const response = await logoutService();
+            setUser(null);
             return response;        
         } catch (error) {
             throw error;
