@@ -9,7 +9,7 @@ export const enable2FA = async (req, res) => {
 
     const { secret, qrCode } = await enable2FAService(user.email);
 
-    await updateUserById(user._id, { twoFASecret: secret });
+    await updateUserById(user.id, { twoFASecret: secret });
 
     return res.status(200).json({ message: '2FA enabled successfully' , secret, qrCode });
   } catch (error) {
@@ -28,7 +28,7 @@ export const verify2FA = async (req, res) => {
     const isValid = await verify2FAService(user.email, otp, user.twoFASecret);
     if(!isValid) return res.status(401).json({ message: 'Invalid authentication code' });
 
-    await updateUserById(user._id, { is2FAVerified: true });
+    await updateUserById(user.id, { is2FAVerified: true });
 
     return res.status(200).json({ message: '2FA verified successfully'});
   } catch (error) {
@@ -43,7 +43,7 @@ export const disable2FA = async (req, res) => {
 
     if (!user.twoFASecret) return res.status(400).json({ message: '2FA is not enabled' });
 
-    await updateUserById(user._id, { twoFASecret: null, is2FAVerified: false, });
+    await updateUserById(user.id, { twoFASecret: null, is2FAVerified: false, });
 
     return res.status(200).json({ message: '2FA disabled successfully'});
   } catch (error) {

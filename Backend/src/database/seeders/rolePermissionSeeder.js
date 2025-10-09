@@ -27,7 +27,7 @@ const rolePermissionSeeder = async () => {
     const createdPermissions = await Permission.insertMany(permissionsData);
     console.log(`✅Created ${createdPermissions.length} permissions.`);
 
-    const permissionIds = createdPermissions.map(p => p._id);
+    const permissionIds = createdPermissions.map(p => p.id);
 
     const role = new Role({
       name: 'role_permission_manager',

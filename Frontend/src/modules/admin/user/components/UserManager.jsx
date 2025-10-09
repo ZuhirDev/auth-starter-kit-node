@@ -31,10 +31,10 @@ const UserManager = ({ open, close, user }) => {
 
   useEffect(() => {
     if (user && allRoles.length > 0) {
-      const userRolesSet = new Set(user.roles.map((r) => r._id || r))
+      const userRolesSet = new Set(user.roles.map((r) => r.id || r))
       const initial = {}
       allRoles.forEach((role) => {
-        initial[role._id] = userRolesSet.has(role._id)
+        initial[role.id] = userRolesSet.has(role.id)
       })
       setSelectedRoles(initial)
       setOriginalSelectedRoles(initial)
@@ -60,12 +60,12 @@ const UserManager = ({ open, close, user }) => {
 
     try {
       if (rolesToAdd.length > 0) {
-        const res = await assignRolesToUserService({ id: user._id, roleIds: rolesToAdd })
+        const res = await assignRolesToUserService({ id: user.id, roleIds: rolesToAdd })
         toast.success(res.message)
       }
 
       if (rolesToRemove.length > 0) {
-        const res = await removeRolesToUserService({ id: user._id, roleIds: rolesToRemove })
+        const res = await removeRolesToUserService({ id: user.id, roleIds: rolesToRemove })
         toast.success(res.message)
       }
 
@@ -159,20 +159,20 @@ const UserManager = ({ open, close, user }) => {
           >
             <div className="space-y-3 pb-4 flex-1">
               {allRoles.map((role) => {
-                const isSelected = selectedRoles[role._id] || false
+                const isSelected = selectedRoles[role.id] || false
                 return (
                   <div
-                    key={role._id}
+                    key={role.id}
                     className={`flex items-start gap-3 p-4 rounded-lg border transition-all cursor-pointer ${
                       isSelected
                         ? "border-primary/50 bg-primary/10"
                         : "border-border bg-background hover:bg-muted/50"
                     }`}
-                    onClick={() => toggleRole(role._id)}
+                    onClick={() => toggleRole(role.id)}
                   >
                     <Checkbox
                       checked={isSelected}
-                      onCheckedChange={() => toggleRole(role._id)}
+                      onCheckedChange={() => toggleRole(role.id)}
                       className="mt-0.5 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                     />
                     <div className="flex-1 min-w-0">

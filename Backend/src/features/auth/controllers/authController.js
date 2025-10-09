@@ -54,7 +54,7 @@ export const login = async (req, res) => {
         const permissions = await effectivePermissionsService(user);
 
         const token = generateToken({
-            id: user._id,
+            id: user.id,
             permissions: Array.from(permissions.keys()),
         },  
             CONFIG.JWT_SECRET,

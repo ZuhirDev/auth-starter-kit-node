@@ -37,7 +37,7 @@ export const removePermissionsFromRoleService = async (role, permissionIds) => {
   const idsToRemove = new Set(permissionIds.map(id => id.toString()));
 
   const updatedPermissions = role.permissions.filter(perm => {
-    const permId = perm._id?.toString?.() || perm.toString()
+    const permId = perm.id?.toString?.() || perm.toString()
     return !idsToRemove.has(permId)
   })
 
