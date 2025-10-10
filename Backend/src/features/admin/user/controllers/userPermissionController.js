@@ -2,6 +2,7 @@ import { validateRequest } from "#utils/validation.js";
 import { assignPermissionToUserSchema, getUserPermissionSchema, removePermissionFromUserSchema } from "#admin/user/validations/userPermissionValidation.js";
 import {  assignPermissionsToUserService, removePermissionsFromUserService } from "#admin/user/services/userPermissionService.js";
 import { findUserById, formatUser } from "#user/services/userService.js";
+import { logger } from "#admin/log/controllers/logController.js";
 
 export const assignPermissionsToUser = async (req, res) => {
     try {
@@ -17,6 +18,14 @@ export const assignPermissionsToUser = async (req, res) => {
 
         const userPermission = await assignPermissionsToUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  already assigned to user" });
+
+        await logger({
+            user_id: req.user.id,
+            action: 'assignPermissionsToUser',
+            module: 'permission',
+            target_id: user.id,
+            ip_address: req.ip,
+        });
 
         return res.status(200).json({ message: "Permission assigned to user successfully", data: formatUser(userPermission) });
     } catch (error) {
@@ -40,6 +49,14 @@ export const removePermissionsFromUser = async (req, res) => {
         const userPermission = await removePermissionsFromUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  not assigned to user" });
 
+        await logger({
+            user_id: req.user.id,
+            action: 'removePermissionsFromUser',
+            module: 'permission',
+            target_id: user.id,
+            ip_address: req.ip,
+        });
+        
         return res.status(200).json({ message: "Permission removed from user successfully", data: formatUser(userPermission) });
     } catch (error) {
         console.log("Error: ", error);

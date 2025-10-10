@@ -7,6 +7,7 @@ import { sendEmail } from "#config/mailer.js";
 import CONFIG from "#config/config.js";
 import { effectivePermissionsService } from "#admin/user/services/userPermissionService.js";
 import jwt from 'jsonwebtoken';
+import { logger } from "#admin/log/controllers/logController.js";
 
 export const register = async (req, res) => {
     try {
@@ -83,6 +84,13 @@ export const login = async (req, res) => {
             maxAge: 7 * 24 * 60 * 60 * 1000, // 
         });
 
+        await logger({
+            user_id: user.id,
+            action: 'login',
+            module: 'auth',
+            ip_address: req.ip,
+        });
+
         return res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.error('Login error:', error);
@@ -107,6 +115,13 @@ export const logout = async (req, res) => {
         });
 
         await updateUserById(user._id, { is2FAVerified: false });
+
+        await logger({
+            user_id: user.id,
+            action: 'logout',
+            module: 'auth',
+            ip_address: req.ip,
+        });
 
         return res.status(200).json({ message: 'Logout successful' });
     } catch (error) {

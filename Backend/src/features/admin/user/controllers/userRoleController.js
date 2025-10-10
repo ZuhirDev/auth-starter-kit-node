@@ -2,6 +2,7 @@ import { validateRequest } from "#utils/validation.js";
 import { assignRoleToUserSchema, getUserRolesSchema, removeRoleFromUserSchema } from "#admin/user/validations/userRoleValidation.js";
 import { assignRolesToUserService, removeRolesFromUserService } from "#admin/user/services/userRoleService.js";
 import { findUserById, formatUser } from "#user/services/userService.js";
+import { logger } from "#admin/log/controllers/logController.js";
 
 export const assignRolesToUser = async (req, res) => {
     try {
@@ -17,6 +18,14 @@ export const assignRolesToUser = async (req, res) => {
 
         const userRole = await assignRolesToUserService(user, roleIds);
         if (!userRole) return res.status(400).json({ message: "Role already assigned to user" });
+
+        await logger({
+            user_id: req.user.id,
+            action: 'assignRolesToUser',
+            module: 'role',
+            target_id: user.id,
+            ip_address: req.ip,
+        });
 
         return res.status(200).json({ message: "Role assigned to user successfully", data: formatUser(userRole) });
     } catch (error) {
@@ -40,6 +49,14 @@ export const removeRolesFromUser = async (req, res) => {
         const userRole = await removeRolesFromUserService(user, roleIds);
         if (!userRole) return res.status(400).json({ message: "Role not assigned to user" });
 
+        await logger({
+            user_id: req.user.id,
+            action: 'removeRolesFromUser',
+            module: 'role',
+            target_id: user.id,
+            ip_address: req.ip,
+        });
+        
         return res.status(200).json({ message: "Role removed to user successfully", data: formatUser(userRole) });
     } catch (error) {
         console.log("Error: ", error);
