@@ -15,13 +15,13 @@ export const assignRolesToUserService = async (user, roleIds = []) => {
 }
 
 export const removeRolesFromUserService = async (user, roleIds = []) => {
-  const existingRoleIds = user.roles.map((r) => r._id.toString());
+  const existingRoleIds = user.roles.map((r) => r.id.toString());
 
   const rolesToRemove = roleIds.filter((id) => existingRoleIds.includes(id.toString()));
 
   if (rolesToRemove.length === 0) return user;
 
-  user.roles = user.roles.filter((role) => !rolesToRemove.includes(role._id.toString()));
+  user.roles = user.roles.filter((role) => !rolesToRemove.includes(role.id.toString()));
 
   await user.save();
   return user;

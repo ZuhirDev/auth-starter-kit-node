@@ -18,7 +18,7 @@ export const assignPermissionsToUser = async (req, res) => {
         const userPermission = await assignPermissionsToUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  already assigned to user" });
 
-        return res.status(200).json({ message: "Permission assigned to user successfully", data: formatUser(userPermission) });
+        return res.status(200).json({ message: "Permission assigned to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error assigning permission to user" });
@@ -40,7 +40,7 @@ export const removePermissionsFromUser = async (req, res) => {
         const userPermission = await removePermissionsFromUserService(user, permissionIds);
         if (!userPermission) return res.status(400).json({ message: "Permission  not assigned to user" });
 
-        return res.status(200).json({ message: "Permission removed from user successfully", data: formatUser(userPermission) });
+        return res.status(200).json({ message: "Permission removed from user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error removing permission from user" });

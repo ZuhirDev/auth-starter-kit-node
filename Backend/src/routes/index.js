@@ -24,7 +24,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/', (req, res) => {
-    console.log(req.originalUrl);
     res.status(404).json({ message: 'Not found in Backend' });
 });
 

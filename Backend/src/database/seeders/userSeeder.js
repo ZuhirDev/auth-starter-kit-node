@@ -28,7 +28,7 @@ const createUser = async ({ name, email, password }) => {
     if (!role) {
       console.warn(`⚠️ Rol 'role_permission_manager' no encontrado. No se asignará al admin.`);
     } else {
-      userData.roles = [role._id];
+      userData.roles = [role.id];
     }
   }
 

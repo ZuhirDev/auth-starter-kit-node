@@ -18,7 +18,7 @@ export const assignRolesToUser = async (req, res) => {
         const userRole = await assignRolesToUserService(user, roleIds);
         if (!userRole) return res.status(400).json({ message: "Role already assigned to user" });
 
-        return res.status(200).json({ message: "Role assigned to user successfully", data: formatUser(userRole) });
+        return res.status(200).json({ message: "Role assigned to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error assigning role to user" });
@@ -40,7 +40,7 @@ export const removeRolesFromUser = async (req, res) => {
         const userRole = await removeRolesFromUserService(user, roleIds);
         if (!userRole) return res.status(400).json({ message: "Role not assigned to user" });
 
-        return res.status(200).json({ message: "Role removed to user successfully", data: formatUser(userRole) });
+        return res.status(200).json({ message: "Role removed to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error removing role to user" });

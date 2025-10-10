@@ -11,15 +11,16 @@ export const findUserById = async (id) => {
 
 export const formatUser = (user, effectivePermissions = null) => {
   if (!user) return null;
-
+  
   const userObj = user.toObject ? user.toObject() : user;
+  const { id, name, email, is2FAVerified, email_verified_at,permissions, roles } = userObj;
 
-  const { _id, name, email, is2FAVerified, email_verified_at } = userObj;
-
-  const permissions = effectivePermissions ? Array.from(effectivePermissions) : [];
-
-  return { _id, name, email, is2FAVerified, email_verified_at, permissions};
+  return { id, name, email, is2FAVerified, email_verified_at, permissions, roles, effectivePermissions: Array.from(effectivePermissions || []) };
 };
+
+export const formatUsers = (users, effectivePermissions = null) => {
+  return users.map((user) => formatUser(user, effectivePermissions));
+}
 
 export const updateUserById = async (id, updateData) => {
   return await User.findByIdAndUpdate(id, updateData, {

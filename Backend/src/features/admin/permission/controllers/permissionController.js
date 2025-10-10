@@ -82,7 +82,6 @@ export const updatePermission = async (req, res) =>  {
 
 export const deletePermission = async (req, res) =>  {
     try {
-        console.log(req.params)
         const validation = await validateRequest(deletePermissionSchema, req.params);
         if(!validation.success) return res.status(400).json({ errors: validation.errors });
 
