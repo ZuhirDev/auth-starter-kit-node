@@ -225,13 +225,13 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     const row = table.getRowModel().rows.find((r) => r.id === editingRowId);
     if (!row) return;
 
-    await onUpdateRow({ id: row.original.id ?? row.original._id, ...editedRow });
+    await onUpdateRow({ id: row.original.id, ...editedRow });
     table.cancelEditing();
     await fetchData();
   };
 
   table.deleteRow = async (row) => {
-    const id = row.original.id ?? row.original._id;
+    const id = row.original.id;
     if (!id) return;
 
     open(id);

@@ -1,7 +1,7 @@
 import { validateRequest } from "#utils/validation.js";
 import { assignPermissionToUserSchema, getUserPermissionSchema, removePermissionFromUserSchema } from "#admin/user/validations/userPermissionValidation.js";
 import {  assignPermissionsToUserService, removePermissionsFromUserService } from "#admin/user/services/userPermissionService.js";
-import { findUserById, formatUser } from "#user/services/userService.js";
+import { findUserById } from "#user/services/userService.js";
 import { logger } from "#admin/log/controllers/logController.js";
 
 export const assignPermissionsToUser = async (req, res) => {
@@ -27,7 +27,7 @@ export const assignPermissionsToUser = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: "Permission assigned to user successfully", data: formatUser(userPermission) });
+        return res.status(200).json({ message: "Permission assigned to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error assigning permission to user" });
@@ -56,8 +56,8 @@ export const removePermissionsFromUser = async (req, res) => {
             target_id: user.id,
             ip_address: req.ip,
         });
-        
-        return res.status(200).json({ message: "Permission removed from user successfully", data: formatUser(userPermission) });
+
+        return res.status(200).json({ message: "Permission removed from user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error removing permission from user" });

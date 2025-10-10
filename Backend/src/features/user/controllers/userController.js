@@ -1,4 +1,4 @@
-import { findUserById, formatUser, getAllUsersService, meService, updatePasswordService, updateUserById } from '#user/services/userService.js';
+import { findUserById, formatUser, formatUsers, getAllUsersService, meService, updatePasswordService, updateUserById } from '#user/services/userService.js';
 import { VerifyPasswordService } from '#auth/services/authService.js';
 import { validateRequest } from '#utils/validation.js';
 import { updatePasswordSchema, updateUserSchema, verifyEmailSchema } from '#user/validations/userValidation.js';
@@ -55,14 +55,9 @@ export const me = async (req, res) => {
         const user = await meService(req.user);
         if(!user) return res.status(404).json({ message: 'User not found' });
 
-        await user.populate([
-            { path: 'permissions' },
-            { path: 'roles', populate: { path: 'permissions' } },
-        ]);
-
         return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions) });
     } catch (error) {
-        return res.status(500).json({ error: 'Error updating password' });
+        return res.status(500).json({ error: 'Error retrieving user' });
     }
 }
 
@@ -73,9 +68,9 @@ export const sendVerificationEmail = async (req, res) => {
 
         const { rawToken, tokenHash, expires } = await generateTempToken();
 
-        await updateUserById(user._id, { tempToken: tokenHash, tempTokenExpires: expires });
+        await updateUserById(user.id, { tempToken: tokenHash, tempTokenExpires: expires });
 
-        const url = `${CONFIG.FRONTEND_URL}/verify-email?expires=${expires}&token=${rawToken}&id=${user._id}`;
+        const url = `${CONFIG.FRONTEND_URL}/verify-email?expires=${expires}&token=${rawToken}&id=${user.id}`;
 
         await sendEmail({ 
             to: user.email, 
@@ -137,8 +132,9 @@ export const getAllUsers = async (req, res) => {
 export const allUsersDatatable = async (req, res) => {
     try {
         const users = await getAllUsersService();
+        const usersFormatted = formatUsers(users);
 
-        const datatable = new Datatable(users, req.query)
+        const datatable = new Datatable(usersFormatted, req.query)
         const response = await datatable.toJson();
 
         return res.status(200).json({ 

@@ -1,7 +1,7 @@
 import { validateRequest } from "#utils/validation.js";
 import { assignRoleToUserSchema, getUserRolesSchema, removeRoleFromUserSchema } from "#admin/user/validations/userRoleValidation.js";
 import { assignRolesToUserService, removeRolesFromUserService } from "#admin/user/services/userRoleService.js";
-import { findUserById, formatUser } from "#user/services/userService.js";
+import { findUserById } from "#user/services/userService.js";
 import { logger } from "#admin/log/controllers/logController.js";
 
 export const assignRolesToUser = async (req, res) => {
@@ -27,7 +27,7 @@ export const assignRolesToUser = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: "Role assigned to user successfully", data: formatUser(userRole) });
+        return res.status(200).json({ message: "Role assigned to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error assigning role to user" });
@@ -56,8 +56,8 @@ export const removeRolesFromUser = async (req, res) => {
             target_id: user.id,
             ip_address: req.ip,
         });
-        
-        return res.status(200).json({ message: "Role removed to user successfully", data: formatUser(userRole) });
+
+        return res.status(200).json({ message: "Role removed to user successfully" });
     } catch (error) {
         console.log("Error: ", error);
         return res.status(500).json({ error: "Error removing role to user" });

@@ -18,6 +18,24 @@ const RoleSchema = new mongoose.Schema({
     }]
 }, {
     timestamps: true,
+
+    toJSON: {
+        virtuals: true,
+        versionKey: false,
+        transform: function (doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+        }
+    },
+
+    toObject: {
+        virtuals: true,
+        versionKey: false,
+        transform: function (doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+        }
+    }
 });
 
 const Role = mongoose.model('Role', RoleSchema);
