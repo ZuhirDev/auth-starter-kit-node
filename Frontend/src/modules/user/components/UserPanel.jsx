@@ -1,4 +1,4 @@
-import { Lock, LockKeyholeOpen, Radio, ShieldUser, Smartphone, User, Users } from "lucide-react";
+import { Lock, LockKeyholeOpen, Radio, ScrollText, ShieldUser, Smartphone, User, Users } from "lucide-react";
 import UserUpdate from "./UserUpdate";
 import UserSecurity from "./UserSecurity";
 import UpdatePassword from "./passwords/UpdatePassword";
@@ -11,6 +11,7 @@ import AdminUsers from "@admin/user/pages/AdminUsers";
 import AdminRole from "@admin/role/pages/AdminRole";
 import AdminPermission from "@admin/permission/pages/AdminPermission";
 import { useUserPermissions } from "../hooks/useUserPermissions";
+import LogPage from "@/modules/admin/log/pages/LogPage";
 
 const tabs = [
   {
@@ -57,6 +58,13 @@ const tabs = [
     permission: 'read:manage_permissions',
     icon: LockKeyholeOpen,
     component: AdminPermission,
+  },
+  {
+    id: "tab8",
+    label: "Logs",
+    permission: 'read:manage_logs',
+    icon: ScrollText,
+    component: LogPage,
   },
 ];
 
