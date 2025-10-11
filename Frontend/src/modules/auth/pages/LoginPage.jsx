@@ -14,6 +14,8 @@ import { PasswordInput } from '@/components/ui/password-input';
 import { ArrowLeft } from 'lucide-react';
 import AUTH_ROUTES from '@auth/routes/paths';
 import USER_ROUTES from '@user/routes/path';
+import MAIN_ROUTES from '@/routes/path';
+import Google from '@auth/components/oAuth/Google';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -39,7 +41,7 @@ const LoginPage = () => {
     try {
       const response = await login(data);
       reset();
-      navigate('/user');
+      navigate(MAIN_ROUTES.DASHBOARD);
     } catch (error) {
       const { errors: responseErrors, message: generalMessage } = error.response?.data || {};
 
@@ -134,6 +136,16 @@ const LoginPage = () => {
                 >
                   {isSubmitting ? 'Signing in...' : 'Sign in'}
                 </Button>
+
+                <div className="flex items-center justify-between gap-4">
+                  <div className="h-px flex-1 bg-muted" />
+                  <span className="text-sm text-muted-foreground">or</span>
+                  <div className="h-px flex-1 bg-muted" />
+                </div>
+
+                <div className="flex flex-col items-center gap-2">
+                  <Google />
+                </div>
 
                 <p className="text-center text-sm text-muted-foreground">
                   Don’t have an account?{' '}

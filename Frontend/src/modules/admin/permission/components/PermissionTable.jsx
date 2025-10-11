@@ -13,6 +13,13 @@ const PermissionTable = () => {
 
     const columns = useMemo(() => [
         {
+            id: "id",
+            accessorKey: "id",
+            header: "ID",
+            hiddenByDefault: true,
+            cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
+        },        
+        {
             id: "name",
             accessorKey: "name",
             header: "Nombre",

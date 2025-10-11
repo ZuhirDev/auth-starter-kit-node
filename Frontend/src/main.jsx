@@ -4,19 +4,23 @@ import { AuthProvider } from '@auth/context/AuthContext.jsx';
 import { UserProvider } from '@user/context/UserContext.jsx';
 import { LanguageProvider } from '@/context/LanguageContext.jsx';
 import { ThemeProvider } from '@/components/theme-provider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import { config } from '@/config/config';
 import App from '@/App.jsx';
 import '@/utils/i18n';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >
-        <LanguageProvider>
-          <AuthProvider>
-            <UserProvider >
+    <GoogleOAuthProvider clientId={config.GOOGLE_CLIENT_ID}>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >
+          <LanguageProvider>
+            <AuthProvider>
+              <UserProvider >
                 <App />   
-            </UserProvider>
-          </AuthProvider>
-        </LanguageProvider>
-    </ThemeProvider>
+              </UserProvider>
+            </AuthProvider>
+          </LanguageProvider>
+      </ThemeProvider>
+    </GoogleOAuthProvider>
   </StrictMode>,
 );

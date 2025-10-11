@@ -4,6 +4,7 @@ export const apiConfig = {
 
 export const config = {
     APP_NAME: 'Frontend',
+    GOOGLE_CLIENT_ID: import.meta.env.VITE_GOOGLE_CLIENT_ID,
 };
 
 export const reverbConfig = {

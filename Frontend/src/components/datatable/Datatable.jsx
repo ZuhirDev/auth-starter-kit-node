@@ -20,11 +20,23 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
   const [loading, setLoading] = useState(true);
   const [rowCount, setRowCount] = useState(0);
 
+  const defaultColumnVisibiliy = useMemo(() => {
+    const visibility =  {};
+
+    columns.forEach((column) => {
+      if(column?.hiddenByDefault){
+        visibility[column.id] = false;
+      }
+    })
+    
+    return visibility;
+  }, [columns]);
+
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState(initialSorting || []);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState(defaultColumnVisibiliy);
   const [rowSelection, setRowSelection] = useState({});
 
   const [newRow, setNewRow] = useState(null);
@@ -118,7 +130,6 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     link.download = `${tableOptions.tableName}_${format(new Date(), 'dd-MM-yyyy')}.csv`;
     link.click();
   };
-
 
   const dynamicColumns = useMemo(() => {
     const cols = [];

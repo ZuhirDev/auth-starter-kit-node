@@ -57,6 +57,24 @@ export const loginService = async (data) => {
     }
 }
 
+export const oAuthService = async (data) => {
+    const { provider, credential } = data;
+
+    try {
+        const response = await post({
+            url: '/oauth',
+            data: {
+                provider,
+                credential,
+            }
+        });
+
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const logoutService = async () => {
     try {
         const response = await post({url: '/logout'});
