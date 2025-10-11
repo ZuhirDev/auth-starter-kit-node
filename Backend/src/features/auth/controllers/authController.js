@@ -1,4 +1,4 @@
-import { createUserService, findUserByEmail, findUserById, updateUserById } from "#user/services/userService.js";
+import { createUserService, findUserByEmail, findUserById, oAuthService, updateUserById } from "#user/services/userService.js";
 import { generateTempToken, generateToken, validateTempToken } from "#utils/jwt.js";
 import bcrypt from 'bcryptjs';
 import { forgotPasswordSchema, loginSchema, registerSchema, resetPasswordSchema } from "#auth/validations/authValidation.js";
@@ -36,6 +36,55 @@ export const register = async (req, res) => {
     } catch (error) {
         console.log("Error", error);
         return res.status(500).json({ error: 'Server error during creating user' });
+    }
+}
+
+export const oAuth = async (req, res) => {
+    const { provider, credential } = req.body;
+
+    try {
+        const { user, permissions} = await oAuthService({ provider, token: credential });
+
+        const token = generateToken({
+            id: user.id,
+            permissions: Array.from(permissions.keys()),
+        },  
+            CONFIG.JWT_SECRET,
+            '30m'
+        );
+
+        const refreshToken = generateToken({
+            id: user._id,
+            type: 'refresh',
+        },  
+            CONFIG.JWT_REFRESH_SECRET,
+            '7d'
+        );
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 30 * 60 * 1000,
+        });
+
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+
+        await logger({
+            user_id: user.id,
+            action: 'loginOAuth',
+            module: 'auth',
+            ip_address: req.ip,
+        });
+        
+        return res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+        console.log("Error", error);
     }
 }
 
@@ -81,7 +130,7 @@ export const login = async (req, res) => {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
         });
 
         await logger({
