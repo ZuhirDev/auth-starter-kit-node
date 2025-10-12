@@ -1,54 +1,57 @@
-import { apiConfig, reverbConfig } from '@/config/config';
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
-
-window.Pusher = Pusher;
+import { apiConfig } from "@/config/config";
+import { io } from "socket.io-client";
 
 class SocketService {
-
   constructor() {
-    this.echo = null;
+    if (!SocketService.instance) {
+      this.socket = null;
+      SocketService.instance = this;
+    }
+    return SocketService.instance;
   }
 
-  init(){
-    this.echo = new Echo({
-      cluster: '',
-      broadcaster: 'pusher',
-      key: reverbConfig.APP_KEY,
-      wsHost: reverbConfig.HOST,
-      wsPort: reverbConfig.PORT,
-      wssPort: reverbConfig.PORT,
-      forceTLS: false,
-      disableStats: true,
-      enabledTransports: ['ws'],
-      authEndpoint: `${apiConfig.API_URL}/api/broadcasting/auth`,
-      auth: {
-        withCredentials: true,
-      }
-    });  
+  init(token = null) {
+    if (this.socket) return;
+
+    this.socket = io(apiConfig.API_URL, {
+      withCredentials: true,
+      auth: token ? { token } : undefined,
+    });
+
+    this.socket.on("connect", () => {
+      console.log("Conectado a Socket.IO:", this.socket.id);
+    });
+
+    this.socket.on("disconnect", () => {
+      console.log("Desconectado de Socket.IO");
+    });
   }
 
-  subscribe(channelName) {
-    return this.echo?.channel(channelName);
+  joinRoom(roomName) {
+    if (!this.socket) throw new Error("Socket no inicializado");
+    this.socket.emit("join", roomName);
   }
 
-  subscribeToPrivate(channelName) {
-    return this.echo?.private(channelName);
+  leaveRoom(roomName) {
+    if (!this.socket) return;
+    this.socket.emit("leave", roomName);
   }
 
-  subscribeToPresence(channelName) {
-    return this.echo?.presence(channelName);
+  on(event, callback) {
+    if (!this.socket) return;
+    this.socket.on(event, callback);
   }
 
-  unsubscribe(channelName) {
-    this.echo?.leave(channelName);
+  emit(event, data) {
+    if (!this.socket) return;
+    this.socket.emit(event, data);
   }
 
   disconnect() {
-    if (this.echo) {
-      this.echo.disconnect();
-      this.echo = null;
-    }  
+    if (this.socket) {
+      this.socket.disconnect();
+      this.socket = null;
+    }
   }
 }
 

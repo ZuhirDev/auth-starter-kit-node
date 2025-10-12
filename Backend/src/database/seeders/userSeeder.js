@@ -4,7 +4,7 @@ import Role from '#admin/role/models/role.js';
 
 const users = [
   { name: 'Administrador', email: 'admin@admin.es', password: '11111111' },
-  { name: 'luis', email: 'luis@luis.es', password: '11111111' },
+  { name: 'User', email: 'user@user.es', password: '11111111' },
 ];
 
 const createUser = async ({ name, email, password }) => {

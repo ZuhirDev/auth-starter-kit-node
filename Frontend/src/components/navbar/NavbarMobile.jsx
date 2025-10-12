@@ -4,7 +4,6 @@ import useModal from '@/hooks/useModal';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import UserMenu from '@/modules/user/components/UserMenu';
-// import VisibilityWrapper from '@/components/VisibilityWrapper';
 import { ModeToggle } from '@/components/mode-toggle';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
@@ -55,7 +54,6 @@ const NavbarMobile = () => {
 
           <div className="flex items-center gap-2">
             <UserMenu />
-            {/* <VisibilityWrapper showButton={true} /> */}
             <ModeToggle />
             <LanguageSwitcher />
           </div>
