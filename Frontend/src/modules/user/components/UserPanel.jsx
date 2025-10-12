@@ -6,12 +6,12 @@ import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Notification from "@/components/Notification";
 import AdminUsers from "@admin/user/pages/AdminUsers";
 import AdminRole from "@admin/role/pages/AdminRole";
 import AdminPermission from "@admin/permission/pages/AdminPermission";
 import { useUserPermissions } from "../hooks/useUserPermissions";
 import LogPage from "@/modules/admin/log/pages/LogPage";
+import NotificationAdmin from "@/components/notification/NotificationAdmin";
 
 const tabs = [
   {
@@ -32,12 +32,12 @@ const tabs = [
     icon: Lock,
     component: UpdatePassword,
   },
-  // {
-  //   id: "tab4",
-  //   label: "Websocket",
-  //   icon: Radio,
-  //   component: Notification,
-  // },
+  {
+    id: "tab4",
+    label: "Notifications",
+    icon: Radio,
+    component: NotificationAdmin,
+  },  
   {
     id: "tab5",
     label: "Users",

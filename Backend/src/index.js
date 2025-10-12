@@ -4,22 +4,27 @@ import cors from 'cors';
 import CONFIG from '#config/config.js';
 import router from '#routes/index.js';
 import cookieParser from 'cookie-parser';
+import http from 'http';
+import { initSocket } from '#utils/socketService.js';
 
 const app = express();
+const server = http.createServer(app);
+export const dispatch = initSocket(server);
 
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(cookieParser());
 app.use('/api', router);
 
 mongoose.connect(CONFIG.MONGO_URL)
     .then(() => {
-        app.listen(CONFIG.PORT, () => {
-            console.log(`Servidor funcionando en http://localhost:${CONFIG.PORT}`);
-        });
+        server.listen(CONFIG.PORT, () => {
+            console.log(`Server running on http://localhost:${CONFIG.PORT}`)
+        })
     })
     .catch((err) => {
         console.log("Error conectando a MongoDB: ", err);
