@@ -17,7 +17,15 @@ const permissionsData = [
   { name: 'update', resource: 'manage_users', description: '' },
   { name: 'delete', resource: 'manage_users', description: '' },
 
+  { name: 'create', resource: 'manage_logs', description: '' },
   { name: 'read', resource: 'manage_logs', description: '' },
+  { name: 'update', resource: 'manage_logs', description: '' },
+  { name: 'delete', resource: 'manage_logs', description: '' },
+
+  { name: 'create', resource: 'manage_config', description: '' },
+  { name: 'read', resource: 'manage_config', description: '' },
+  { name: 'update', resource: 'manage_config', description: '' },
+  { name: 'delete', resource: 'manage_config', description: '' },
 ];
 
 const rolePermissionSeeder = async () => {

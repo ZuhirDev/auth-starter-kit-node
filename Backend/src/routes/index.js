@@ -7,6 +7,7 @@ import roleRouter from '#admin/role/routes/roleRouter.js';
 import permissionRouter from '#admin/permission/routes/permissionRouter.js';
 import adminUserRouter from '#admin/user/routes/adminUserRouter.js';
 import { notification } from '#admin/notification/controllers/notificationController.js';
+import { getAllConfigPublic } from '#admin/config/controllers/configController.js';
 
 const router = express.Router();
 
@@ -14,12 +15,13 @@ router.use('/languages', (req, res) => {
     res.json({ languages: ['en', 'es', 'de'] });
 });
 
+router.get('/config/public', getAllConfigPublic);
 router.use('/', authRouter);
 router.use('/', auth, TwoFA, userRouter);
 router.use('/', auth, TwoFA, adminUserRouter);
 router.use('/roles', auth, TwoFA, roleRouter);
 router.use('/permissions', auth, TwoFA, permissionRouter);
-router.post('/notification', auth, TwoFA, notification)
+router.post('/notification', auth, TwoFA, notification);
 
 router.get('/', (req, res) => {
     res.json({ message: 'Hello from backend' });

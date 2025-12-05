@@ -4,6 +4,7 @@ import { assignPermissionsToUser, getUserPermission, removePermissionsFromUser }
 import { assignRolesToUser, getUserRoles, removeRolesFromUser } from '#admin/user/controllers/userRoleController.js';
 import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
 import { logsDatatable } from '#admin/log/controllers/logController.js'
+import { configDatatable, getAllConfig, updateConfig } from '#admin/config/controllers/configController.js';
 
 const adminUserRouter = express.Router();
 
@@ -19,5 +20,9 @@ adminUserRouter.get('/users', hasPermission('read', 'manage_users'), getAllUsers
 adminUserRouter.get('/users/datatable', hasPermission('read', 'manage_users'), allUsersDatatable);
 
 adminUserRouter.get('/logs/datatable', hasPermission('read', 'manage_logs'), logsDatatable);
+
+adminUserRouter.get('/config', hasPermission('read', 'manage_config'), getAllConfig);
+adminUserRouter.get('/config/datatable', hasPermission('read', 'manage_config'), configDatatable);
+adminUserRouter.patch('/config', hasPermission('update', 'manage_config'), updateConfig);
 
 export default adminUserRouter;

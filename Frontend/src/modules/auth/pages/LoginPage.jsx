@@ -16,9 +16,11 @@ import AUTH_ROUTES from '@auth/routes/paths';
 import USER_ROUTES from '@user/routes/path';
 import MAIN_ROUTES from '@/routes/path';
 import Google from '@auth/components/oAuth/Google';
+import { useConfig } from '@admin/config/context/configContex';
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const { configs } = useConfig();
 
   const loginSchema = z.object({
     email: z.email(t('validation:email')),
@@ -143,9 +145,11 @@ const LoginPage = () => {
                   <div className="h-px flex-1 bg-muted" />
                 </div>
 
-                <div className="flex flex-col items-center gap-2">
-                  <Google />
-                </div>
+                {configs.enable_oauth_google && (
+                  <div className="flex flex-col items-center gap-2">
+                    <Google />
+                  </div>
+                )}
 
                 <p className="text-center text-sm text-muted-foreground">
                   Don’t have an account?{' '}
