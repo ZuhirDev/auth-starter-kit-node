@@ -169,7 +169,7 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     if (renderRowActions) {
       cols.push({
         id: "actions",
-        header: "Acciones",
+        header: "Actions",
         enableSorting: false,
         enableExport: false,
         searchable: false,
@@ -373,11 +373,20 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
                       return (
                         <TableCell key={cell.id}>
                           {cell.column.columnDef.editable !== false && isEditing ? (
-                            <input
-                              className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:border-zinc-700 dark:text-white"
-                              value={editedRow[columnId] ?? ""}
-                              onChange={(e) => table.updateEditedRow({ [columnId]: e.target.value })}
-                            />
+                            cell.column.columnDef.editComponent ? (
+                              cell.column.columnDef.editComponent({
+                                value: editedRow[columnId],
+                                onChange: (val) => table.updateEditedRow({ [columnId]: val })
+                              })
+                            ) : (
+                              <input
+                                className="w-full bg-transparent border-b ..."
+                                value={editedRow[columnId] ?? ""}
+                                onChange={(e) =>
+                                  table.updateEditedRow({ [columnId]: e.target.value })
+                                }
+                              />
+                            )
                           ) : (
                             flexRender(cell.column.columnDef.cell, cell.getContext())
                           )}

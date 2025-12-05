@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import CONFIG from '#config/config.js';
 import rolePermissionSeeder from '#db/seeders/rolePermissionSeeder.js';
 import userSeeder from '#db/seeders/userSeeder.js';
+import configSeeder from '#db/seeders/configSeeder.js';
 
 const runSeeders = async () => {
     try {
@@ -10,6 +11,7 @@ const runSeeders = async () => {
 
         await rolePermissionSeeder();
         await userSeeder();
+        await configSeeder();
 
         console.log('✅ Todos los seeders se ejecutaron correctamente.');
     } catch (error) {
