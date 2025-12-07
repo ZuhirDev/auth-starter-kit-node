@@ -35,14 +35,11 @@ const UserUpdate = () => {
           changedFields[field] = data[field];
       });
 
+      if(Object.keys(changedFields).length === 0) return;
       try {
         const response = await update(changedFields);
         toast.success(response?.message);
-
-        reset({
-          name: response.data.name || '',
-        });
-
+      
       } catch (error) {
 
         const { errors: responseErrors, message: generalMessage } = error.response?.data;

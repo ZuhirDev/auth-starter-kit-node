@@ -4,15 +4,17 @@ import { authStatus, forgotPassword, login, logout, oAuth, refreshToken, registe
 import { disable2FA, enable2FA, verify2FA } from '#auth/controllers/2faController.js';
 import { TwoFA } from '#auth/middleware/2faMiddleware.js';
 import { verifyPassword } from '#auth/middleware/verifyPasswordMiddleware.js';
+import { me } from '#user/controllers/userController.js';
 
 const authRouter = express.Router();
+authRouter.get('/me', auth, me);
 
 authRouter.get('/refresh-token', refreshToken);
 authRouter.get('/auth/status', authStatus);
 
 authRouter.post('/login', login);
 authRouter.post('/register', register);
-authRouter.post('/logout', auth, TwoFA, logout);
+authRouter.post('/logout', auth, logout);
 
 authRouter.post('/2fa/enable', auth, verifyPassword, TwoFA, enable2FA);
 authRouter.post('/2fa/verify', auth, verify2FA);

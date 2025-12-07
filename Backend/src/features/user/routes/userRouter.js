@@ -1,11 +1,10 @@
 import express from 'express';
-import { me, sendVerificationEmail, updatePassword, updateUser, verifyEmail } from '#user/controllers/userController.js';
+import { sendVerificationEmail, updatePassword, updateUser, verifyEmail } from '#user/controllers/userController.js';
 
 const userRouter = express.Router();
 
 userRouter.post('/update-password', updatePassword);
 userRouter.post('/update', updateUser);
-userRouter.get('/me', me);
 
 userRouter.post('/send-verify-email', sendVerificationEmail);
 userRouter.get('/verify-email', verifyEmail);

@@ -55,7 +55,7 @@ export const me = async (req, res) => {
         const user = await meService(req.user);
         if(!user) return res.status(404).json({ message: 'User not found' });
 
-        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions) });
+        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions), need_verify_2fa: user.twoFASecret && !user.is2FAVerified });
     } catch (error) {
         return res.status(500).json({ error: 'Error retrieving user' });
     }

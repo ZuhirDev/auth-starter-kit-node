@@ -96,3 +96,7 @@ export const oAuthService = async ({ provider, token }) => {
 
   return { user, permissions };
 }
+
+export const deleteUserByIdService = async (id) => {
+  return await User.findByIdAndDelete(id);
+}
