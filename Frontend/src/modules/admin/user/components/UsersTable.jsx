@@ -39,6 +39,7 @@ const UsersTable = () => {
       id: "email_verified_at",
       accessorKey: "email_verified_at",
       header: "Verified",
+      editable: false,
       cell: ({ row }) =>
         row.original.email_verified_at ? (
           <Badge variant="outline" className="text-green-600 border-green-600">
@@ -54,6 +55,7 @@ const UsersTable = () => {
       id: "is2FAVerified",
       accessorKey: "is2FAVerified",
       header: "2FA",
+      editable: false,
       cell: ({ row }) =>
         row.original.is2FAVerified ? (
           <Badge variant="outline" className="text-green-600 border-green-600">

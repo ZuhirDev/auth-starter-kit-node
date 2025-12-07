@@ -56,7 +56,7 @@ const UserSecurity = () => {
           </p>
         </div>
         <div className="space-y-4">
-          {user?.google2fa_enabled ? (
+          {user?.is2FAVerified ? (
             <>
               <Alert variant="success" className="flex flex-col sm:flex-row sm:items-center space-y-2 sm:space-y-0 sm:space-x-4">
                 <ShieldCheck className="w-5 h-5 text-green-600 flex-shrink-0" />

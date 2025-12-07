@@ -107,7 +107,7 @@ export const verify2FAService = async (data) => {
         const response = await post({
             url: '/2fa/verify',
             data: {
-                one_time_password: otp,
+                otp,
             }
         });
 
