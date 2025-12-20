@@ -4,15 +4,17 @@ import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Input } from "@/components/ui/input"
 import MultiSelect from "../MultiSelect"
+import { useTranslation } from "react-i18next"
 
 const DatatableColumnFilter = ({ column }) => {
-  const colDef = column.columnDef
-  const isMultiSelect = colDef.enableMultiSelect
-  const items = colDef.multiSelectOptions || []
-  const displayField = colDef.multiSelectDisplayField || "name"
+  const colDef = column.columnDef;
+  const isMultiSelect = colDef.enableMultiSelect;
+  const items = colDef.multiSelectOptions || [];
+  const displayField = colDef.multiSelectDisplayField || "name";
+  const { t } = useTranslation();
 
-  const [inputValue, setInputValue] = useState("")
-  const [multiValue, setMultiValue] = useState([])
+  const [inputValue, setInputValue] = useState("");
+  const [multiValue, setMultiValue] = useState([]);
 
   useEffect(() => {
     if (isMultiSelect) {
@@ -38,7 +40,7 @@ const DatatableColumnFilter = ({ column }) => {
       >
         <div className="space-y-2">
           <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">
-            Filter by {colDef.header}
+            {t('common:filterBy')} {colDef.header}
           </p>
 
           {isMultiSelect ? (
@@ -50,14 +52,14 @@ const DatatableColumnFilter = ({ column }) => {
                 column.setFilterValue(newVal.map((i) => i.id))
               }}
               displayField={displayField}
-              placeholder="Select options..."
-              searchPlaceholder="Search..."
-              emptyText="No options found."
+              placeholder={`${t('common:selectOptions')} ...`}
+              searchPlaceholder={t('common:search')}
+              emptyText={t('common:searchnoOptions')}
             />
           ) : (
             <div className="flex items-center space-x-2">
               <Input
-                placeholder={`Filter ${colDef.header}...`}
+                placeholder={`${t('common:filter')} ${colDef.header}...`}
                 value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value)

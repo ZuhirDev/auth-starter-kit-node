@@ -30,7 +30,7 @@ const Disable2FA = () => {
         onClick={open} 
         className="destructive"
       >
-        Disable 2FA
+        {t('auth:disable2FA')}
       </Button>
 
       <PasswordVerification 

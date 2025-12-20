@@ -62,22 +62,22 @@ const UserUpdate = () => {
   return (
     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="border-b pb-6 mb-8">
-        <h2 className="text-xl font-semibold text-foreground">Update Information</h2>
+        <h2 className="text-xl font-semibold text-foreground">{t('user:updateInformation')}</h2>
         <p className="text-sm text-muted-foreground">
-          Keep your profile up to date to ensure accurate information.
+          {t('user:updateInformationDescription')}
         </p>
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <div className="space-y-1">
-            <Label htmlFor="name" className="text-sm font-medium text-foreground">First Name</Label>
+            <Label htmlFor="name" className="text-sm font-medium text-foreground">{t('user:firstName')}</Label>
             <FormInput
               name="name"
               type="text"
               register={register}
               disabled={isSubmitting}
-              placeholder="Enter your first name"
+              placeholder={t('user:firstNamePlaceholder')}
               error={errors.name}
               className="w-full rounded-lg bg-muted/50 dark:bg-muted-dark/50"
             />
@@ -91,7 +91,7 @@ const UserUpdate = () => {
             disabled={isSubmitting}
             className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
           >
-            Save Changes
+            {t('common:saveChanges')}
           </Button>
         </div>
       </form>

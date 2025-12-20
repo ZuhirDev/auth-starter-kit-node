@@ -34,7 +34,7 @@ const SendVerifyEmail = () => {
         className="destructive"
       >
         {isLoading && <Loader2 className='mr-2 h-4 w-4 animate-spin' /> }
-        Send Verification Email
+        {t('user:sendVerificationEmail')}
       </Button> 
     </>
   );

@@ -7,27 +7,29 @@ import { Badge } from '@/components/ui/badge';
 import React, { useMemo } from 'react'
 import { Pencil } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslation } from 'react-i18next';
 
 const ConfigTable = () => {
 
     const { hasPermission } = useUserPermissions();
+    const { t } = useTranslation();
 
     const columns = useMemo(() => [
         {
             id: "key",
             accessorKey: "key",
-            header: "Key",
+            header: t('config:key'),
             editable: false,
             cell: ({ row }) => <span className="font-medium">{row.original.key}</span>,
         },
         {
             id: "value",
-            accessorKey: "value",
+            accessorKey: t('config:value'),
             header: "Value",
             editable: true,
             cell: ({ row }) => (
                 <Badge variant={row.original.value ? "default" : "destructive"}>
-                    {row.original.value ? "Yes" : "No"}
+                    {row.original.value ? t('common:yes') : t('common:no')}
                 </Badge>
             ),
             editComponent: ({ value, onChange }) => (
@@ -40,8 +42,8 @@ const ConfigTable = () => {
                     </SelectTrigger>
 
                     <SelectContent>
-                        <SelectItem value="true">Yes</SelectItem>
-                        <SelectItem value="false">No</SelectItem>
+                        <SelectItem value="true">{t('common:yes')}</SelectItem>
+                        <SelectItem value="false">{t('common:no')}</SelectItem>
                     </SelectContent>
                 </Select>
             ),
@@ -49,13 +51,13 @@ const ConfigTable = () => {
         {
             id: "description",
             accessorKey: "description",
-            header: "Description",
+            header: t('config:description'),
             cell: ({ row }) => <span className="font-medium">{row.original.description}</span>,
         },
         {
             id: "isPublic",
             accessorKey: "isPublic",
-            header: "Public",
+            header: t('config:public'),
             editable: true,
             cell: ({ row }) => (
                 <Badge variant={row.original.isPublic ? "default" : "destructive"}>
@@ -72,8 +74,8 @@ const ConfigTable = () => {
                     </SelectTrigger>
 
                     <SelectContent>
-                        <SelectItem value="true">Yes</SelectItem>
-                        <SelectItem value="false">No</SelectItem>
+                        <SelectItem value="true">{t('common:yes')}</SelectItem>
+                        <SelectItem value="false">{t('common:no')}</SelectItem>
                     </SelectContent>
                 </Select>
             ),
@@ -81,7 +83,7 @@ const ConfigTable = () => {
         {
             id: "createdAt",
             accessorKey: "createdAt",
-            header: "Created At",
+            header: t('config:createdAt'),
             editable: false,
             cell: ({ row }) => <span className="font-medium">{new Date(row.original.createdAt).toLocaleString()}</span>,
         },

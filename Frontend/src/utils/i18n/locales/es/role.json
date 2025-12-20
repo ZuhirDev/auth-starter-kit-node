@@ -1,0 +1,12 @@
+{
+    "id": "ID",
+  "roles": "Roles",
+  "name": "Name",
+  "description": "Description",
+  "permissions": "Permissions",
+  "addRole": "Add Role",
+  "edit": "Edit",
+  "delete": "Delete",
+  "viewPermissions": "View Permissions",
+  "assignPermissionsDescription": "Assign or remove permissions for this role."
+}

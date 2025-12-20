@@ -9,12 +9,14 @@ import {  getAllRolesService } from "@admin/role/services/roleService"
 import { assignPermissionsToUserService, assignRolesToUserService, removePermissionsToUserService, removeRolesToUserService, } from "@admin/user/services/adminUserService"
 import { PermissionManagerContent } from "@admin/permission/components/PermissionManager"
 import { toast } from "sonner"
+import { useTranslation } from "react-i18next"
 
 const UserManager = ({ open, close, user }) => {
   const [activeTab, setActiveTab] = useState("roles");
   const [allRoles, setAllRoles] = useState([]);
   const [selectedRoles, setSelectedRoles] = useState({});
   const [originalSelectedRoles, setOriginalSelectedRoles] = useState({});
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!open) return
@@ -114,7 +116,7 @@ const UserManager = ({ open, close, user }) => {
               variant="outline"
               className="bg-green-500/10 text-green-400 border-green-500/20"
             >
-              active
+              {t('common:active')}
             </Badge>
           </div>
         </DialogHeader>
@@ -130,7 +132,7 @@ const UserManager = ({ open, close, user }) => {
                 className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
             >
                 <Shield className="h-4 w-4 mr-2" />
-                Roles
+                {t('roles:roles')}
                 <Badge
                     variant="outline"
                     className="ml-2 bg-muted border-border"
@@ -143,12 +145,12 @@ const UserManager = ({ open, close, user }) => {
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
             >
                 <Key className="h-4 w-4 mr-2" />
-                Permissions
+                {t('roles:permissions')}
                 <Badge
-                    variant="outline"
-                    className="ml-2 bg-muted border-border"
+                  variant="outline"
+                  className="ml-2 bg-muted border-border"
                 >
-                    {user.permissions?.length || 0}
+                  {user.permissions?.length || 0}
                 </Badge>
             </TabsTrigger>
           </TabsList>
@@ -179,7 +181,7 @@ const UserManager = ({ open, close, user }) => {
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="font-semibold text-base text-foreground">{role.name}</h4>
                         <Badge variant="outline" className="text-xs text-foreground/70 border-border/30">
-                          {role.permissions.length} permissions
+                          {role.permissions.length} {t('roles:permissions').toLowerCase()}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground">{role.description}</p>
@@ -195,7 +197,7 @@ const UserManager = ({ open, close, user }) => {
                 className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
               >
                 <CheckCircle2 className="h-4 w-4" />
-                Save Changes
+                {t('common:saveChanges')}
               </Button>
             </div>
           </TabsContent>
@@ -206,8 +208,8 @@ const UserManager = ({ open, close, user }) => {
           >
             <PermissionManagerContent 
               entity={user}
-              title={`permissions`}
-              description={'Assign or remove permissions for this user'}
+              title={t('permission:permissions')}
+              description={t('permission:descriptionPermissionUser')}
               onSave={handlePermissionManager}
             />          
           </TabsContent>

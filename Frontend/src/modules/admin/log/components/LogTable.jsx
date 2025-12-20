@@ -1,49 +1,54 @@
 import Datatable from '@/components/datatable/Datatable';
 import { Badge } from '@/components/ui/badge';
 import React, { useMemo } from 'react'
+import { useTranslation } from 'react-i18next';
 
 const LogTable = () => {
+    const { t }  = useTranslation();
 
     const columns = useMemo(() => [
         {
             id: "user",
             accessorKey: "user_id",
-            header: "User",
+            header: t('log:user'),
             cell: ({ row }) => <span className="font-medium">{row.original.user_id}</span>,
         },
         {
             id: "module",
             accessorKey: "module",
-            header: "Module",
+            header: t('log:module'),
             cell: ({ row }) => <span className="font-medium">{row.original.module}</span>,
         },
         {
             id: "action",
             accessorKey: "action",
-            header: "Action",
+            header: t('log:action'),
             cell: ({ row }) => <span className="font-medium">{row.original.action}</span>,
         },
         {
             id: "targetId",
             accessorKey: "target_id",
-            header: "Target ID",
+            header: t('log:targetId'),
             cell: ({ row }) => <span className="font-medium">{row.original.target_id || "-"}</span>,
         },
         {
             id: "status",
             accessorKey: "status",
-            header: "Status",
+            header: t('log:status'),
             cell: ({ row }) => {
-                const status = row.original.status;
+                let status = row.original.status;
 
                 let badgeClass = "capitalize border-gray-300 text-gray-600";
 
                 if (status === "success") {
-                badgeClass = "text-green-600 border-green-600";
+                    status = t('log:statusSuccess')
+                    badgeClass = "text-green-600 border-green-600";
                 } else if (status === "error") {
-                badgeClass = "text-red-600 border-red-600";
+                    status = t('log:statusError')
+                    badgeClass = "text-red-600 border-red-600";
                 } else if (status === "denied") {
-                badgeClass = "text-yellow-600 border-yellow-600";
+                    status = t('log:statusDenied')
+                    badgeClass = "text-yellow-600 border-yellow-600";
                 }
 
                 return (
@@ -56,13 +61,13 @@ const LogTable = () => {
         {
             id: "ip",
             accessorKey: "ip_address",
-            header: "IP Address",
+            header: t('log:ipAddress'),
             cell: ({ row }) => <span className="font-medium">{row.original.ip_address || "-"}</span>,
         },
         {
             id: "createdAt",
             accessorKey: "createdAt",
-            header: "Created At",
+            header: t('log:createdAt'),
             cell: ({ row }) => <span className="font-medium">{new Date(row.original.createdAt).toLocaleString()}</span>,
         },
     ], []);

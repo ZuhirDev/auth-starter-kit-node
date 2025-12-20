@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { CheckCircle2, Info, AlertTriangle, XCircle } from "lucide-react";
 import { post } from "@/utils/xhr";
 import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const notificationTypes = [
   { value: "info", label: "Info", icon: Info, color: "text-blue-500", bg: "bg-blue-500/10" },
@@ -18,13 +19,14 @@ const notificationTypes = [
   { value: "error", label: "Error", icon: XCircle, color: "text-red-500", bg: "bg-red-500/10" },
 ];
 
-const notificationSchema = z.object({
-  type: z.enum(["info", "success", "warning", "error"]),
-  title: z.string().min(1, "Title is required"),
-  message: z.string().min(1, "Message is required"),
-});
-
 const NotificationSend = () => {
+  const { t } = useTranslation();
+
+  const notificationSchema = z.object({
+    type: z.enum(["info", "success", "warning", "error"]),
+    title: z.string().min(1, t('validation:titleRequired')),
+    message: z.string().min(1, t('validation:messageRequired')),
+  });
   const { handleSubmit, control, register, reset, formState: { errors, isSubmitting } } = useForm({
     resolver: zodResolver(notificationSchema),
     defaultValues: { type: "info", title: "", message: "" },
@@ -50,10 +52,10 @@ const NotificationSend = () => {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4 sm:p-5 lg:p-6 rounded-md border border-border bg-card">
-      <h2 className="text-lg font-semibold text-foreground mb-4">Create Notification</h2>
+      <h2 className="text-lg font-semibold text-foreground mb-4">{t('common:createNotification')}</h2>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <div className="space-y-1.5">
-          <Label className="text-sm font-medium text-foreground">Notification Type</Label>
+          <Label className="text-sm font-medium text-foreground">{t('common:notificationType')}</Label>
           <Controller
             name="type"
             control={control}
@@ -86,11 +88,11 @@ const NotificationSend = () => {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="title" className="text-sm font-medium text-foreground">Title</Label>
+          <Label htmlFor="title" className="text-sm font-medium text-foreground">{t('common:title')}</Label>
           <Input
             id="title"
             {...register("title")}
-            placeholder="Notification title"
+            placeholder={t('common:title')}
             disabled={isSubmitting}
             className="w-full h-9 text-sm"
           />
@@ -98,11 +100,11 @@ const NotificationSend = () => {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="message" className="text-sm font-medium text-foreground">Message</Label>
+          <Label htmlFor="message" className="text-sm font-medium text-foreground">{t('common:message')}</Label>
           <Textarea
             id="message"
             {...register("message")}
-            placeholder="Notification message"
+            placeholder={t('common:message')}
             rows={3}
             disabled={isSubmitting}
             className="text-sm"
@@ -115,7 +117,7 @@ const NotificationSend = () => {
           disabled={isSubmitting}
           className="w-full sm:w-auto h-9 px-4 text-sm bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          Send Notification
+          {t('common:sendNotification')}
         </Button>
       </form>
     </div>

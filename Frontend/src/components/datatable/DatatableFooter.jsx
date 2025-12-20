@@ -1,16 +1,18 @@
 import React from "react";
 import { ArrowBigLeft, ArrowBigRight, ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 
 const DatatableFooter = ({ table }) => {
   const pageIndex = table.getState().pagination.pageIndex;
   const pageCount = table.getPageCount();
+  const { t } = useTranslation();
 
   return (
     <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between py-4 gap-4">
       <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground w-full sm:w-auto mb-3 sm:mb-0">
         <span className="whitespace-nowrap">
-          Page <strong>{pageIndex + 1}</strong> of <strong>{pageCount}</strong>
+          {t('common:page')} <strong>{pageIndex + 1}</strong> {t('common:of')} <strong>{pageCount}</strong>
         </span>
 
         <select
@@ -22,13 +24,13 @@ const DatatableFooter = ({ table }) => {
         >
           {[5, 10, 20, 50, 100].map((size) => (
             <option key={size} value={size}>
-              {size} per page
+              {size} {t('common:perPage')}
             </option>
           ))}
         </select>
 
         <div className="whitespace-nowrap">
-          {table.getFilteredSelectedRowModel().rows.length} selected of{" "}
+          {table.getFilteredSelectedRowModel().rows.length} {t('common:selectedOf')}{" "}
           {table.getFilteredRowModel().rows.length}
         </div>
       </div>

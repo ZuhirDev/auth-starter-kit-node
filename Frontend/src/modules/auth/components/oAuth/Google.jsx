@@ -24,7 +24,7 @@ const Google = () => {
         <div>
             <GoogleLogin 
                 onSuccess={handleAuthGoogle}
-                onError={() => console.log("Ha fallado auth google")}
+                onError={() => console.log("Error auth Google")}
                 useOneTap
             />
         </div>

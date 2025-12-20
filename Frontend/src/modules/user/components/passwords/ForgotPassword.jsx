@@ -59,14 +59,14 @@ const ForgotPassword = () => {
             className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-8"
           >
             <ArrowLeft className="h-4 w-4" />
-            Back to login
+            {t('user:backToLogin')}
           </Link>
 
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
             <div className="flex flex-col items-center gap-2 text-center">
-              <h2 className="text-2xl font-bold tracking-tight">Forgot Password</h2>
+              <h2 className="text-2xl font-bold tracking-tight">{t('user:forgotPassword')}</h2>
               <p className="text-sm text-muted-foreground max-w-sm">
-                Enter your email address and we will send instructions to reset your password.
+                {t('user:forgotPasswordDescription')}
               </p>
             </div>
 
@@ -76,7 +76,7 @@ const ForgotPassword = () => {
                 type="email"
                 register={register}
                 disabled={isSubmitting}
-                placeholder="Email"
+                placeholder={t('auth:emailPlaceholder')}
                 error={errors.email}
                 className="rounded-lg bg-muted/50"
               />
@@ -94,7 +94,7 @@ const ForgotPassword = () => {
               className="w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground py-6"
               size="lg"
             >
-              {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+              {isSubmitting ? t('user:sending') : t('user:sendResetLink')}
             </Button>
           </form>
         </CardContent>
