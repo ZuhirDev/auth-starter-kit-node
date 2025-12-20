@@ -1,0 +1,19 @@
+{
+  "roleCreated": "Rol creado correctamente",
+  "roleCreateError": "Error al crear el rol",
+  "roleUpdated": "Rol actualizado correctamente",
+  "roleUpdateError": "Error al actualizar el rol",
+  "rolesRetrieved": "Roles obtenidos correctamente",
+  "rolesGetError": "Error al obtener los roles",
+  "rolesDatatableError": "Error al obtener la tabla de roles",
+  "roleNotFound": "Rol no encontrado",
+  "roleRetrieved": "Rol obtenido correctamente",
+  "permissionsAdded": "Permisos añadidos al rol correctamente",
+  "permissionsAddError": "No se añadieron permisos al rol",
+  "permissionsAddFail": "Error al añadir permisos al rol",
+  "permissionsRemoved": "Permisos eliminados del rol correctamente",
+  "permissionsRemoveError": "No se eliminaron permisos del rol",
+  "permissionsRemoveFail": "Error al eliminar permisos del rol",
+  "roleDeleted": "Rol eliminado correctamente",
+  "roleDeleteError": "Error al eliminar el rol"
+}

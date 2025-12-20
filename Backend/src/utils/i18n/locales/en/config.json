@@ -1,0 +1,8 @@
+{
+  "configurationsRetrievedSuccessfully": "Configurations retrieved successfully",
+  "errorGettingAllConfigs": "Error getting all configs",
+  "errorGettingPublicConfigs": "Error getting public configs",
+  "errorGettingDatatableConfigs": "Error getting datatable configs",
+  "errorUpdatingConfiguration": "Error updating configuration",
+  "configurationUpdatedSuccessfully": "Configuration updated successfully"
+}

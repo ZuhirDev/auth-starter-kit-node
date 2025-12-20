@@ -3,6 +3,7 @@ import { assignRoleToUserSchema, getUserRolesSchema, removeRoleFromUserSchema } 
 import { assignRolesToUserService, removeRolesFromUserService } from "#admin/user/services/userRoleService.js";
 import { findUserById } from "#user/services/userService.js";
 import { logger } from "#admin/log/controllers/logController.js";
+import { t } from "#utils/i18n/index.js";
 
 export const assignRolesToUser = async (req, res) => {
     try {
@@ -12,12 +13,12 @@ export const assignRolesToUser = async (req, res) => {
         const { userId, roleIds } = validation.data;
 
         const user = await findUserById(userId);
-        if(!user) return res.status(404).json({ message: 'User not found' });
+        if(!user) return res.status(404).json({ message: t('user:userNotFound') });
 
         await user.populate('roles');
 
         const userRole = await assignRolesToUserService(user, roleIds);
-        if (!userRole) return res.status(400).json({ message: "Role already assigned to user" });
+        if(!userRole) return res.status(400).json({ message: t('user:roleAlreadyAssigned') });
 
         await logger({
             user_id: req.user.id,
@@ -27,10 +28,10 @@ export const assignRolesToUser = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: "Role assigned to user successfully" });
+        return res.status(200).json({ message: t('user:roleAssignedSuccessfully') });
     } catch (error) {
         console.log("Error: ", error);
-        return res.status(500).json({ error: "Error assigning role to user" });
+        return res.status(500).json({ message: t('user:errorAssigningRole') });
     }
 }
 
@@ -42,12 +43,12 @@ export const removeRolesFromUser = async (req, res) => {
         const { userId, roleIds } = validation.data;
 
         const user = await findUserById(userId);
-        if(!user) return res.status(404).json({ message: 'User not found' });
+        if(!user) return res.status(404).json({ message: t('user:userNotFound') });
 
         await user.populate('roles');
 
         const userRole = await removeRolesFromUserService(user, roleIds);
-        if (!userRole) return res.status(400).json({ message: "Role not assigned to user" });
+        if(!userRole) return res.status(400).json({ message: t('user:roleNotAssigned') });
 
         await logger({
             user_id: req.user.id,
@@ -57,10 +58,10 @@ export const removeRolesFromUser = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: "Role removed to user successfully" });
+        return res.status(200).json({ message: t('user:roleRemovedSuccessfully') });
     } catch (error) {
         console.log("Error: ", error);
-        return res.status(500).json({ error: "Error removing role to user" });
+        return res.status(500).json({ message: t('user:errorRemovingRole') });
     }
 }
 
@@ -72,12 +73,13 @@ export const getUserRoles = async (req, res) => {
         const { id } = validation.data;
 
         const user = await findUserById(id);
-        if(!user) return res.status(404).json({ message: 'User not found' });
+        if(!user) return res.status(404).json({ message: t('user:userNotFound') });
 
         await user.populate('roles');
 
-        return res.status(200).json({ message: "User roles retrieved successfully", data: user.roles });
+        return res.status(200).json({ message: t('user:userRolesRetrieved'), data: user.roles });
     } catch (error) {
-        return res.status(500).json({ error: "Error getting user roles" });
+        console.log("Error: ", error);
+        return res.status(500).json({ message: t('user:errorGettingUserRoles') });
     }
 }

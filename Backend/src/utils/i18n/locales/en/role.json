@@ -1,0 +1,19 @@
+{
+  "roleCreated": "Role created successfully",
+  "roleCreateError": "Error creating role",
+  "roleUpdated": "Role updated successfully",
+  "roleUpdateError": "Error updating role",
+  "rolesRetrieved": "Roles retrieved successfully",
+  "rolesGetError": "Error getting roles",
+  "rolesDatatableError": "Error getting roles datatable",
+  "roleNotFound": "Role not found",
+  "roleRetrieved": "Role retrieved successfully",
+  "permissionsAdded": "Permissions added to role successfully",
+  "permissionsAddError": "No permissions were added to the role",
+  "permissionsAddFail": "Error adding permissions to role",
+  "permissionsRemoved": "Permissions removed from role successfully",
+  "permissionsRemoveError": "No permissions were removed from the role",
+  "permissionsRemoveFail": "Error removing permissions from role",
+  "roleDeleted": "Role deleted successfully",
+  "roleDeleteError": "Error deleting role"
+}

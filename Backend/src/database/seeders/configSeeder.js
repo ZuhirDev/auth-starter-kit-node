@@ -12,13 +12,13 @@ const configs = [
 const createConfig = async ({ key, value, description }) => {
   const existing = await Config.findOne({ key });
   if (existing) {
-    console.log(`La config "${key}" ya existe. Saltando...`);
+    console.log(`The config "${key}" already exists. Skipping...`);
     return;
   }
 
   const config = new Config({ key, value, description });
   await config.save();
-  console.log(`✅ Config creada: ${key} = ${value}`);
+  console.log(`✅ Config created: ${key} = ${value}`);
 }
 
 const configSeeder = async () => {
@@ -28,10 +28,10 @@ const configSeeder = async () => {
       await createConfig(config);
     }
 
-    console.log('✅ Seeder de configs completado');
+    console.log('✅ Config seeder completed');
     process.exit(0);
   } catch (error) {
-    console.error('❌ Error al crear configs:', error);
+    console.error('❌ Error creating configs:', error);
     process.exit(1);
   }
 }

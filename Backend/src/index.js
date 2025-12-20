@@ -6,6 +6,7 @@ import router from '#routes/index.js';
 import cookieParser from 'cookie-parser';
 import http from 'http';
 import { initSocket } from '#utils/socketService.js';
+import '#utils/i18n/index.js';
 
 const app = express();
 const server = http.createServer(app);

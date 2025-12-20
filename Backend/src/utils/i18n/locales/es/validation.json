@@ -1,0 +1,23 @@
+{
+  "invalidEmailFormat": "Formato de correo electrónico inválido",
+  "passwordMinLength": "La contraseña debe tener al menos 8 caracteres",
+  "nameMinLength": "El nombre debe tener al menos 2 caracteres",
+  "invalidTokenLength": "Longitud de token inválida",
+  "invalidTokenFormat": "Formato de token inválido",
+  "newPasswordMinLength": "La nueva contraseña debe tener al menos 8 caracteres",
+  "passwordConfirmationRequired": "Se requiere confirmación de contraseña",
+  "passwordsDoNotMatch": "Las contraseñas no coinciden",
+  "nameIsRequired": "Se requiere el nombre",
+  "currentPasswordIsRequired": "Se requiere la contraseña actual",
+  "newPasswordMustBeDifferent": "La nueva contraseña debe ser diferente de la actual",
+  "idIsRequired": "Se requiere el ID",
+  "invalidExpirationDateFormat": "Formato de fecha de expiración inválido",
+  "invalidId": "ID inválido",
+  "valueIsRequired": "Se requiere un valor",
+  "titleIsRequired": "Se requiere un título",
+  "messageIsRequired": "Se requiere un mensaje",
+  "resourceRequired": "Se requiere un recurso",
+  "idRequired": "Se requiere el ID",
+  "permissionIdsRequired": "Se requiere al menos un ID de permiso",
+  "roleRequired": "Se requiere al menos un ID de rol"
+}

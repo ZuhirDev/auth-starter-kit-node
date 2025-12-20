@@ -8,6 +8,7 @@ import CONFIG from "#config/config.js";
 import { effectivePermissionsService } from "#admin/user/services/userPermissionService.js";
 import jwt from 'jsonwebtoken';
 import { logger } from "#admin/log/controllers/logController.js";
+import { t } from "#utils/i18n/index.js";
 
 export const register = async (req, res) => {
     try {
@@ -17,13 +18,13 @@ export const register = async (req, res) => {
         const { name, email, password } = validation.data;
 
         const existingUser = await findUserByEmail(email);
-        if(existingUser) return res.status(409).json({ message: 'User already exists'});
+        if(existingUser) return res.status(409).json({ message: t('auth:userAlreadyExists') });
 
         const user = await createUserService({ name, email, password }); 
             
         await sendEmail({ 
             to: user.email, 
-            subject: `Welcome to ${CONFIG.APP_NAME}`, 
+            subject: t('auth:welcomeSubject', { appName: CONFIG.APP_NAME }), 
             template: 'welcome', 
             context: {
                 name: user.name,
@@ -32,18 +33,18 @@ export const register = async (req, res) => {
             } 
         });
 
-        return res.status(201).json({ message: 'User created successfully' });
+        return res.status(201).json({ message: t('auth:userCreated') });
     } catch (error) {
         console.log("Error", error);
-        return res.status(500).json({ error: 'Server error during creating user' });
+        return res.status(500).json({ error: t('auth:serverCreateUserError') });
     }
-}
+};
 
 export const oAuth = async (req, res) => {
     const { provider, credential } = req.body;
 
     try {
-        const { user, permissions} = await oAuthService({ provider, token: credential });
+        const { user, permissions } = await oAuthService({ provider, token: credential });
 
         const token = generateToken({
             id: user.id,
@@ -82,11 +83,12 @@ export const oAuth = async (req, res) => {
             ip_address: req.ip,
         });
         
-        return res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ message: t('auth:loginSuccessful') });
     } catch (error) {
         console.log("Error", error);
+        return res.status(500).json({ error: t('auth:loginOAuthError') });
     }
-}
+};
 
 export const login = async (req, res) => {
     try {
@@ -96,10 +98,10 @@ export const login = async (req, res) => {
         const { email, password } = validation.data;
 
         const user = await findUserByEmail(email);
-        if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!user) return res.status(404).json({ message: t('user:userNotFound') });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: 'Invalid credentials' });
+        if (!isMatch) return res.status(401).json({ message: t('auth:invalidCredentials') });
 
         const permissions = await effectivePermissionsService(user);
 
@@ -140,10 +142,10 @@ export const login = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: 'Login successful' });
+        return res.status(200).json({ message: t('auth:loginSuccessful') });
     } catch (error) {
         console.error('Login error:', error);
-        return res.status(500).json({ error: 'Server error during login' });
+        return res.status(500).json({ error: t('auth:serverLoginError') });
     }
 };
 
@@ -172,10 +174,10 @@ export const logout = async (req, res) => {
             ip_address: req.ip,
         });
 
-        return res.status(200).json({ message: 'Logout successful' });
+        return res.status(200).json({ message: t('auth:logoutSuccessful') });
     } catch (error) {
-        console.error('Login error:', error);
-        return res.status(500).json({ error: 'Server error during logout' });
+        console.error('Logout error:', error);
+        return res.status(500).json({ error: t('auth:serverLogoutError') });
     }
 };
 
@@ -185,7 +187,7 @@ export const forgotPassword = async (req, res) => {
         const { email } = validated.data;
 
         const user = await findUserByEmail(email);
-        if (!user) return res.status(404).json({ message: 'Email not exist' });
+        if (!user) return res.status(404).json({ message: t('auth:emailNotExist') });
 
         const { rawToken, tokenHash, expires } = await generateTempToken();
 
@@ -195,7 +197,7 @@ export const forgotPassword = async (req, res) => {
 
         await sendEmail({
             to: user.email,
-            subject: 'Reset your password',
+            subject: t('auth:resetPasswordEmailSent'), 
             template: 'forgot-password',
             context: {
                 name: user.name,
@@ -204,14 +206,13 @@ export const forgotPassword = async (req, res) => {
             }
         });
 
-        return res.status(200).json({ message: 'Email sent for recovery password' });
+        return res.status(200).json({ message: t('auth:resetPasswordEmailSent') });
 
     } catch (error) {
         console.log("Error: ", error);
-        return res.status(500).json({ error: 'Server error during forgot password' });
+        return res.status(500).json({ error: t('auth:serverForgotPasswordError') });
     }
 }
-
 
 export const resetPassword = async (req, res) => {
     try {
@@ -221,7 +222,7 @@ export const resetPassword = async (req, res) => {
         const { email, token, password } = validated.data;
 
         const user = await findUserByEmail(email);
-        if (!user) return res.status(404).json({ message: 'Email not exist' });
+        if (!user) return res.status(404).json({ message: t('auth:emailNotExist') });
 
         const validateToken = await validateTempToken(token, user.tempToken, user.tempTokenExpires);
         if (!validateToken.valid) return res.status(400).json({ message: validateToken.message });
@@ -232,10 +233,10 @@ export const resetPassword = async (req, res) => {
             tempTokenExpires: null,
         });
 
-        return res.status(200).json({ message: 'Password reset successfully' });
+        return res.status(200).json({ message: t('auth:resetPasswordSuccess') });
     } catch (error) {
         console.log("Error: ", error);
-        return res.status(500).json({ error: 'Server error during reset password' });
+        return res.status(500).json({ error: t('auth:serverResetPasswordError') });
     }
 }
 
@@ -256,14 +257,14 @@ export const authStatus = async (req, res) => {
 export const refreshToken = async (req, res) => {
     try {
         const refreshToken = req.cookies.refreshToken;
-        if (!refreshToken) return res.status(401).json({ message: 'Unauthenticated: No refresh token provided' });
+        if (!refreshToken) return res.status(401).json({ message: t('auth:unauthenticatedNoRefreshToken') });
 
         const decoded = jwt.verify(refreshToken, CONFIG.JWT_REFRESH_SECRET);
         
         if(decoded && decoded?.type === 'refresh'){
 
             const user = await findUserById(decoded?.id);
-            if (!user) return res.status(404).json({ message: 'User not found' });
+            if (!user) return res.status(404).json({ message: t('user:userNotFound') });
 
             const permissions = await effectivePermissionsService(user);
 
@@ -282,10 +283,10 @@ export const refreshToken = async (req, res) => {
                 maxAge: 30 * 60 * 1000,
             });
             
-            return res.status(200).json({ message: 'Token refreshed successfully' });
+            return res.status(200).json({ message: t('auth:tokenRefreshed') });
         }
 
-        return res.status(401).json({ message: 'Invalid or expired refresh token' });
+        return res.status(401).json({ message: t('auth:invalidOrExpiredRefreshToken') });
     } catch (error) {
         console.log("Error", error);
     }
