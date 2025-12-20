@@ -6,6 +6,7 @@ import { UserIcon } from "lucide-react";
 import React from 'react';
 import { Link } from "react-router-dom";
 import { useAuth } from "@auth/context/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const getInitials = (name, lastName) => {
   const firstInitial = name ? name.charAt(0).toUpperCase() : "";
@@ -16,7 +17,7 @@ const getInitials = (name, lastName) => {
 const UserMenu = () => {
 
     const { user } = useAuth();
-
+    const { t } = useTranslation();
     const initials = getInitials(user?.name, user?.last_name);
 
     return (
@@ -41,7 +42,7 @@ const UserMenu = () => {
                         <DropdownMenuItem asChild>
                             <Link to="/user" className="flex items-center">
                                 <UserIcon className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
+                                <span>{t('user:profile')}</span>
                             </Link>
                         </DropdownMenuItem>
                     </DropdownMenuGroup>

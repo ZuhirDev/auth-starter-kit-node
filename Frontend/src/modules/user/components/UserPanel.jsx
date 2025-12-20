@@ -13,72 +13,75 @@ import { useUserPermissions } from "../hooks/useUserPermissions";
 import LogPage from "@/modules/admin/log/pages/LogPage";
 import NotificationAdmin from "@/components/notification/NotificationAdmin";
 import ConfigPage from "@/modules/admin/config/Pages/ConfigPage";
+import { useTranslation } from "react-i18next";
 
-const tabs = [
+const getTabs = (t) => [
   {
     id: "tab1",
-    label: "User",
+    label: t('user:tabs.user'),
     icon: User,
     component: UserUpdate,
   },
   {
     id: "tab2",
-    label: "2FA Authentication",
+    label: t('user:tabs.twoFA'),
     icon: Smartphone,
     component: UserSecurity,
   },
   {
     id: "tab3",
-    label: "Change Password",
+    label: t('user:tabs.changePassword'),
     icon: Lock,
     component: UpdatePassword,
   },
   {
     id: "tab4",
-    label: "Notifications",
+    label: t('user:tabs.notifications'),
     icon: Radio,
     component: NotificationAdmin,
   },  
   {
     id: "tab5",
-    label: "Users",
+    label: t('user:tabs.users'),
     permission: 'read:manage_users',
     icon: Users,
     component: AdminUsers,
   },
   {
     id: "tab6",
-    label: "Role",
+    label: t('user:tabs.role'),
     permission: 'read:manage_roles',
     icon: ShieldUser,
     component: AdminRole,
   },
   {
     id: "tab7",
-    label: "Permissions",
+    label: t('user:tabs.permissions'),
     permission: 'read:manage_permissions',
     icon: LockKeyholeOpen,
     component: AdminPermission,
   },
   {
     id: "tab8",
-    label: "Logs",
+    label: t('user:tabs.logs'),
     permission: 'read:manage_logs',
     icon: ScrollText,
     component: LogPage,
   },
   {
     id: "tab9",
-    label: "Config",
+    label: t('user:tabs.config'),
     permission: 'read:manage_config',
-    icon: Settings ,
+    icon: Settings,
     component: ConfigPage,
   },
 ];
 
 const UserPanel = () => {
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("tab1");
   const { hasPermission } = useUserPermissions();
+  const tabs = getTabs(t);
   const activeTabObj = tabs.find((tab) => tab.id === activeTab);
 
   return (
@@ -91,16 +94,13 @@ const UserPanel = () => {
         <div className="text-center mb-8 sm:mb-12">
           <Badge variant="secondary" className="mb-3 px-4 py-2 inline-flex items-center justify-center">
             <User className="w-4 h-4 mr-2 text-primary" />
-            Account Settings
+            {t('user:accountSettings')}
           </Badge>
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3">
-            User{" "}
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/60">
-              Panel
-            </span>
+            {t('user:userPanelTitle')}
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground max-w-xl sm:max-w-2xl mx-auto px-2">
-            Manage your personal information, security, and account preferences all in one place.
+            {t('user:userPanelDescription')}
           </p>
         </div>
 

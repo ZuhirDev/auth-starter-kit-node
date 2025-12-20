@@ -4,6 +4,7 @@ import { ColumnsIcon, Plus, Search, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUserPermissions } from "@user/hooks/useUserPermissions";
+import { t } from "i18next";
 
 const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requiredPermission = null }) => {
 
@@ -27,7 +28,7 @@ const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requ
           <div className="relative w-full max-w-sm sm:w-auto">
             <Input
               autoFocus
-              placeholder="Search..."
+              placeholder={`${t('common:search')}...`}
               value={table.getState().globalFilter ?? ""}
               onChange={(e) => table.setGlobalFilter(e.target.value)}
               onBlur={() => {
@@ -60,7 +61,7 @@ const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requ
           onClick={handleExportCSV}
           className="dark:border-zinc-700 dark:text-zinc-200"
         >
-          Export CSV
+          {t('common:exportCSV')}
         </Button>
       )}
 
@@ -73,7 +74,7 @@ const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requ
               className="dark:border-zinc-700 dark:text-zinc-200"
             >
               <ColumnsIcon className="mr-2 h-4 w-4" />
-              Columns
+              {t('common:columns')}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -106,7 +107,7 @@ const DatatableToolbar = ({ table, handleExportCSV, onAddRowClick, options, requ
           className="dark:border-zinc-700 dark:text-zinc-200"
         >
           <Plus />
-          Add
+          {t('common:add')}
         </Button>
       )}
     </div>

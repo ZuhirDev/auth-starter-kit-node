@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLanguage } from "@/context/LanguageContext";
 import { languageConfig } from "@/utils/i18n/languageConfig";
+import { useTranslation } from "react-i18next";
 
 const LanguageSwitcher = () => {
   const { language, languages, changeLanguage } = useLanguage();
   const [selectedLanguage, setSelectedLanguage] = useState(language);
+  const { t } = useTranslation();
 
   const handleLanguageChange = (langCode) => {
     setSelectedLanguage(langCode);
@@ -30,13 +32,13 @@ const LanguageSwitcher = () => {
               />
             </div>
           ) : (
-            "Select language"
+            t('common:selectALanguage')
           )}
         </SelectTrigger>
 
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Select a language</SelectLabel>
+            <SelectLabel>{t('common:selectALanguage')}</SelectLabel>
             {languages.map((lang) => {
               const langConfig = languageConfig[lang];
               return (

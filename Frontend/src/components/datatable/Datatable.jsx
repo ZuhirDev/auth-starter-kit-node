@@ -13,8 +13,10 @@ import { useDebounce } from 'use-debounce';
 import Papa from 'papaparse';
 import { format } from 'date-fns';
 import useModal from '@/hooks/useModal';
+import { useTranslation } from 'react-i18next';
 
 const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = () => {}, onUpdateRow = () => {}, onDeleteRow = () => {}, renderRowActions, options = {} }, ref) => {
+  const { t } = useTranslation();
   const { isOpen, open, close, data: deleteData } = useModal(); 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -326,8 +328,8 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
 
                 <TableCell colSpan={1}>
                   <div className="flex gap-2">
-                    <Button size="sm" onClick={() => table.saveCreatingRow()}>Save</Button>
-                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>Cancel</Button>
+                    <Button size="sm" onClick={() => table.saveCreatingRow()}>{t('common:save')}</Button>
+                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>{t('common:cancel')}</Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -399,7 +401,7 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center text-gray-600 dark:text-zinc-400">
-                  No results found.
+                  {t('common:noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -414,22 +416,22 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
       <Dialog open={isOpen} onOpenChange={close}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Row Deletion</DialogTitle>
+            <DialogTitle>{t('common:confirmDeleteTitle')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this row? This action cannot be undone.
+              {t('common:confirmDeleteDescription')}
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter className="pt-4">
             <Button variant="ghost" onClick={close}>
-              Cancel
+              {t('common:cancel')}
             </Button>
             <Button variant="destructive" onClick={async () => {
                 await onDeleteRow(deleteData);
                 await fetchData();
                 close();
               }}>
-              Delete
+              {t('common:delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

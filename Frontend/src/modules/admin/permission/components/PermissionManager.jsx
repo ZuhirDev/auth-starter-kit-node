@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, CheckCircle2 } from "lucide-react"
 import { getAllPermissionsService } from "@admin/permission/services/permissionService"
+import { t } from "i18next"
 
 const groupPermissionsByResource = (permissions) => {
   return permissions.reduce((acc, permission) => {
@@ -92,7 +93,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="flex items-center gap-3">
           <div>
             <DialogTitle className="flex items-center gap-2 text-xl font-semibold">
-              Manage
+              {t('permission:manage')}
               <span className="rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 text-sm capitalize text-primary">
                 {title}
               </span>
@@ -112,7 +113,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by resource, name or description..."
+            placeholder={t('permission:searchPlaceholder')}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="h-10 bg-muted/50 pl-10 border-border focus-visible:ring-1"
@@ -193,7 +194,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="flex w-full items-center gap-3 sm:w-auto">
           <Button onClick={handleSave} className="flex-1 sm:flex-none">
             <CheckCircle2 className="mr-2 h-4 w-4" />
-            Save Changes
+            {t('common:saveChanges')}
           </Button>
         </div>
       </DialogFooter>

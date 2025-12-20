@@ -24,7 +24,7 @@ const LoginPage = () => {
 
   const loginSchema = z.object({
     email: z.email(t('validation:email')),
-    password: z.string().min(8, t('validation:password.min', { min: 8 })),
+    password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
   });
 
   const { login } = useAuth();
@@ -76,25 +76,25 @@ const LoginPage = () => {
               className="inline-flex p-5 items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors mb-6 self-start"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Home
+              {t('auth:backToHome')}
             </Link>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8 p-8 md:p-12">
               <header className="flex flex-col items-center gap-2 text-center">
-                <h2 className="text-2xl font-bold tracking-tight">Sign in to your account</h2>
-                <p className="text-sm text-muted-foreground">Please enter your credentials</p>
+                <h2 className="text-2xl font-bold tracking-tight">{t('auth:signInTitle')}</h2>
+                <p className="text-sm text-muted-foreground">{t('auth:signInDescription')}</p>
               </header>
 
               <section className="space-y-6">
                 <div className="grid gap-3">
                   <Label htmlFor="email" className="text-sm font-medium">
-                    Email
+                    {t('auth:email')}
                   </Label>
                   <FormInput
                     name="email"
                     type="email"
                     register={register}
                     disabled={isSubmitting}
-                    placeholder="Enter your email"
+                    placeholder={t('auth:emailPlaceholder')}
                     error={errors.email}
                     className="bg-muted/50"
                   />
@@ -103,20 +103,20 @@ const LoginPage = () => {
                 <div className="grid gap-3">
                   <div className="flex items-center justify-between">
                     <Label htmlFor="password" className="text-sm font-medium">
-                      Password
+                      {t('auth:password')}
                     </Label>
                     <Link
                       to={USER_ROUTES.FORGOT_PASSWORD}
                       className="text-sm text-primary hover:text-primary/90 transition-colors"
                     >
-                      Forgot password?
+                      {t('auth:forgotPassword')}
                     </Link>
                   </div>
                   <Controller
                     name="password"
                     control={control}
                     render={({ field }) => (
-                      <PasswordInput {...field} className="rounded-lg bg-muted/50" placeholder="Password" />
+                      <PasswordInput {...field} className="rounded-lg bg-muted/50" placeholder={t('auth:passwordPlaceholder')} />
                     )}
                   />
                   {errors.password && (
@@ -136,12 +136,12 @@ const LoginPage = () => {
                   className="w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground py-6"
                   size="lg"
                 >
-                  {isSubmitting ? 'Signing in...' : 'Sign in'}
+                  {isSubmitting ? t('auth:signingIn') : t('auth:signIn')}
                 </Button>
 
                 <div className="flex items-center justify-between gap-4">
                   <div className="h-px flex-1 bg-muted" />
-                  <span className="text-sm text-muted-foreground">or</span>
+                  <span className="text-sm text-muted-foreground">{t('auth:or')}</span>
                   <div className="h-px flex-1 bg-muted" />
                 </div>
 
@@ -152,12 +152,12 @@ const LoginPage = () => {
                 )}
 
                 <p className="text-center text-sm text-muted-foreground">
-                  Don’t have an account?{' '}
+                  {t('auth:noAccount')}{' '}
                   <Link
                     to={AUTH_ROUTES.REGISTER}
                     className="text-primary hover:text-primary/90 transition-colors"
                   >
-                    Create one
+                    {t('auth:createAccount')}
                   </Link>
                 </p>
               </section>

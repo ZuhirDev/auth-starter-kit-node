@@ -9,6 +9,7 @@ import { useAuth } from "@/modules/auth/context/AuthContext";
 import { formatDistanceToNow } from "date-fns";
 import { es, enGB } from "date-fns/locale";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { useTranslation } from "react-i18next";
 
 const playNotificationSound = () => {
   try {
@@ -44,6 +45,7 @@ const bgMap = {
 };
 
 const Notification = () => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [notifications, setNotifications] = useState([]);
   const { user } = useAuth();
@@ -124,7 +126,7 @@ const Notification = () => {
         </TooltipTrigger>
 
         <TooltipContent>
-          Notifications
+          {t('common:notifications')}
         </TooltipContent>
       </Tooltip>
 
@@ -139,7 +141,7 @@ const Notification = () => {
         }}
       >
         <div className="flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30 rounded-t-xl">
-          <h2 className="text-base font-semibold text-foreground">Notifications</h2>
+          <h2 className="text-base font-semibold text-foreground">{t('common:notifications')}</h2>
           {notifications.length > 0 && (
             <Button
               variant="ghost"
@@ -147,7 +149,7 @@ const Notification = () => {
               className="text-xs font-medium text-muted-foreground hover:text-foreground"
               onClick={handleClearAll}
             >
-              Clear all
+              {t('common:notificaticlearAllons')}
             </Button>
           )}
         </div>
@@ -159,7 +161,7 @@ const Notification = () => {
           {notifications.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <Bell className="h-8 w-8 mb-2 opacity-50" />
-              <p className="text-sm">No notifications yet</p>
+              <p className="text-sm">{t('common:noNotifications')}</p>
             </div>
           ) : (
             <div className="flex flex-col divide-y divide-border">
