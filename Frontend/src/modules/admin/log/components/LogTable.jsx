@@ -41,13 +41,13 @@ const LogTable = () => {
                 let badgeClass = "capitalize border-gray-300 text-gray-600";
 
                 if (status === "success") {
-                    status = t('log:statusSuccess')
+                    status = t('common:statusSuccess')
                     badgeClass = "text-green-600 border-green-600";
                 } else if (status === "error") {
-                    status = t('log:statusError')
+                    status = t('common:statusError')
                     badgeClass = "text-red-600 border-red-600";
                 } else if (status === "denied") {
-                    status = t('log:statusDenied')
+                    status = t('common:statusDenied')
                     badgeClass = "text-yellow-600 border-yellow-600";
                 }
 

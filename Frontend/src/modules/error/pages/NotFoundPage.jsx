@@ -39,7 +39,7 @@ const NotFoundPage = () => {
           >
             <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <MoveLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            {t('auth:goBack')}
+            {t('common:goBack')}
           </Button>
 
           <Link to="/user">

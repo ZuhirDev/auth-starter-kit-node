@@ -113,7 +113,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder={t('permission:searchPlaceholder')}
+            placeholder={`${t('permission:searchPlaceholder')}...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="h-10 bg-muted/50 pl-10 border-border focus-visible:ring-1"

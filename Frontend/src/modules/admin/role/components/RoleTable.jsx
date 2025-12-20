@@ -26,14 +26,14 @@ const RoleTable = () => {
         {
             id: "id",
             accessorKey: "id",
-            header: t('role:id'),
+            header: t('common:id'),
             hiddenByDefault: true,
             cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
         },            
         {
             id: "name",
             accessorKey: "name",
-            header: t('role:name'),
+            header: t('common:name'),
             cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
         },
         {
@@ -45,7 +45,7 @@ const RoleTable = () => {
         {
             id: "permissions",
             accessorKey: "permissions",
-            header: t('role:permissions'),
+            header: t('permission:permissions'),
             editable: false,
             cell: ({ row }) => <span className="font-medium">{row.original.permissions.length}</span>,
         },
@@ -118,7 +118,7 @@ const RoleTable = () => {
                         size="icon"
                         disabled={!hasPermission("update:manage_roles")}                        
                         onClick={() => table.setEditingRow(row)}
-                        title={t('roles:edit')}
+                        title={t('common:edit')}
                     >
                         <Pencil className="h-4 w-4" />
                     </Button>
@@ -138,7 +138,7 @@ const RoleTable = () => {
                         size="icon"
                         disabled={!hasPermission("delete:manage_roles")}                        
                         onClick={() => table.deleteRow(row)}
-                        title={t('roles:delete')}
+                        title={t('common:delete')}
                     >
                         <Trash2 className="h-4 w-4" />
                     </Button>

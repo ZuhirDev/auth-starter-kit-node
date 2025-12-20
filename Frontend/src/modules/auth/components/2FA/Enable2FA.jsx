@@ -104,7 +104,7 @@ const Enable2FA = () => {
                             <DialogFooter className="sm:justify-start mt-4">
                                 <DialogClose asChild>
                                     <Button onClick={handleClose} type="button" variant="secondary">
-                                        {t('auth:close')}
+                                        {t('common:close')}
                                     </Button>
                                 </DialogClose>
                             </DialogFooter>

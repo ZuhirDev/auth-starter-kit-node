@@ -168,7 +168,7 @@ const PasswordReset = () => {
                             className="w-full rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground py-6"
                             size="lg"
                         >
-                            {isSubmitting ? t('user:loading') : t('user:resetPassword')}
+                            {isSubmitting ? `${t('common:loading')}...` : t('user:resetPassword')}
                         </Button>
                     </form>
                 </CardContent>

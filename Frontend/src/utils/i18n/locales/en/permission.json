@@ -1,9 +1,7 @@
 {
   "permissions": "Permissions",
-  "id": "ID",
-  "name": "Name",
   "resource": "Resource",
   "description": "Description",
   "manage": "Manage",
-  "searchPlaceholder": "Search by resource, name or description..."
+  "searchPlaceholder": "Search by resource, name or description"
 }

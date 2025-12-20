@@ -60,7 +60,7 @@ const PasswordVerification = ({ isOpen, onClose, onVerify }) => {
                             variant="outline"
                             className="w-full p-3 bg-primary text-white rounded-lg focus:outline-none"
                         >
-                            {isSubmitting ? t('auth:loading') : t('auth:verify')}
+                            {isSubmitting ? t('common:loading') : t('auth:verify')}
                         </Button>
                     </div>
                 </form>

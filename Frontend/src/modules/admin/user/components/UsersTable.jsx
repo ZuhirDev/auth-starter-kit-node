@@ -22,14 +22,14 @@ const UsersTable = () => {
     {
       id: "id",
       accessorKey: "id",
-      header: t('user:id'),
+      header: t('common:id'),
       hiddenByDefault: true,
       cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
     },
     {
       id: "name",
       accessorKey: "name",
-      header: t('user:name'),
+      header: t('common:name'),
       cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
     },
     {

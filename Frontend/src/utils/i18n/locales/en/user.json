@@ -1,34 +1,26 @@
 {
   "updateInformation": "Update Information",
   "updateInformationDescription": "Keep your profile up to date to ensure accurate information.",
-  "name": "Name",
   "email": "Email",
   "verified": "Verified",
   "notVerified": "Not Verified",
   "2fa": "2FA",
-    "manage": "Manage",
+  "manage": "Manage",
   "firstName": "First Name",
   "firstNamePlaceholder": "Enter your first name",
   "descriptionPermissionUser": "Assign or remove permissions for this user",
-
   "emailVerificationTitle": "Email Verification",
   "emailVerificationDescription": "Make sure your email address is verified so we can reach you securely and provide important account updates.",
-
   "emailVerifiedTitle": "Your email is verified",
   "emailVerifiedDescription": "You will receive important updates at {{email}}",
-
   "emailNotVerifiedTitle": "Email not verified",
   "emailNotVerifiedDescription": "Please verify your email to ensure secure communication.",
-
   "twoFATitle": "Two-Factor Authentication (2FA)",
   "twoFADescription": "Add an extra layer of protection to your account by enabling two-factor authentication.",
-
   "twoFAEnabledTitle": "2FA is enabled",
   "twoFAEnabledDescription": "Your account is protected with two-factor authentication.",
-
   "twoFADisabledTitle": "2FA is disabled",
   "twoFADisabledDescription": "We strongly recommend enabling 2FA to enhance your account security.",
-
   "accountSettings": "Account Settings",
   "userPanelTitle": "User Panel",
   "userPanelDescription": "Manage your personal information, security, and account preferences all in one place.",
@@ -50,21 +42,16 @@
   "forgotPasswordDescription": "Enter your email address and we will send instructions to reset your password.",
   "sending": "Sending...",
   "sendResetLink": "Send Reset Link",
-
   "resetYourPassword": "Reset Your Password",
   "resetPasswordDescription": "Create a new password for your account",
-
   "confirmNewPassword": "Confirm New Password",
   "passwordConfirmationPlaceholder": "Re-enter your new password",
-  "loading": "Loading...",
   "resetPassword": "Reset Password",
-
   "updatePassword": "Update Password",
   "updatePasswordDescription": "Change your account password. Make sure it is strong and secure.",
   "currentPassword": "Current Password",
   "currentPasswordPlaceholder": "Enter your current password",
   "newPassword": "New Password",
   "newPasswordPlaceholder": "Enter your new password",
-  "updating": "Updating...",
-  "id": "ID"
+  "updating": "Updating"
 }

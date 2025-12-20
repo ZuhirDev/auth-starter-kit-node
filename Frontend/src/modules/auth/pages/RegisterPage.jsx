@@ -87,7 +87,7 @@ return (
               <div className="space-y-6">
 
                 <div className="grid gap-2">
-                  <Label htmlFor="name" className="dark:text-white">{t('auth:name')}</Label>
+                  <Label htmlFor="name" className="dark:text-white">{t('common:name')}</Label>
                   <FormInput
                     name="name"
                     type="text"
@@ -141,7 +141,7 @@ return (
 
               <div className="flex justify-end pt-4">
                 <Button type="submit" size="sm" className="font-medium">
-                  {t('auth:submit')}
+                  {t('common:submit')}
                 </Button>
               </div>
             </form>
