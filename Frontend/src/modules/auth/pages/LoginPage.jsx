@@ -141,7 +141,7 @@ const LoginPage = () => {
 
                 <div className="flex items-center justify-between gap-4">
                   <div className="h-px flex-1 bg-muted" />
-                  <span className="text-sm text-muted-foreground">{t('auth:or')}</span>
+                  <span className="text-sm text-muted-foreground">{t('common:or')}</span>
                   <div className="h-px flex-1 bg-muted" />
                 </div>
 

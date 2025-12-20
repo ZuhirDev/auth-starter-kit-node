@@ -1,15 +1,10 @@
 {
-  "logs": "Logs",
-
-  "user": "User",
-  "module": "Module",
-  "action": "Action",
-  "targetId": "Target ID",
-  "status": "Status",
-  "ipAddress": "IP Address",
-  "createdAt": "Created At",
-
-  "statusSuccess": "success",
-  "statusError": "error",
-  "statusDenied": "denied"
+  "logs": "Registros",
+  "user": "Usuario",
+  "module": "Módulo",
+  "action": "Acción",
+  "targetId": "ID de destino",
+  "status": "Estado",
+  "ipAddress": "Dirección IP",
+  "createdAt": "Creado el"
 }

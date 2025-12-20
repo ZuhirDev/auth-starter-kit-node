@@ -137,7 +137,7 @@ const UpdatePassword = () => {
                         disabled={isSubmitting}
                         className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
                     >
-                        {isSubmitting ? t('user:updating') : t('user:updatePassword') }
+                        {isSubmitting ? `${t('user:updating')}...` : t('user:updatePassword') }
                     </Button>
                 </div>
             </form>

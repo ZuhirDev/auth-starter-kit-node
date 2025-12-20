@@ -1,7 +1,7 @@
 {
-  "key": "Key",
-  "value": "Value",
-  "description": "Description",
-  "public": "Public",
-  "createdAt": "Created At"
+  "key": "Clave",
+  "value": "Valor",
+  "description": "Descripción",
+  "public": "Público",
+  "createdAt": "Creado el"
 }

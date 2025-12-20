@@ -145,7 +145,7 @@ const UserManager = ({ open, close, user }) => {
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-6 py-3"
             >
                 <Key className="h-4 w-4 mr-2" />
-                {t('roles:permissions')}
+                {t('permission:permissions')}
                 <Badge
                   variant="outline"
                   className="ml-2 bg-muted border-border"
@@ -181,7 +181,7 @@ const UserManager = ({ open, close, user }) => {
                       <div className="flex items-center gap-2 mb-1">
                         <h4 className="font-semibold text-base text-foreground">{role.name}</h4>
                         <Badge variant="outline" className="text-xs text-foreground/70 border-border/30">
-                          {role.permissions.length} {t('roles:permissions').toLowerCase()}
+                          {role.permissions.length} {t('permission:permissions').toLowerCase()}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground">{role.description}</p>
