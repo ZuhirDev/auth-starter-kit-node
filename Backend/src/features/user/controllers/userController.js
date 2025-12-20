@@ -6,6 +6,7 @@ import { sendEmail } from '#config/mailer.js';
 import CONFIG from '#config/config.js';
 import { generateTempToken, validateTempToken } from '#utils/jwt.js';
 import { Datatable } from '#helpers/datatable.js';
+import { t } from "#utils/i18n/index.js"
 
 export const updateUser = async (req, res) => {
     try {
@@ -15,16 +16,16 @@ export const updateUser = async (req, res) => {
         const { name } = validation.data;
 
         const user = await findUserById(req.user.id);
-        if(!user) return res.status(400).json({ message: 'User not found' });
+        if(!user) return res.status(400).json({ message: t('user:userNotFound') });
 
         await updateUserById(user.id, {
             name
         });
 
-        return res.status(200).json({ message: 'User updated successfully' });
+        return res.status(200).json({ message: t('user:userUpdated') });
     } catch (error) {
         console.log("Error", error);    
-        return res.status(500).json({ error: 'Error updating user' });
+        return res.status(500).json({ error: t('user:updateError') });
     }
 }
 
@@ -36,35 +37,35 @@ export const updatePassword = async (req, res) => {
         const { current_password, password } = validation.data;
 
         const user = await findUserById(req.user.id);
-        if(!user) return res.status(400).json({ message: 'User not found' });
+        if(!user) return res.status(400).json({ message: t('user:userNotFound') });
 
         const isMatch = await VerifyPasswordService(current_password, user.password);
-        if (!isMatch) return res.status(401).json({ message: 'Current password is incorrect' });
+        if (!isMatch) return res.status(401).json({ message: t('user:currentPasswordIncorrect') });
 
         await updatePasswordService(user.id, password);
 
-        return res.status(200).json({ message: 'Password updated successfully' });
+        return res.status(200).json({ message: t('user:passwordUpdated') });
     } catch (error) {
         console.log("Error", error);    
-        return res.status(500).json({ error: 'Error updating password' });
+        return res.status(500).json({ error: t('user:passwordUpdateError') });
     }
 }
 
 export const me = async (req, res) => {
     try {
         const user = await meService(req.user);
-        if(!user) return res.status(404).json({ message: 'User not found' });
+        if(!user) return res.status(404).json({ message: t('user:userNotFound') });
 
-        return res.status(200).json({ message: 'User profile retrieved', data: formatUser(user, req.user.effectivePermissions), need_verify_2fa: user.twoFASecret && !user.is2FAVerified });
+        return res.status(200).json({ message: t('user:userProfileRetrieved'), data: formatUser(user, req.user.effectivePermissions), need_verify_2fa: user.twoFASecret && !user.is2FAVerified });
     } catch (error) {
-        return res.status(500).json({ error: 'Error retrieving user' });
+        return res.status(500).json({ error: t('user:retrievingUserError') });
     }
 }
 
 export const sendVerificationEmail = async (req, res) => {
     try {
         const user = req.user;
-        if(user && user?.email_verified_at) return res.status(400).json({ message: 'User already verified' });
+        if(user && user?.email_verified_at) return res.status(400).json({ message: t('user:alreadyVerified') });
 
         const { rawToken, tokenHash, expires } = await generateTempToken();
 
@@ -83,12 +84,11 @@ export const sendVerificationEmail = async (req, res) => {
             } 
         });
 
-        return res.status(200).json({ message: 'Verification email sent successfully' });
+        return res.status(200).json({ message: t('user:verificationEmailSent') });
     } catch (error) {        
-        return res.status(500).json({ error: 'Error sending email verification', details: error });
+        return res.status(500).json({ error: t('user:emailSendError'), details: error });
     }
 }
-
 
 export const verifyEmail = async (req, res) => {
     try {
@@ -98,7 +98,7 @@ export const verifyEmail = async (req, res) => {
         const { id, token } = validated.data;
 
         const user = await findUserById(id);
-        if (!user) return res.status(404).json({ message: 'Email not exist' });
+        if (!user) return res.status(404).json({ message: t('user:emailNotExist') });
 
         const validateToken = await validateTempToken(token, user.tempToken, user.tempTokenExpires);
         if (!validateToken.valid) return res.status(400).json({ message: validateToken.message });
@@ -109,10 +109,10 @@ export const verifyEmail = async (req, res) => {
             tempTokenExpires: null,
         });
 
-        return res.status(200).json({ message: 'Email verified successfully' });
+        return res.status(200).json({ message: t('user:emailVerified') });
     } catch (error) {
         console.log("Error: ", error);
-        return res.status(500).json({ error: 'Server error during reset password' });
+        return res.status(500).json({ error: t('user:errorResetPassword') });
     }
 }
 
@@ -121,11 +121,11 @@ export const getAllUsers = async (req, res) => {
         const users = await getAllUsersService();
 
         return res.status(200).json({ 
-            message: 'Users retrieved successfully', 
+            message: t('user:usersRetrieved'), 
             data: users,
         });
     } catch (error) {
-        return res.status(500).json({ error: error });
+        return res.status(500).json({ error: t('user:errorRetrievingUsers') });
     }
 }
 
@@ -138,11 +138,11 @@ export const allUsersDatatable = async (req, res) => {
         const response = await datatable.toJson();
 
         return res.status(200).json({ 
-            message: 'Users retrieved successfully', 
+            message: t('user:usersRetrieved'), 
             data: response.data,
             totalCount: response.totalCount,
         });
     } catch (error) {
-        return res.status(500).json({ error: error });
+        return res.status(500).json({ error: t('user:errorRetrievingUsers') });
     }
 }

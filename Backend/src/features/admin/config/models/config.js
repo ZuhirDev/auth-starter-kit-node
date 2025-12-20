@@ -40,8 +40,6 @@ const ConfigSchema = new mongoose.Schema({
     }
 });
 
-ConfigSchema.index({ key: 1 }, { unique: true });
-
 const Config = mongoose.model('Config', ConfigSchema);
 
 export default Config;

@@ -1,0 +1,10 @@
+{
+  "failedToCreatePermission": "Failed to create permission",
+  "permissionCreatedSuccessfully": "Permission created successfully",
+  "permissionsRetrievedSuccessfully": "Permissions retrieved successfully",
+  "permissionNotFound": "Permission not found",
+  "permissionRetrievedSuccessfully": "Permission retrieved successfully",
+  "permissionUpdatedSuccessfully": "Permission updated successfully",
+  "permissionDeletedSuccessfully": "Permission deleted successfully",
+  "forbidden": "Forbidden: insufficient permission"
+}

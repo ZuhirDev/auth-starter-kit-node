@@ -9,7 +9,6 @@ export const logger = async ({
     status = 'success',
     ip_address = 'unknown',
 }) => {
-
     try {
         const log = await loggerService(
             {
@@ -24,7 +23,7 @@ export const logger = async ({
         
         return log;
     } catch (error) {
-        console.log("Error", error);
+        console.log("Error:", error);
     }
 }
 
@@ -41,6 +40,6 @@ export const logsDatatable = async (req, res) => {
             totalCount: response.totalCount,
         });
     } catch (error) {
-        console.log("Error", error);
+        console.log("Error:", error);
     }
 }

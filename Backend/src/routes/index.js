@@ -8,11 +8,15 @@ import permissionRouter from '#admin/permission/routes/permissionRouter.js';
 import adminUserRouter from '#admin/user/routes/adminUserRouter.js';
 import { notification } from '#admin/notification/controllers/notificationController.js';
 import { getAllConfigPublic } from '#admin/config/controllers/configController.js';
+import { langMiddleware } from '#auth/middleware/languageMiddleware.js';
+import { supportedLanguages } from '#utils/i18n/index.js';
 
 const router = express.Router();
 
+router.use(langMiddleware);
+
 router.use('/languages', (req, res) => {
-    res.json({ languages: ['en', 'es', 'de'] });
+    res.json(supportedLanguages);
 });
 
 router.get('/config/public', getAllConfigPublic);

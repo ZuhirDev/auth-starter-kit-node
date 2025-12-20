@@ -7,18 +7,18 @@ import configSeeder from '#db/seeders/configSeeder.js';
 const runSeeders = async () => {
     try {
         await mongoose.connect(CONFIG.MONGO_URL);
-        console.log('🟢 Conectado a la base de datos');
+        console.log('🟢 Connected to the database');
 
         await rolePermissionSeeder();
         await userSeeder();
         await configSeeder();
 
-        console.log('✅ Todos los seeders se ejecutaron correctamente.');
+        console.log('✅ All seeders ran successfully.');
     } catch (error) {
-        console.error('❌ Error al ejecutar los seeders:', error);
+        console.error('❌ Error running seeders:', error);
     } finally {
         await mongoose.disconnect();
-        console.log('🔴 Desconectado de la base de datos');
+        console.log('🔴 Disconnected from the database');
         process.exit(0);
     }
 };
