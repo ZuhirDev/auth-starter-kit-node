@@ -54,18 +54,18 @@ const UsersTable = () => {
         ),
     },    
     {
-      id: "is2FAVerified",
-      accessorKey: "is2FAVerified",
+      id: "is2FAActivated",
+      accessorKey: "is2FAActivated",
       header: t('user:2fa'),
       editable: false,
       cell: ({ row }) =>
-        row.original.is2FAVerified ? (
+        row.original.is2FAActivated ? (
           <Badge variant="outline" className="text-green-600 border-green-600">
-            {t('user:verified')}
+            {t('common:activated')}
           </Badge>
         ) : (
           <Badge variant="outline" className="text-red-600 border-red-600">
-            {t('user:notVerified')}
+            {t('common:inactive')}
           </Badge>
         ),
     },
@@ -114,7 +114,6 @@ const UsersTable = () => {
         onDeleteRow={handleDeleteUsers}
         options={{
           tableName: 'Users',
-          showAddButton: true,
           createRequiredPermission: 'create:manage_users',
         }}
         renderRowActions={({ row, table }) => (

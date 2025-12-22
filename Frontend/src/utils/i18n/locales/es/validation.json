@@ -1,8 +1,10 @@
 {
+  "nameMin": "El nombre debe tener al menos {{min}} caracteres",
   "token": "Se requiere un token.",
   "email": "El correo electrónico debe ser una dirección válida",
   "passwordMin": "La contraseña debe tener al menos {{min}} caracteres",
   "passwordMismatch": "Las contraseñas no coinciden",
   "titleRequired": "Se requiere un título",
-  "messageRequired": "Se requiere un mensaje"
+  "messageRequired": "Se requiere un mensaje",
+  "otpLength": "El OTP debe tener {{length}} caracteres"
 }

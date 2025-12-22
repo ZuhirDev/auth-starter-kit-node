@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    is2FAActivated: {
+        type: Boolean,
+        default: false,
+    },
     tempToken: {
         type: String,
         default: null,

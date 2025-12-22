@@ -15,7 +15,7 @@ const RegisterPage = () => {
 
   const { t } = useTranslation();
   const registerSchema = z.object({
-    name: z.string(),
+    name: z.string().min(2, t('validation:nameMin', { min: 2 })),
     email: z.email(t('validation:email')),
     password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
     password_confirmation: z.string().min(8, t('validation:passwordMin', { min: 8 })),

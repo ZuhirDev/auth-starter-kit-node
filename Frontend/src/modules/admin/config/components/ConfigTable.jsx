@@ -24,8 +24,8 @@ const ConfigTable = () => {
         },
         {
             id: "value",
-            accessorKey: t('config:value'),
-            header: "Value",
+            accessorKey: "value",
+            header: t('config:value'),
             editable: true,
             cell: ({ row }) => (
                 <Badge variant={row.original.value ? "default" : "destructive"}>

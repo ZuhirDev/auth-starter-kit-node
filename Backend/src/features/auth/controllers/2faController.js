@@ -1,6 +1,7 @@
 import { enable2FAService, verify2FAService } from '#auth/services/2faService.js';
 import { updateUserById } from '#user/services/userService.js';
 import { t } from "#utils/i18n/index.js";
+import { logger } from '#admin/log/controllers/logController.js';
 
 export const enable2FA = async (req, res) => {
   try {
@@ -27,9 +28,20 @@ export const verify2FA = async (req, res) => {
     if (user.is2FAVerified === true) return res.status(401).json({ message: t('auth:twoFAAlreadyVerified') });
 
     const isValid = await verify2FAService(user.email, otp, user.twoFASecret);
-    if (!isValid) return res.status(401).json({ message: t('auth:invalidAuthenticationCode') });
+    if (!isValid) {
 
-    await updateUserById(user.id, { is2FAVerified: true });
+      await logger({
+        user_id: user.id,
+        action: 'verify2FA',
+        module: 'auth',
+        ip_address: req.ip,
+        status: "error"
+      });
+
+      return res.status(401).json({ message: t('auth:invalidAuthenticationCode') });
+    }
+      
+    await updateUserById(user.id, { is2FAVerified: true, is2FAActivated: true });
 
     return res.status(200).json({ message: t('auth:twoFAVerifiedSuccessfully') });
   } catch (error) {
@@ -44,7 +56,7 @@ export const disable2FA = async (req, res) => {
 
     if (!user.twoFASecret) return res.status(400).json({ message: t('auth:twoFANotEnabled') });
 
-    await updateUserById(user.id, { twoFASecret: null, is2FAVerified: false });
+    await updateUserById(user.id, { twoFASecret: null, is2FAVerified: false, is2FAActivated: false });
 
     return res.status(200).json({ message: t('auth:twoFADisabledSuccessfully') });
   } catch (error) {
