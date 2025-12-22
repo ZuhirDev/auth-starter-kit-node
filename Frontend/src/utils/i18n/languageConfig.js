@@ -35,7 +35,7 @@ export const resources = {
     validation: enValidation,
   },
 
-  en: {
+  es: {
     auth: esAuth,
     common: esCommon,
     config: esConfig,

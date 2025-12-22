@@ -36,6 +36,7 @@
     "closeMenu": "Cerrar menú",
     "info": "Información",
     "success": "Éxito",
+    "denied": "Denegado",
     "warning": "Advertencia",
     "error": "Error",
     "title": "Título",
@@ -55,5 +56,9 @@
     "notificationType": "Tipo de notificación",
     "sendNotification": "Enviar notificación",
     "notificationSent": "¡Notificación enviada!",
-    "successDescription": "Todos los usuarios han recibido tu mensaje"
+    "successDescription": "Todos los usuarios han recibido tu mensaje",
+    "actions": "Acciones",
+    "activated": "Activada",
+    "notActivated": "No Activada",
+    "inactive": "Inactiva"
 }

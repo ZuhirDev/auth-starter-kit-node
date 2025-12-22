@@ -40,8 +40,8 @@ const NotificationSend = () => {
         data,
       });
 
-      toast.success('Notification sent!', {
-        description: 'All users have received your message',
+      toast.success(`${t('common:notificationSent')}`, {
+        description: t('common:successDescription'),
       });
 
       reset();

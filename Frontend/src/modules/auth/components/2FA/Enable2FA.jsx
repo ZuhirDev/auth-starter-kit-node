@@ -35,7 +35,7 @@ const Enable2FA = () => {
             close();
             const response = await enable2FA(data);
             
-            setQrCodeURL(response.qr_url);
+            setQrCodeURL(response.qrCode);
             setSecret(response.secret);
             setIsEnabled(true); 
             toast.success(response.message);

@@ -171,7 +171,7 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     if (renderRowActions) {
       cols.push({
         id: "actions",
-        header: "Actions",
+        header: t('common:actions'),
         enableSorting: false,
         enableExport: false,
         searchable: false,
@@ -359,10 +359,10 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
                             {isEditing ? (
                               <div className="flex gap-2">
                                 <Button size="sm" onClick={() => table.saveEditingRow()}>
-                                  Save
+                                  {t('common:save')}
                                 </Button>
                                 <Button variant="ghost" size="sm" onClick={() => table.cancelEditing()}>
-                                  Cancel
+                                  {t('common:cancel')}
                                 </Button>
                               </div>
                             ) : (

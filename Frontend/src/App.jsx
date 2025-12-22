@@ -9,7 +9,6 @@ const App = () => {
     <div>
         <Toaster expand position="top-right" />
         <RouterProvider router={router} />
-        
     </div>
   )
 }

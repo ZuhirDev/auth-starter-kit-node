@@ -149,7 +149,7 @@ const Notification = () => {
               className="text-xs font-medium text-muted-foreground hover:text-foreground"
               onClick={handleClearAll}
             >
-              {t('common:notificaticlearAllons')}
+              {t('common:clearAll')}
             </Button>
           )}
         </div>

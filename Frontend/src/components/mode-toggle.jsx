@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation();
-  const changeTheme = theme === "dark" ? "Light mode" : "Dark mode";
+  const changeTheme = theme === "dark" ? t('common:tooltipLightMode') : t('common:tooltipDarkMode');
 
   return (
     <>
@@ -16,7 +16,7 @@ export function ModeToggle() {
           <Button
             variant="outline"
             size="icon"
-            onClick={() => setTheme(theme === "dark" ? t('common:tooltipLightMode') : t('common:tooltipDarkMode'))}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="relative h-12 w-12 rounded-full bg-background border border-border hover:bg-muted transition"
           >
             <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 " />
