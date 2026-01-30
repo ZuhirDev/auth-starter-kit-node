@@ -9,7 +9,9 @@ const CONFIG = {
     
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
 
+    DATABASE_ENGINE: process.env.DATABASE_ENGINE,
     MONGO_URL: process.env.MONGO_URL,
+
     JWT_SECRET: process.env.JWT_SECRET,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,
 

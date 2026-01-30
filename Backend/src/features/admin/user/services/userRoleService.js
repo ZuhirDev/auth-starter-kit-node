@@ -1,36 +1,26 @@
 
+export class UserRoleService {
 
+  constructor({ userRepository }){
+    this.userRepository = userRepository;
+  }
 
-export const assignRolesToUserService = async (user, roleIds = []) => {
-  const existingRoleIds = user.roles.map((r) => r.toString());
+  assignRolesToUser = async (userId, roleIds = []) => {
+    if (!roleIds.length) return null;
 
-  const newRoles = roleIds.filter((id) => !existingRoleIds.includes(id));
+    const assigned = await this.userRepository.assignRoles(userId, roleIds);
+    return assigned ? true : null;
+  }
 
-  if (newRoles.length === 0) return user;
+  removeRolesFromUser = async (userId, roleIds = []) => {
+    if (!roleIds.length) return null;
 
-  user.roles.push(...newRoles);
+    const result = await this.userRepository.removeRoles(userId, roleIds);
+    return result ? true : null;
+  }
 
-  await user.save();
-  return user;
-}
+  getUserRoles = async (userId) => {
+    return await this.userRepository.getUserRole(userId);
+  }
 
-export const removeRolesFromUserService = async (user, roleIds = []) => {
-  const existingRoleIds = user.roles.map((r) => r.id.toString());
-
-  const rolesToRemove = roleIds.filter((id) => existingRoleIds.includes(id.toString()));
-
-  if (rolesToRemove.length === 0) return user;
-
-  user.roles = user.roles.filter((role) => !rolesToRemove.includes(role.id.toString()));
-
-  await user.save();
-  return user;
-};
-
-export const hasRoleService = (user, roleName) => {
-    return user.roles.some((role) => role.name === roleName);
-}
-
-export const hasRolePermissionService = (user, permissionName, permissionResource) => {
-    return user.roles.some((role) => role.permissions.some((permission) => permission.name === permissionName && permission.resource === permissionResource));
 }

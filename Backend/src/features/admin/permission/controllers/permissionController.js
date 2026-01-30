@@ -1,98 +1,149 @@
-import { createPermissionService, deletePermissionService, getAllPermissionsService, getPermissionByIdService, updatePermissionService } from "#admin/permission/service/permissionService.js";
 import { validateRequest } from "#utils/validation.js";
 import { createPermissionSchema, deletePermissionSchema, getPermissionByIdSchema, updatePermissionSchema } from "#admin/permission/validations/permissionValidation.js";
 import { Datatable } from "#helpers/datatable.js";
 import { t } from "#utils/i18n/index.js";
 
-export const createPermission = async (req, res) => {
-    try {
-        const validation = await validateRequest(createPermissionSchema, req.body);
-        if(!validation.success) return res.status(400).json({ errors: validation.errors });
+export class PermissionController {
 
-        const { name, resource, description } = validation.data;
-
-        const newPermission = await createPermissionService(name, resource, description);
-        if(!newPermission) return res.status(400).json({ message: t('permission:failedToCreatePermission') });
-
-        res.status(201).json({ message: t('permission:permissionCreatedSuccessfully'), data: newPermission });
-    } catch (error) {
-        return res.status(500).json({ message: error });
+    constructor({ permissionService }) {
+        this.permissionService = permissionService;
     }
-}
 
-export const getAllPermissions = async (req, res) => {
-    try {
-        const permissions = await getAllPermissionsService();
+    create = async (req, res) => {
+        try {
+            const validation = await validateRequest(createPermissionSchema, req.body);
+            if (!validation.success) {
+                return res.status(400).json({ errors: validation.errors });
+            }
 
-        res.status(200).json({ 
-            message: t('permission:permissionsRetrievedSuccessfully'), 
-            data: permissions,
-        });
-    } catch (error) {
-        return res.status(500).json({ message: error });
-    }
-}
+            const { name, resource, description } = validation.data;
 
-export const allPermissionsDatatable = async (req, res) => {
-    try {
-        const permissions = await getAllPermissionsService();
-        const datatable = new Datatable(permissions, req.query);
-        const data = await datatable.toJson();
+            const newPermission = await this.permissionService.create({
+                name,
+                resource,
+                description,
+            });
 
-        res.status(200).json({ 
-            message: t('permission:permissionsRetrievedSuccessfully'), 
-            data: data.data,
-            totalCount: data.totalCount
-        });
-    } catch (error) {
-        return res.status(500).json({ message: error });
-    }
-}
+            if (!newPermission) {
+                return res.status(400).json({
+                    message: t('permission:failedToCreatePermission')
+                });
+            }
 
-export const getPermissionById = async (req, res) => {
-    try {
-        const validation = await validateRequest(getPermissionByIdSchema, req.params);
-        if(!validation.success) return res.status(400).json({ errors: validation.errors });
+            res.status(201).json({
+                message: t('permission:permissionCreatedSuccessfully'),
+                data: newPermission
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
 
-        const { id } = validation.data;
+    getAll = async (req, res) => {
+        try {
+            const permissions = await this.permissionService.getAll();
 
-        const permission = await getPermissionByIdService(id);
-        if(!permission) return res.status(404).json({ message: t('permission:permissionNotFound') });
+            res.status(200).json({
+                message: t('permission:permissionsRetrievedSuccessfully'),
+                data: permissions
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
 
-        res.status(200).json({ message: t('permission:permissionRetrievedSuccessfully'), data: permission });
-    } catch (error) {
-        return res.status(500).json({ message: error });
-    }
-}
+    datatable = async (req, res) => {
+        try {
+            const permissions = await this.permissionService.getAll();
+            const datatable = new Datatable(permissions, req.query);
+            const data = await datatable.toJson();
 
-export const updatePermission = async (req, res) => {
-    try {
-        const validation = await validateRequest(updatePermissionSchema, req.body);
-        if(!validation.success) return res.status(400).json({ errors: validation.errors });
+            res.status(200).json({
+                message: t('permission:permissionsRetrievedSuccessfully'),
+                data: data.data,
+                totalCount: data.totalCount
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
 
-        const { id, name, resource, description } = validation.data;
+    findById = async (req, res) => {
+        try {
+            const validation = await validateRequest(getPermissionByIdSchema, req.params);
+            if (!validation.success) {
+                return res.status(400).json({ errors: validation.errors });
+            }
 
-        const updatedPermission = await updatePermissionService(id, { name, resource, description });
-        if(!updatedPermission) return res.status(404).json({ message: t('permission:permissionNotFound') });
+            const { id } = validation.data;
 
-        res.status(200).json({ message: t('permission:permissionUpdatedSuccessfully'), data: updatedPermission });
-    } catch (error) {
-        return res.status(500).json({ message: error });
-    }
-}
+            const permission = await this.permissionService.findById(id);
+            if (!permission) {
+                return res.status(404).json({
+                    message: t('permission:permissionNotFound')
+                });
+            }
 
-export const deletePermission = async (req, res) => {
-    try {
-        const validation = await validateRequest(deletePermissionSchema, req.params);
-        if(!validation.success) return res.status(400).json({ errors: validation.errors });
+            res.status(200).json({
+                message: t('permission:permissionRetrievedSuccessfully'),
+                data: permission
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
 
-        const { id } = validation.data;
+    update = async (req, res) => {
+        try {
+            const validation = await validateRequest(updatePermissionSchema, req.body);
+            if (!validation.success) {
+                return res.status(400).json({ errors: validation.errors });
+            }
 
-        const permission = await deletePermissionService(id);
-        if(!permission) return res.status(404).json({ message: t('permission:permissionNotFound') });
+            const { id, name, resource, description } = validation.data;
 
-        res.status(200).json({ message: t('permission:permissionDeletedSuccessfully'), data: permission });
-    } catch (error) {
-        return res.status(500).json({ message: error });
-    }
+            const updatedPermission = await this.permissionService.updateById(
+                id,
+                { name, resource, description }
+            );
+
+            if (!updatedPermission) {
+                return res.status(404).json({
+                    message: t('permission:permissionNotFound')
+                });
+            }
+
+            res.status(200).json({
+                message: t('permission:permissionUpdatedSuccessfully'),
+                data: updatedPermission
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
+
+    delete = async (req, res) => {
+        try {
+            const validation = await validateRequest(deletePermissionSchema, req.params);
+            if (!validation.success) {
+                return res.status(400).json({ errors: validation.errors });
+            }
+
+            const { id } = validation.data;
+
+            const permission = await this.permissionService.deleteById(id);
+            if (!permission) {
+                return res.status(404).json({
+                    message: t('permission:permissionNotFound')
+                });
+            }
+
+            res.status(200).json({
+                message: t('permission:permissionDeletedSuccessfully'),
+                data: permission
+            });
+        } catch (error) {
+            return res.status(500).json({ message: error });
+        }
+    };
 }

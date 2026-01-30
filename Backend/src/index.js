@@ -1,32 +1,30 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
+import { createApp } from './app.js';
+import { Container } from './container.js';
 import CONFIG from '#config/config.js';
-import router from '#routes/index.js';
-import cookieParser from 'cookie-parser';
-import http from 'http';
-import { initSocket } from '#utils/socketService.js';
-import '#utils/i18n/index.js';
+import mongoose from 'mongoose';
 
-const app = express();
-const server = http.createServer(app);
-export const dispatch = initSocket(server);
+const dbEngine = CONFIG.DATABASE_ENGINE;
+const container = new Container(dbEngine);
+const repositories = container.getRepositories();
 
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-}));
+const { app, server, dispatch: appDispatch } = createApp({ repositories });
+export let dispatch = appDispatch;
 
-app.use(express.json());
-app.use(cookieParser());
-app.use('/api', router);
+switch (dbEngine) {
+  case 'mongo':
+    await mongoose.connect(CONFIG.MONGO_URL);
+    console.log('✅ MongoDB connected');
+    break;
 
-mongoose.connect(CONFIG.MONGO_URL)
-    .then(() => {
-        server.listen(CONFIG.PORT, () => {
-            console.log(`Server running on http://localhost:${CONFIG.PORT}`)
-        })
-    })
-    .catch((err) => {
-        console.log("Error conectando a MongoDB: ", err);
-    });
+  case 'mysql':
+    throw new Error('MySQL support not implemented yet');
+    // console.log('✅ MySQL connected');
+    break;
+
+  default:
+    throw new Error(`Unsupported DATABASE_ENGINE: ${dbEngine}`);
+}
+
+server.listen(CONFIG.PORT, () => {
+  console.log(`Server running on http://localhost:${CONFIG.PORT}`);
+});

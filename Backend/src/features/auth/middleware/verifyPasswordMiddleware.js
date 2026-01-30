@@ -1,16 +1,15 @@
-import { findUserById } from "#user/services/userService.js";
-import bcrypt from 'bcryptjs';
 import { t } from "#utils/i18n/index.js";
+import { comparePassword } from "#utils/crypto/password.js";
 
-export const verifyPassword = async (req, res, next) => {
+export const verifyPassword = (userService) => async (req, res, next) => {
   try {
     const { password } = req.body;
     if (!password) return res.status(400).json({ message: t('auth:passwordIsRequired') });
 
-    const user = await findUserById(req.user.id);
+    const user = await userService.findById(req.user.id);
     if (!user) return res.status(404).json({ message: t('user:userNotFound') });
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await comparePassword(password, user.password);
     if (!isMatch) return res.status(401).json({ message: t('auth:incorrectPassword') });
 
     return next();

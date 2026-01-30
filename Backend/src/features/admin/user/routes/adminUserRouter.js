@@ -1,30 +1,24 @@
 import express from 'express';
-import { allUsersDatatable, getAllUsers } from '#user/controllers/userController.js';
-import { assignPermissionsToUser, getUserPermission, removePermissionsFromUser } from '#admin/user/controllers/userPermissionController.js';
-import { assignRolesToUser, getUserRoles, removeRolesFromUser } from '#admin/user/controllers/userRoleController.js';
 import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
-import { logsDatatable } from '#admin/log/controllers/logController.js'
-import { configDatatable, getAllConfig, updateConfig } from '#admin/config/controllers/configController.js';
-import { deleteUserById } from '#admin/user/controllers/userAdminController.js';
+import { auth } from '#auth/middleware/authMiddleware.js';
+import { TwoFA } from '#auth/middleware/2faMiddleware.js';
 
-const adminUserRouter = express.Router();
+const adminUserRouter = ({ userPermissionController, userRoleController, userAdminController  }) => {
+    const router = express.Router();
+    
+    router.post('/user/assign-permissions', auth, TwoFA, hasPermission('create', 'manage_users'), userPermissionController.assignPermissionsToUser);
+    router.post('/user/remove-permissions', auth, TwoFA, hasPermission('delete', 'manage_users'), userPermissionController.removePermissionsFromUser);
+    router.get('/user/permission/:id', auth, TwoFA, hasPermission('read', 'manage_users'), userPermissionController.getUserPermissions);
+    
+    router.post('/user/assign-roles', auth, TwoFA, hasPermission('create', 'manage_users'), userRoleController.assignRolesToUser);
+    router.post('/user/remove-roles', auth, TwoFA, hasPermission('delete', 'manage_users'), userRoleController.removeRolesFromUser);
+    router.get('/user/roles/:id', auth, TwoFA, hasPermission('read', 'manage_users'), userRoleController.getUserRoles);
+    
+    router.get('/users', auth, TwoFA, hasPermission('read', 'manage_users'), userAdminController.getAll);
+    router.get('/users/datatable', auth, TwoFA, hasPermission('read', 'manage_users'), userAdminController.datatable);
+    router.delete('/user/:id', auth, TwoFA, hasPermission('delete', 'manage_users'), userAdminController.deleteById);
 
-adminUserRouter.post('/user/assign-permissions', hasPermission('create', 'manage_users'), assignPermissionsToUser);
-adminUserRouter.post('/user/remove-permissions', hasPermission('delete', 'manage_users'), removePermissionsFromUser);
-adminUserRouter.get('/user/permission/:id', hasPermission('read', 'manage_users'), getUserPermission);
-
-adminUserRouter.post('/user/assign-roles', hasPermission('create', 'manage_users'), assignRolesToUser);
-adminUserRouter.post('/user/remove-roles', hasPermission('delete', 'manage_users'), removeRolesFromUser);
-adminUserRouter.get('/user/roles/:id', hasPermission('read', 'manage_users'), getUserRoles);
-
-adminUserRouter.get('/users', hasPermission('read', 'manage_users'), getAllUsers);
-adminUserRouter.get('/users/datatable', hasPermission('read', 'manage_users'), allUsersDatatable);
-adminUserRouter.delete('/user/:id', hasPermission('delete', 'manage_users'), deleteUserById);
-
-adminUserRouter.get('/logs/datatable', hasPermission('read', 'manage_logs'), logsDatatable);
-
-adminUserRouter.get('/config', hasPermission('read', 'manage_config'), getAllConfig);
-adminUserRouter.get('/config/datatable', hasPermission('read', 'manage_config'), configDatatable);
-adminUserRouter.patch('/config', hasPermission('update', 'manage_config'), updateConfig);
+    return router;
+}
 
 export default adminUserRouter;

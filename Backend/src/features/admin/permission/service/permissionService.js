@@ -1,29 +1,31 @@
-import Permission from "#admin/permission/models/permission.js";
 
-export const createPermissionService = async (name, resource, description) => {
-    const permission = new Permission({ name, resource, description });
+export class PermissionService {
 
-    return await permission.save();
-}
+    constructor({ permissionRepository }){
+        this.permissionRepository = permissionRepository;
+    }
 
-export const getAllPermissionsService = async () => {
-    return await Permission.find();
-}
+    create = async ({ name, resource, description }) => {
+        return this.permissionRepository.create({
+            name,
+            resource,
+            description,
+        });
+    };
 
-export const getPermissionByIdService = async (id) => {
-    return await Permission.findById(id);
-}
+    getAll = async () => {
+        return this.permissionRepository.getAll();
+    };
 
-export const updatePermissionService = async (id, { name, resource, description }) => {
-    const permission = await Permission.findByIdAndUpdate(id, { name, resource, description }, { new: true });
-    if(!permission) return null;
+    findById = async (id) => {
+        return this.permissionRepository.findById(id);
+    };
 
-    return permission;
-}
+    updateById = async (id, data) => {
+        return this.permissionRepository.updateById(id, data);
+    };
 
-export const deletePermissionService = async (id) => {
-    const permission = await Permission.findByIdAndDelete(id);
-    if(!permission) return null;
-
-    return permission;
+    deleteById = async (id) => {
+        return this.permissionRepository.deleteById(id);
+    };
 }

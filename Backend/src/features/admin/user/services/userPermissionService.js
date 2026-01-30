@@ -1,54 +1,49 @@
 
+export class UserPermissionService {
 
-export const assignPermissionsToUserService = async (user, permissionIds = []) => {
-    const existsPerm = user.permissions.map((perm) => perm.id.toString());
+  constructor({ userRepository }) {
+    this.userRepository = userRepository;
+  }
 
-    const newIds = permissionIds.filter((id) => !existsPerm.includes(id));
+  assignPermissionsToUser = async (userId, permissionIds = []) => {
+    if (!permissionIds.length) return null;
 
-    if (newIds.length === 0) return null;
+    const existingIds = await this.userRepository.getUserPermissionIds(userId);
 
-    user.permissions.push(...newIds);
-    await user.save();
-
-    return user;
-}
-
-export const removePermissionsFromUserService = async (user, permissionIds = []) => {
-    if (!permissionIds.length) return user;
-
-    user.permissions = user.permissions.filter(
-        (perm) => !permissionIds.includes(perm.id.toString())
+    const newIds = permissionIds.filter(
+      (id) => !existingIds.includes(id)
     );
 
-    await user.save();
+    if (!newIds.length) return null;
 
-    return user;
-}
+    await this.userRepository.assignPermissions(userId, newIds);
 
-export const hasPermissionService = (user, permissionName, permissionResource) => {
-    return user.permissions.some((permission) => permission.name === permissionName && permission.resource === permissionResource);
-}
+    return true;
+  }
 
-export const effectivePermissionsService = async (user) => {
+  removePermissionsFromUser = async (userId, permissionIds = []) => {
+    if (!permissionIds.length) return null;
 
-    if(!user) return null;
+    const existingIds = await this.userRepository.getUserPermissionIds(userId);
 
-    await user.populate([
-        { path: 'permissions' },
-        { path: 'roles', populate: { path: 'permissions', model: 'Permission' } }
-    ]);
+    const idsToRemove = permissionIds.filter(
+      (id) => existingIds.includes(id)
+    );
 
-    const effectivePermissions = new Map();
+    if (!idsToRemove.length) return null;
 
-    user.permissions.forEach(permission => {
-        effectivePermissions.set(`${permission.name}:${permission.resource}`, true);
-    });
+    await this.userRepository.removePermissions(userId, idsToRemove);
 
-    user.roles.forEach(role => {
-        role.permissions.forEach(permission => {
-            effectivePermissions.set(`${permission.name}:${permission.resource}`, true);
-        });
-    });
+    return true;
+  }
 
-    return effectivePermissions;
+  getUserPermissions = async (userId) => {
+    return await this.userRepository.getUserPermission(userId);
+  }
+
+  getEffectivePermissions = async (userId) => {
+    const permissions = await this.userRepository.getEffectivePermissions(userId);
+    return new Set(permissions.map(p => `${p.name}:${p.resource}`));
+  }
+
 }

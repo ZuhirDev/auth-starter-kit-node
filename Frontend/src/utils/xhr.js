@@ -29,44 +29,44 @@ axios.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-axios.interceptors.response.use(
-    (response) => response,
-    async (error) => {
+// axios.interceptors.response.use(
+//     (response) => response,
+//     async (error) => {
 
-        const originalRequest = error.config;
+//         const originalRequest = error.config;
 
-        if(error?.response?.status === 401 && !originalRequest._retry){
+//         if(error?.response?.status === 401 && !originalRequest._retry){
 
-            originalRequest._retry = true;
+//             originalRequest._retry = true;
 
-            if(!isRefreshing){
-                isRefreshing = true;
+//             if(!isRefreshing){
+//                 isRefreshing = true;
 
-                try {
-                    const response = await refreshTokenService();
-                    isRefreshing = false;
+//                 try {
+//                     const response = await refreshTokenService();
+//                     isRefreshing = false;
 
-                    return axios(originalRequest);
-                } catch (error) {
-                    isRefreshing = false;
+//                     return axios(originalRequest);
+//                 } catch (error) {
+//                     isRefreshing = false;
 
-                    if(error?.response?.status === 401 && !hasShownSessionExpired){
-                        hasShownSessionExpired = true;
+//                     if(error?.response?.status === 401 && !hasShownSessionExpired){
+//                         hasShownSessionExpired = true;
 
-                        toast.info("Your session has expired, you will be redirected soon");
-                        setTimeout(() => {
-                            window.location.href = '/login';
-                        }, 4000);
-                    }       
+//                         toast.info("Your session has expired, you will be redirected soon");
+//                         setTimeout(() => {
+//                             window.location.href = '/login';
+//                         }, 4000);
+//                     }       
                     
-                    return Promise.reject(error);
-                }
-            }
-            return Promise.reject(error);
-        }
-        return Promise.reject(error);
-    }
-)
+//                     return Promise.reject(error);
+//                 }
+//             }
+//             return Promise.reject(error);
+//         }
+//         return Promise.reject(error);
+//     }
+// )
 
 export const request = (config) => axios.request({ responseType: 'json', method: 'get', ...config });
 export const get = request;
