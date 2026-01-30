@@ -16,6 +16,10 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    is2FAActivated: {
+        type: Boolean,
+        default: false,
+    },
     tempToken: {
         type: String,
         default: null,
@@ -34,6 +38,24 @@ const UserSchema = new mongoose.Schema({
     }]
 }, {
     timestamps: true,
+
+    toJSON: {
+        virtuals: true,
+        versionKey: false,
+        transform: function (doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+        }
+    },
+
+    toObject: {
+        virtuals: true,
+        versionKey: false,
+        transform: function (doc, ret) {
+            ret.id = ret._id.toString();
+            delete ret._id;
+        }
+    }
 });
 
 const User = mongoose.model('User', UserSchema);

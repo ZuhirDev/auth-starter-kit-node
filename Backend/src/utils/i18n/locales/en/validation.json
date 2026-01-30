@@ -1,0 +1,24 @@
+{
+  "invalidEmailFormat": "Invalid email format",
+  "passwordMinLength": "Password must be at least 8 characters long",
+  "nameMinLength": "Name must be at least 2 characters long",
+  "invalidTokenLength": "Invalid token length",
+  "invalidTokenFormat": "Invalid token format",
+  "newPasswordMinLength": "New password must be at least 8 characters long",
+  "passwordConfirmationRequired": "Password confirmation is required",
+  "passwordsDoNotMatch": "Passwords do not match",  
+  "nameIsRequired": "Name is required",
+  "currentPasswordIsRequired": "Current password is required",
+  "newPasswordMustBeDifferent": "New password must be different from current password",
+  "idIsRequired": "Id is required",
+  "invalidExpirationDateFormat": "Invalid expiration date format",
+  "invalidId": "Invalid ID",
+  "valueIsRequired": "Value is required",
+  "titleIsRequired": "Title is required",
+  "messageIsRequired": "Message is required",
+  "resourceRequired": "Resource is required",
+  "idRequired": "ID is required",
+  "permissionIdsRequired": "At least one permission ID is required",
+  "roleRequired": "At least one role ID is required"
+}
+

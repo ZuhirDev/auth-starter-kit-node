@@ -1,16 +1,10 @@
 {
-    "name": "El nombre es obligatorio.",
-    "required": "Este campo es obligatorio.",
-    "email": "La dirección de correo electrónico no es válida.",
-    "pattern": "El formato de este campo es incorrecto.",
-    "token": "Se requiere un token.",
-    "password": {
-      "min": "La contraseña debe tener al menos {{min}} caracteres.",
-      "max": "La contraseña no puede superar los {{max}} caracteres.",
-      "mismatch": "Las contraseñas no coinciden."
-    },
-    "otp": {
-      "min": "Tu código de un solo uso debe tener {{min}} caracteres."
-    }
-  }
-  
+  "nameMin": "El nombre debe tener al menos {{min}} caracteres",
+  "token": "Se requiere un token.",
+  "email": "El correo electrónico debe ser una dirección válida",
+  "passwordMin": "La contraseña debe tener al menos {{min}} caracteres",
+  "passwordMismatch": "Las contraseñas no coinciden",
+  "titleRequired": "Se requiere un título",
+  "messageRequired": "Se requiere un mensaje",
+  "otpLength": "El OTP debe tener {{length}} caracteres"
+}

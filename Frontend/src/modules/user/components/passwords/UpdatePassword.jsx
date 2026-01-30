@@ -14,11 +14,11 @@ const UpdatePassword = () => {
     const { t } = useTranslation();
 
     const updatePasswordSchema = z.object({
-        current_password: z.string().min(8, t('validation:password.min', { min: 8 })),
-        password: z.string().min(8, t('validation:password.min', { min: 8 })),
-        password_confirmation: z.string().min(8, t('validation:password.min', { min: 8 })),
+        current_password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
+        password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
+        password_confirmation: z.string().min(8, t('validation:passwordMin', { min: 8 })),
     }).refine((data) => data.password === data.password_confirmation, {
-        path:['password_confirmation'], message: t('validation:password.mismatch'),
+        path:['password_confirmation'], message: t('validation:passwordMismatch'),
     });
     const { updatePassword } = useUser();
     const { handleSubmit, register, reset, setError, control, formState: { errors, isSubmitting } } = useForm({
@@ -57,16 +57,16 @@ const UpdatePassword = () => {
     return (
         <div className="w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="border-b pb-6 mb-8">
-                <h2 className="text-xl font-semibold text-foreground">Update Password</h2>
+                <h2 className="text-xl font-semibold text-foreground">{t('user:updatePassword')}</h2>
                 <p className="text-sm text-muted-foreground">
-                    Change your account password. Make sure it is strong and secure.
+                    {t('user:updatePasswordDescription')}
                 </p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="space-y-1">
                     <Label htmlFor="current_password" className="text-sm font-medium">
-                        Current Password
+                        {t('user:currentPassword')}
                     </Label>
                     <Controller
                         name="current_password"
@@ -76,7 +76,7 @@ const UpdatePassword = () => {
                             {...field}
                             id="current_password"
                             className="w-full rounded-lg bg-muted/50 dark:bg-muted-dark/50"
-                            placeholder="Enter your current password"
+                            placeholder={t('user:currentPasswordPlaceholder')}
                         />
                         )}
                     />
@@ -87,18 +87,18 @@ const UpdatePassword = () => {
 
                 <div className="space-y-1">
                     <Label htmlFor="password" className="text-sm font-medium">
-                        New Password
+                        {t('user:newPassword')}
                     </Label>
                     <Controller
                         name="password"
                         control={control}
                         render={({ field }) => (
-                        <PasswordInput
-                            {...field}
-                            id="password"
-                            className="w-full rounded-lg bg-muted/50 dark:bg-muted-dark/50"
-                            placeholder="Enter your new password"
-                        />
+                            <PasswordInput
+                                {...field}
+                                id="password"
+                                className="w-full rounded-lg bg-muted/50 dark:bg-muted-dark/50"
+                                placeholder={t('user:newPasswordPlaceholder')}
+                            />
                         )}
                     />
                     {errors.password && (
@@ -108,7 +108,7 @@ const UpdatePassword = () => {
 
                 <div className="space-y-1">
                     <Label htmlFor="password_confirmation" className="text-sm font-medium">
-                        Confirm New Password
+                        {t('user:confirmNewPassword')}
                     </Label>
                     <Controller
                         name="password_confirmation"
@@ -118,7 +118,7 @@ const UpdatePassword = () => {
                             {...field}
                             id="password_confirmation"
                             className="w-full rounded-lg bg-muted/50 dark:bg-muted-dark/50"
-                            placeholder="Re-enter your new password"
+                            placeholder={t('user:passwordConfirmationPlaceholder')}
                         />
                         )}
                     />
@@ -137,7 +137,7 @@ const UpdatePassword = () => {
                         disabled={isSubmitting}
                         className="w-full sm:w-auto bg-primary text-primary-foreground hover:bg-primary/90"
                     >
-                        {isSubmitting ? 'Updating...' : 'Update Password'}
+                        {isSubmitting ? `${t('user:updating')}...` : t('user:updatePassword') }
                     </Button>
                 </div>
             </form>

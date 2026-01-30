@@ -13,18 +13,32 @@ import { useDebounce } from 'use-debounce';
 import Papa from 'papaparse';
 import { format } from 'date-fns';
 import useModal from '@/hooks/useModal';
+import { useTranslation } from 'react-i18next';
 
 const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = () => {}, onUpdateRow = () => {}, onDeleteRow = () => {}, renderRowActions, options = {} }, ref) => {
+  const { t } = useTranslation();
   const { isOpen, open, close, data: deleteData } = useModal(); 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [rowCount, setRowCount] = useState(0);
 
+  const defaultColumnVisibiliy = useMemo(() => {
+    const visibility =  {};
+
+    columns.forEach((column) => {
+      if(column?.hiddenByDefault){
+        visibility[column.id] = false;
+      }
+    })
+    
+    return visibility;
+  }, [columns]);
+
   const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 10 });
   const [sorting, setSorting] = useState(initialSorting || []);
   const [columnFilters, setColumnFilters] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState(defaultColumnVisibiliy);
   const [rowSelection, setRowSelection] = useState({});
 
   const [newRow, setNewRow] = useState(null);
@@ -119,7 +133,6 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     link.click();
   };
 
-
   const dynamicColumns = useMemo(() => {
     const cols = [];
 
@@ -158,7 +171,7 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     if (renderRowActions) {
       cols.push({
         id: "actions",
-        header: "Acciones",
+        header: t('common:actions'),
         enableSorting: false,
         enableExport: false,
         searchable: false,
@@ -225,13 +238,13 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
     const row = table.getRowModel().rows.find((r) => r.id === editingRowId);
     if (!row) return;
 
-    await onUpdateRow({ id: row.original.id ?? row.original._id, ...editedRow });
+    await onUpdateRow({ id: row.original.id, ...editedRow });
     table.cancelEditing();
     await fetchData();
   };
 
   table.deleteRow = async (row) => {
-    const id = row.original.id ?? row.original._id;
+    const id = row.original.id;
     if (!id) return;
 
     open(id);
@@ -315,8 +328,8 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
 
                 <TableCell colSpan={1}>
                   <div className="flex gap-2">
-                    <Button size="sm" onClick={() => table.saveCreatingRow()}>Save</Button>
-                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>Cancel</Button>
+                    <Button size="sm" onClick={() => table.saveCreatingRow()}>{t('common:save')}</Button>
+                    <Button variant="ghost" size="sm" onClick={() => table.cancelCreatingRow()}>{t('common:cancel')}</Button>
                   </div>
                 </TableCell>
               </TableRow>
@@ -346,10 +359,10 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
                             {isEditing ? (
                               <div className="flex gap-2">
                                 <Button size="sm" onClick={() => table.saveEditingRow()}>
-                                  Save
+                                  {t('common:save')}
                                 </Button>
                                 <Button variant="ghost" size="sm" onClick={() => table.cancelEditing()}>
-                                  Cancel
+                                  {t('common:cancel')}
                                 </Button>
                               </div>
                             ) : (
@@ -362,11 +375,20 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
                       return (
                         <TableCell key={cell.id}>
                           {cell.column.columnDef.editable !== false && isEditing ? (
-                            <input
-                              className="w-full bg-transparent border-b border-gray-300 focus:outline-none focus:border-blue-500 dark:border-zinc-700 dark:text-white"
-                              value={editedRow[columnId] ?? ""}
-                              onChange={(e) => table.updateEditedRow({ [columnId]: e.target.value })}
-                            />
+                            cell.column.columnDef.editComponent ? (
+                              cell.column.columnDef.editComponent({
+                                value: editedRow[columnId],
+                                onChange: (val) => table.updateEditedRow({ [columnId]: val })
+                              })
+                            ) : (
+                              <input
+                                className="w-full bg-transparent border-b ..."
+                                value={editedRow[columnId] ?? ""}
+                                onChange={(e) =>
+                                  table.updateEditedRow({ [columnId]: e.target.value })
+                                }
+                              />
+                            )
                           ) : (
                             flexRender(cell.column.columnDef.cell, cell.getContext())
                           )}
@@ -379,7 +401,7 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center text-gray-600 dark:text-zinc-400">
-                  No results found.
+                  {t('common:noResults')}
                 </TableCell>
               </TableRow>
             )}
@@ -394,22 +416,22 @@ const Datatable = forwardRef(({ columns, remote, initialSorting, onCreateRow = (
       <Dialog open={isOpen} onOpenChange={close}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Confirm Row Deletion</DialogTitle>
+            <DialogTitle>{t('common:confirmDeleteTitle')}</DialogTitle>
             <DialogDescription>
-              Are you sure you want to delete this row? This action cannot be undone.
+              {t('common:confirmDeleteDescription')}
             </DialogDescription>
           </DialogHeader>
 
           <DialogFooter className="pt-4">
             <Button variant="ghost" onClick={close}>
-              Cancel
+              {t('common:cancel')}
             </Button>
             <Button variant="destructive" onClick={async () => {
                 await onDeleteRow(deleteData);
                 await fetchData();
                 close();
               }}>
-              Delete
+              {t('common:delete')}
             </Button>
           </DialogFooter>
         </DialogContent>

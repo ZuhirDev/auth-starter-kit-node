@@ -6,28 +6,37 @@ import { useNavigate } from "react-router-dom";
 import { createPermissionService, deletePermissionService, updatePermissionService } from "@admin/permission/services/permissionService";
 import { toast } from "sonner";
 import { useUserPermissions } from "@user/hooks/useUserPermissions";
+import { useTranslation } from "react-i18next";
 
 const PermissionTable = () => {
     const navigate = useNavigate();
     const { hasPermission } = useUserPermissions();
+    const { t } = useTranslation();
 
     const columns = useMemo(() => [
         {
+            id: "id",
+            accessorKey: "id",
+            header: t('common:id'),
+            hiddenByDefault: true,
+            cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
+        },        
+        {
             id: "name",
             accessorKey: "name",
-            header: "Nombre",
+            header: t('common:name'),
             cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
         },
         {
             id: "resource",
             accessorKey: "resource",
-            header: "Resource",
+            header: t('permission:resource'),
             cell: ({ row }) => <span className="font-medium">{row.original.resource}</span>,
         },
         {
             id: "description",
             accessorKey: "description",
-            header: "Description",
+            header: t('permission:description'),
             cell: ({ row }) => <span className="font-medium">{row.original.description}</span>,
         },
     ], [navigate]);

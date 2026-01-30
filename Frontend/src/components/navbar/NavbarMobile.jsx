@@ -4,7 +4,6 @@ import useModal from '@/hooks/useModal';
 import { MenuIcon, XIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import UserMenu from '@/modules/user/components/UserMenu';
-// import VisibilityWrapper from '@/components/VisibilityWrapper';
 import { ModeToggle } from '@/components/mode-toggle';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +19,7 @@ const NavbarMobile = () => {
       <SheetTrigger asChild>
         <button
           onClick={open}
-          aria-label={isOpen ? 'Close menu' : 'Open menu'}
+          aria-label={isOpen ? t('common:closeMenu') : t('common:openMenu')}
           className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
           {isOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
@@ -29,7 +28,7 @@ const NavbarMobile = () => {
 
       <SheetContent side="right" className="w-72 p-6 sm:px-8">
         <SheetHeader>
-          <SheetTitle>Menu</SheetTitle>
+          <SheetTitle>{t('common:menu')}</SheetTitle>
         </SheetHeader>
 
         <nav className="flex flex-col space-y-4">
@@ -55,7 +54,6 @@ const NavbarMobile = () => {
 
           <div className="flex items-center gap-2">
             <UserMenu />
-            {/* <VisibilityWrapper showButton={true} /> */}
             <ModeToggle />
             <LanguageSwitcher />
           </div>

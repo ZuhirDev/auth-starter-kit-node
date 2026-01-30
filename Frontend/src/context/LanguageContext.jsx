@@ -22,7 +22,7 @@ export const LanguageProvider = ({ children }) => {
     const languagesBackend = async () => {
         try {
             const response = await get({ url: '/languages' });
-            return Object.keys(response.data) || [];           
+            return Object.values(response.data) || [];           
         } catch (error) {
             console.error('Error al cargar los idiomas del backend:', error);
             return [];

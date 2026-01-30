@@ -9,52 +9,63 @@ import { createUserService, deleteUserService, updateUserService } from "../serv
 import { useUserPermissions } from "@user/hooks/useUserPermissions";
 import useModal from "@/hooks/useModal";
 import UserManager from "./UserManager";
+import { useTranslation } from "react-i18next";
 
 const UsersTable = () => {
   const navigate = useNavigate();
   const refTable = useRef(null);
   const { hasPermission } = useUserPermissions();
   const { isOpen, open, close, data } = useModal();
+  const { t } = useTranslation();
 
   const columns = useMemo(() => [
     {
+      id: "id",
+      accessorKey: "id",
+      header: t('common:id'),
+      hiddenByDefault: true,
+      cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
+    },
+    {
       id: "name",
       accessorKey: "name",
-      header: "Name",
+      header: t('common:name'),
       cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
     },
     {
       id: "email",
       accessorKey: "email",
-      header: "Email",
+      header: t('user:email'),
     },
     {
       id: "email_verified_at",
       accessorKey: "email_verified_at",
-      header: "Verified",
+      header: t('user:verified'),
+      editable: false,
       cell: ({ row }) =>
         row.original.email_verified_at ? (
           <Badge variant="outline" className="text-green-600 border-green-600">
-            Verified
+            {t('user:verified')}
           </Badge>
         ) : (
           <Badge variant="outline" className="text-red-600 border-red-600">
-            No Verified
+            {t('user:notVerified')}
           </Badge>
         ),
     },    
     {
-      id: "is2FAVerified",
-      accessorKey: "is2FAVerified",
-      header: "2FA",
+      id: "is2FAActivated",
+      accessorKey: "is2FAActivated",
+      header: t('user:2fa'),
+      editable: false,
       cell: ({ row }) =>
-        row.original.is2FAVerified ? (
+        row.original.is2FAActivated ? (
           <Badge variant="outline" className="text-green-600 border-green-600">
-            Verified
+            {t('common:activated')}
           </Badge>
         ) : (
           <Badge variant="outline" className="text-red-600 border-red-600">
-            No Verified
+            {t('common:inactive')}
           </Badge>
         ),
     },
@@ -103,7 +114,6 @@ const UsersTable = () => {
         onDeleteRow={handleDeleteUsers}
         options={{
           tableName: 'Users',
-          showAddButton: true,
           createRequiredPermission: 'create:manage_users',
         }}
         renderRowActions={({ row, table }) => (
@@ -115,7 +125,7 @@ const UsersTable = () => {
               onClick={() => open(row.original) }
             >
               <Edit className="mr-1.5 h-3 w-3" />
-              Manage
+              {t('user:manage')}
             </Button>
             <Button
               variant="ghost"

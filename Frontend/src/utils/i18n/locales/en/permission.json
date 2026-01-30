@@ -1,0 +1,7 @@
+{
+  "permissions": "Permissions",
+  "resource": "Resource",
+  "description": "Description",
+  "manage": "Manage",
+  "searchPlaceholder": "Search by resource, name or description"
+}

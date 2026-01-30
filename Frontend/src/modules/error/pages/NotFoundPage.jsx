@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { CircleDollarSign, Home, MoveLeft } from "lucide-react";
 import { Link } from 'react-router-dom';
 import { config } from '@/config/config';
+import { t } from 'i18next';
 
 const NotFoundPage = () => {
   return (
@@ -24,9 +25,9 @@ const NotFoundPage = () => {
         </h1>
 
         <div className="space-y-2">
-          <h2 className="text-2xl font-semibold">Page Not Found</h2>
+          <h2 className="text-2xl font-semibold">{t('auth:pageNotFoundTitle')}</h2>
           <p className="text-muted-foreground">
-            Sorry, the page you're looking for doesn't exist or has been moved. Let’s get you back on track.
+            {t('auth:pageNotFoundDescription')}
           </p>
         </div>
 
@@ -38,20 +39,20 @@ const NotFoundPage = () => {
           >
             <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
             <MoveLeft className="mr-2 w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Go Back
+            {t('common:goBack')}
           </Button>
 
           <Link to="/user">
             <Button className="group relative rounded-full px-6 transition duration-300 overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
               <Home className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
-              Return to Dashboard
+              {t('auth:returnToDashboard')}
             </Button>
           </Link>
         </div>
 
         <div className="pt-6 text-sm text-muted-foreground">
-          © {new Date().getFullYear()} {config.APP_NAME}. All rights reserved.
+          © {new Date().getFullYear()} {config.APP_NAME}. {t('auth:copyright')}
         </div>
       </div>
     </div>

@@ -1,0 +1,7 @@
+{
+  "roles": "Roles",
+  "description": "Descripción",
+  "addRole": "Añadir rol",
+  "viewPermissions": "Ver permisos",
+  "assignPermissionsDescription": "Asignar o quitar permisos a este rol."
+}

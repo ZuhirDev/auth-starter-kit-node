@@ -1,16 +1,10 @@
 {
-    "name": "Name is required.",
-    "required": "This field is required.",
-    "email": "The email address is invalid.",
-    "pattern": "The field format is invalid.",
-    "token": "Token is required.",
-    "password": {
-      "min": "Password must be at least {{min}} characters.",
-      "max": "Password cannot exceed {{max}} characters.",
-      "mismatch": "Passwords do not match."
-    },
-    "otp": {
-      "min": "Your one-time password must be {{min}} characters."
-    }
-  }
-  
+  "nameMin": "Name must be at least {{min}} characters",
+  "token": "Token is required.",
+  "email": "Email must be a valid email address",
+  "passwordMin": "Password must be at least {{min}} characters",
+  "passwordMismatch": "Passwords do not match",
+  "titleRequired": "Title is required",
+  "messageRequired": "Message is required",
+  "otpLength": "OTP must be {{length}} characters"
+}

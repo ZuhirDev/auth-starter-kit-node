@@ -1,0 +1,8 @@
+{
+  "configurationsRetrievedSuccessfully": "Configuraciones obtenidas correctamente",
+  "errorGettingAllConfigs": "Error al obtener todas las configuraciones",
+  "errorGettingPublicConfigs": "Error al obtener las configuraciones públicas",
+  "errorGettingDatatableConfigs": "Error al obtener las configuraciones de la tabla de datos",
+  "errorUpdatingConfiguration": "Error al actualizar la configuración",
+  "configurationUpdatedSuccessfully": "Configuración actualizada correctamente"
+}

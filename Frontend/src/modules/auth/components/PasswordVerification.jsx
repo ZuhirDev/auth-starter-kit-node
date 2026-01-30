@@ -12,7 +12,7 @@ const PasswordVerification = ({ isOpen, onClose, onVerify }) => {
     
     const { t } = useTranslation();
     const PasswordVerificationSchema = z.object({
-        password: z.string().min(8, t('validation:password.min', { min: 8 })),
+        password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
     });
 
     const { handleSubmit, register, reset, formState: { errors, isSubmitting } } = useForm({
@@ -30,19 +30,18 @@ const PasswordVerification = ({ isOpen, onClose, onVerify }) => {
         }
     };
 
-
     return(
         <Dialog open={isOpen} onOpenChange={handleClose}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle className="flex items-center gap-2">
                         <Lock className="h-5 w-5" />
-                        Security Verification
+                        {t('auth:securityVerificationTitle')}
                     </DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>
-                    Please enter your password to access confidential information.
+                    {t('auth:securityVerificationDescription')}
                 </DialogDescription>
 
                 <form onSubmit={handleSubmit(onSubmit)} className='py-2' >
@@ -51,7 +50,7 @@ const PasswordVerification = ({ isOpen, onClose, onVerify }) => {
                         type="password"
                         register={register}
                         disabled={isSubmitting}
-                        placeholder="Password"
+                        placeholder={t('auth:passwordPlaceholder')}
                         error={errors.password}
                     />
 
@@ -61,7 +60,7 @@ const PasswordVerification = ({ isOpen, onClose, onVerify }) => {
                             variant="outline"
                             className="w-full p-3 bg-primary text-white rounded-lg focus:outline-none"
                         >
-                            {isSubmitting ? 'Loading...' : 'Verify'}
+                            {isSubmitting ? t('common:loading') : t('auth:verify')}
                         </Button>
                     </div>
                 </form>

@@ -3,6 +3,9 @@ import { allUsersDatatable, getAllUsers } from '#user/controllers/userController
 import { assignPermissionsToUser, getUserPermission, removePermissionsFromUser } from '#admin/user/controllers/userPermissionController.js';
 import { assignRolesToUser, getUserRoles, removeRolesFromUser } from '#admin/user/controllers/userRoleController.js';
 import { hasPermission } from '#admin/permission/middleware/hasPermissionMiddleware.js';
+import { logsDatatable } from '#admin/log/controllers/logController.js'
+import { configDatatable, getAllConfig, updateConfig } from '#admin/config/controllers/configController.js';
+import { deleteUserById } from '#admin/user/controllers/userAdminController.js';
 
 const adminUserRouter = express.Router();
 
@@ -16,5 +19,12 @@ adminUserRouter.get('/user/roles/:id', hasPermission('read', 'manage_users'), ge
 
 adminUserRouter.get('/users', hasPermission('read', 'manage_users'), getAllUsers);
 adminUserRouter.get('/users/datatable', hasPermission('read', 'manage_users'), allUsersDatatable);
+adminUserRouter.delete('/user/:id', hasPermission('delete', 'manage_users'), deleteUserById);
+
+adminUserRouter.get('/logs/datatable', hasPermission('read', 'manage_logs'), logsDatatable);
+
+adminUserRouter.get('/config', hasPermission('read', 'manage_config'), getAllConfig);
+adminUserRouter.get('/config/datatable', hasPermission('read', 'manage_config'), configDatatable);
+adminUserRouter.patch('/config', hasPermission('update', 'manage_config'), updateConfig);
 
 export default adminUserRouter;

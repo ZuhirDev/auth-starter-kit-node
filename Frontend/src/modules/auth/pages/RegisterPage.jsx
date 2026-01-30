@@ -15,12 +15,12 @@ const RegisterPage = () => {
 
   const { t } = useTranslation();
   const registerSchema = z.object({
-    name: z.string(),
+    name: z.string().min(2, t('validation:nameMin', { min: 2 })),
     email: z.email(t('validation:email')),
-    password: z.string().min(8, t('validation:password.min', { min: 8 })),
-    password_confirmation: z.string().min(8, t('validation:password.min', { min: 8 })),
+    password: z.string().min(8, t('validation:passwordMin', { min: 8 })),
+    password_confirmation: z.string().min(8, t('validation:passwordMin', { min: 8 })),
   }).refine((data) => data.password === data.password_confirmation, {
-    path:['password_confirmation'], message: t('validation:password.mismatch'),
+    path:['password_confirmation'], message: t('validation:passwordMismatch'),
   });
 
   const navigate = useNavigate();
@@ -70,16 +70,16 @@ return (
               className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors dark:text-muted-foreground-dark dark:hover:text-primary-dark"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Home
+              {t('auth:backToHome')}
             </Link>
           </div>
 
           <div className="flex flex-col items-center gap-2 text-center mb-8 px-4 md:px-0">
             <CardTitle className="text-2xl md:text-3xl font-bold tracking-tight dark:text-white">
-              Create your account
+              {t('auth:createAccountTitle')}
             </CardTitle>
             <CardDescription className="dark:text-muted-foreground-dark max-w-lg text-sm md:text-base">
-              Set up your account now to explore personalized features, stay secure, and manage everything with ease.
+              {t('auth:createAccountDescription')}
             </CardDescription>
           </div>
 
@@ -87,52 +87,52 @@ return (
               <div className="space-y-6">
 
                 <div className="grid gap-2">
-                  <Label htmlFor="name" className="dark:text-white">Name</Label>
+                  <Label htmlFor="name" className="dark:text-white">{t('common:name')}</Label>
                   <FormInput
                     name="name"
                     type="text"
                     register={register}
                     disabled={isSubmitting}
-                    placeholder="Enter your name"
+                    placeholder={t('auth:namePlaceholder')}
                     error={errors.name}
                     className="rounded-lg bg-muted/50 dark:bg-muted-dark/50"
                   />
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="email" className="dark:text-white">Email</Label>
+                  <Label htmlFor="email" className="dark:text-white">{t('auth:email')}</Label>
                   <FormInput
                     name="email"
                     type="email"
                     register={register}
                     disabled={isSubmitting}
-                    placeholder="Enter your email"
+                    placeholder={t('auth:emailPlaceholder')}
                     error={errors.email}
                     className="rounded-lg bg-muted/50 dark:bg-muted-dark/50"
                   />
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="password" className="dark:text-white">Password</Label>
+                  <Label htmlFor="password" className="dark:text-white">{t('auth:password')}</Label>
                   <FormInput
                     name="password"
                     type="password"
                     register={register}
                     disabled={isSubmitting}
-                    placeholder="Create a password"
+                    placeholder={t('auth:passwordPlaceholder')}
                     error={errors.password}
                     className="rounded-lg bg-muted/50 dark:bg-muted-dark/50"
                   />
                 </div>
 
                 <div className="grid gap-2">
-                  <Label htmlFor="password_confirmation" className="dark:text-white">Confirm Password</Label>
+                  <Label htmlFor="password_confirmation" className="dark:text-white">{t('auth:passwordConfirmation')}</Label>
                   <FormInput
                     name="password_confirmation"
                     type="password"
                     register={register}
                     disabled={isSubmitting}
-                    placeholder="Confirm your password"
+                    placeholder={t('auth:passwordConfirmationPlaceholder')}
                     error={errors.password_confirmation}
                     className="rounded-lg bg-muted/50 dark:bg-muted-dark/50"
                   />
@@ -141,7 +141,7 @@ return (
 
               <div className="flex justify-end pt-4">
                 <Button type="submit" size="sm" className="font-medium">
-                  Submit
+                  {t('common:submit')}
                 </Button>
               </div>
             </form>

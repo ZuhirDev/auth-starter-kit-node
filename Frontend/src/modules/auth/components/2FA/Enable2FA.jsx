@@ -35,7 +35,7 @@ const Enable2FA = () => {
             close();
             const response = await enable2FA(data);
             
-            setQrCodeURL(response.qr_url);
+            setQrCodeURL(response.qrCode);
             setSecret(response.secret);
             setIsEnabled(true); 
             toast.success(response.message);
@@ -53,16 +53,16 @@ const Enable2FA = () => {
     return (
         <>
             <Button onClick={open}>
-                Enable 2FA                    
+                {t('auth:enable2FA')}           
             </Button>
 
             <Dialog open={isEnabled}>
 
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>Enable Verification 2FA</DialogTitle>
+                        <DialogTitle>{t('auth:enable2FATitle')}</DialogTitle>
                         <DialogDescription>
-                            Scan or copy this code to enable it
+                            {t('auth:enable2FADescription')}
                         </DialogDescription>
                     </DialogHeader>
 
@@ -104,7 +104,7 @@ const Enable2FA = () => {
                             <DialogFooter className="sm:justify-start mt-4">
                                 <DialogClose asChild>
                                     <Button onClick={handleClose} type="button" variant="secondary">
-                                        Close
+                                        {t('common:close')}
                                     </Button>
                                 </DialogClose>
                             </DialogFooter>

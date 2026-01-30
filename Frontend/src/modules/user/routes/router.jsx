@@ -6,6 +6,7 @@ import SendVerifyEmail from '@user/components/mails/SendVerifyEmail';
 import VerifyEmail from '@user/components/mails/VerifyEmail';
 import ProtectedRoutes from "@/routes/ProtectedRoutes";
 import UserPage from "../pages/UserPage";
+import PublicRoutes from "@/routes/PublicRoutes";
 
 export const protectedUserRoutes  = [
 
@@ -36,12 +37,18 @@ export const protectedUserRoutes  = [
 ];
 
 export const publicUserRoutes = [
-  {
-    path: USER_ROUTES.FORGOT_PASSWORD,
-    element: <ForgotPassword />,
-  },
-  {
-    path: USER_ROUTES.PASSWORD_RESET,
-    element: <PasswordReset />,
-  },
+
+    {
+        element: <PublicRoutes />,
+        children: [
+            {
+                path: USER_ROUTES.FORGOT_PASSWORD,
+                element: <ForgotPassword />,
+            },
+            {
+                path: USER_ROUTES.PASSWORD_RESET,
+                element: <PasswordReset />,
+            },
+        ]
+    }
 ];

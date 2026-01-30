@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Search, CheckCircle2 } from "lucide-react"
 import { getAllPermissionsService } from "@admin/permission/services/permissionService"
+import { t } from "i18next"
 
 const groupPermissionsByResource = (permissions) => {
   return permissions.reduce((acc, permission) => {
@@ -31,10 +32,10 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
 
   useEffect(() => {
     if (entity && allPermissions.length > 0) {
-      const permIds = new Set(entity.permissions?.map((p) => p._id))
+      const permIds = new Set(entity.permissions?.map((p) => p.id))
       const initialSelected = {}
       allPermissions.forEach((perm) => {
-        initialSelected[perm._id] = permIds.has(perm._id)
+        initialSelected[perm.id] = permIds.has(perm.id)
       })
       setSelectedPermissions(initialSelected)
       setOriginalSelectedPermissions(initialSelected)
@@ -58,15 +59,15 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
   }
 
   const toggleGroup = (resource) => {
-    const allSelected = grouped[resource].every((p) => selectedPermissions[p._id])
+    const allSelected = grouped[resource].every((p) => selectedPermissions[p.id])
     const updated = { ...selectedPermissions }
     grouped[resource].forEach((p) => {
-      updated[p._id] = !allSelected
+      updated[p.id] = !allSelected
     })
     setSelectedPermissions(updated)
   }
 
-  const isGroupFullySelected = (resource) => grouped[resource].every((p) => selectedPermissions[p._id])
+  const isGroupFullySelected = (resource) => grouped[resource].every((p) => selectedPermissions[p.id])
 
   const handleSave = async () => {
     const permissionsToAdd = []
@@ -78,7 +79,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
       if (!isSelected && wasSelected) permissionsToRemove.push(permId)
     })
 
-    onSave?.({ id: entity._id, permissionsToAdd, permissionsToRemove })
+    onSave?.({ id: entity.id, permissionsToAdd, permissionsToRemove })
   }
 
   const totalPermissions = allPermissions.length
@@ -92,7 +93,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="flex items-center gap-3">
           <div>
             <DialogTitle className="flex items-center gap-2 text-xl font-semibold">
-              Manage
+              {t('permission:manage')}
               <span className="rounded-md border border-primary/40 bg-primary/10 px-2 py-0.5 text-sm capitalize text-primary">
                 {title}
               </span>
@@ -112,7 +113,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="relative">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="Search by resource, name or description..."
+            placeholder={`${t('permission:searchPlaceholder')}...`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="h-10 bg-muted/50 pl-10 border-border focus-visible:ring-1"
@@ -123,7 +124,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
       <div className="flex-1 overflow-y-auto pr-2 -mr-2">
         <div className="space-y-4 pb-4">
           {Object.entries(grouped).map(([resource, permissions]) => {
-            const selectedInGroup = permissions.filter((p) => selectedPermissions[p._id]).length
+            const selectedInGroup = permissions.filter((p) => selectedPermissions[p.id]).length
             const isFullySelected = isGroupFullySelected(resource)
 
             return (
@@ -156,10 +157,10 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
 
                 <div className="flex flex-col gap-3 pl-9">
                   {permissions.map((perm) => {
-                    const isChecked = !!selectedPermissions[perm._id]
+                    const isChecked = !!selectedPermissions[perm.id]
                     return (
                       <div
-                        key={perm._id}
+                        key={perm.id}
                         className={`flex items-start gap-3 rounded-lg border p-3 transition-all ${
                           isChecked
                             ? "border-primary/30 bg-primary/5"
@@ -167,12 +168,12 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
                         }`}
                       >
                         <Checkbox
-                          id={perm._id}
+                          id={perm.id}
                           checked={isChecked}
-                          onCheckedChange={() => togglePermission(perm._id)}
+                          onCheckedChange={() => togglePermission(perm.id)}
                         />
                         <div className="min-w-0 flex-1">
-                          <label htmlFor={perm._id} className="block cursor-pointer select-none text-sm font-medium">
+                          <label htmlFor={perm.id} className="block cursor-pointer select-none text-sm font-medium">
                             {perm.name}
                           </label>
                           <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
@@ -193,7 +194,7 @@ export const PermissionManagerContent = ({ entity, title, description, onSave })
         <div className="flex w-full items-center gap-3 sm:w-auto">
           <Button onClick={handleSave} className="flex-1 sm:flex-none">
             <CheckCircle2 className="mr-2 h-4 w-4" />
-            Save Changes
+            {t('common:saveChanges')}
           </Button>
         </div>
       </DialogFooter>

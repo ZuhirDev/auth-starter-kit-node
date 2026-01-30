@@ -1,6 +1,5 @@
 import CONFIG from '#config/config.js';
 import * as OTPAuth from 'otpauth';
-import QRCode from 'qrcode';
 
 export const enable2FAService = async (email) => {
 
@@ -14,9 +13,8 @@ export const enable2FAService = async (email) => {
 
     const secret = totp.secret.base32;
     const otpauth = totp.toString();
-    const qrCode = await QRCode.toDataURL(otpauth);
 
-    return { secret, qrCode};
+    return { secret, qrCode: otpauth};
 }
 
 export const verify2FAService = async (email, token, userSecret) => {

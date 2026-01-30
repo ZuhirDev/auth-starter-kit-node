@@ -1,24 +1,24 @@
 import z from "zod";
+import { t } from "#utils/i18n/index.js";
 
 export const updateUserSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
+  name: z.string().min(1, { message: t('validation:nameIsRequired') }),
 });
 
 export const updatePasswordSchema = z.object({
-  current_password: z.string().min(1, { message: "Current password is required" }),
-  password: z.string().min(8, { message: "New password must be at least 8 characters" }),
-  password_confirmation: z.string().min(8, { message: "Password confirmation is required" }),
+  current_password: z.string().min(1, { message: t('validation:currentPasswordIsRequired') }),
+  password: z.string().min(8, { message: t('validation:newPasswordMinLength') }),
+  password_confirmation: z.string().min(8, { message: t('validation:passwordConfirmationRequired') }),
 }).refine(data => data.current_password !== data.password, {
-  message: "New password must be different from current password",
+  message: t('validation:newPasswordMustBeDifferent'),
   path: ["password"],
 }).refine(data => data.password === data.password_confirmation, {
-  message: "Passwords do not match",
+  message: t('validation:passwordsDoNotMatch'),
   path: ["password_confirmation"],
 });
 
-
 export const verifyEmailSchema = z.object({
-  id: z.string().min(1, { message: 'Id is required' }),
-  token: z.string().length(64, { message: 'Invalid token length' }).regex(/^[0-9a-fA-F]{64}$/, { message: "Invalid token format" }),
-  expires: z.string().refine(val => { return /^\d+$/.test(val); }, { message: "Invalid expiration date format" }),
+  id: z.string().min(1, { message: t('validation:idIsRequired') }),
+  token: z.string().length(64, { message: t('validation:invalidTokenLength') }).regex(/^[0-9a-fA-F]{64}$/, { message: t('validation:invalidTokenFormat') }),
+  expires: z.string().refine(val => /^\d+$/.test(val), { message: t('validation:invalidExpirationDateFormat') }),
 });

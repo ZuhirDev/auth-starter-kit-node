@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { authStatusService, disable2FAService, enable2FAService, loginService, logoutService, registerService, verify2FAService } from "@auth/services/authService";
+import { authStatusService, disable2FAService, enable2FAService, loginService, logoutService, oAuthService, registerService, verify2FAService } from "@auth/services/authService";
 import { meService } from "@user/service/userService";
 
 const AuthContext = createContext();
@@ -61,6 +61,17 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    const oAuth = async (data) =>{
+        try {
+            const response = await oAuthService(data);
+            await fetchData();
+
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     const logout = async () => {
         try {
             const response = await logoutService();
@@ -114,6 +125,7 @@ export const AuthProvider = ({ children }) => {
         setUser,
         setLoading,
         fetchData,
+        oAuth,
     }
 
     return(

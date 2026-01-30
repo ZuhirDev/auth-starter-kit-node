@@ -2,7 +2,7 @@ import { addPermissionsToRoleService, createRoleService, deleteRoleService, getA
 import { validateRequest } from "#utils/validation.js";
 import { addPermissionToRoleSchema, createRoleSchema, getRoleByIdSchema, removePermissionFromRoleSchema, updateRoleSchema } from "#admin/role/validations/roleValidation.js";
 import { Datatable } from "#helpers/datatable.js";
-import id from "zod/v4/locales/id.cjs";
+import { t } from "#utils/i18n/index.js";
 
 export const createRole = async (req, res) =>  {
     try {
@@ -12,11 +12,11 @@ export const createRole = async (req, res) =>  {
         const { name, description, permissions } = validation.data;
 
         const newRole = await createRoleService(name, description, permissions);
-        if(!newRole) return res.status(400).json({ message: 'Error creating Role' });
+        if(!newRole) return res.status(400).json({ message: t("role:roleCreateError") });
 
-        res.status(201).json({ message: 'Role created successfully', data: newRole });
+        res.status(201).json({ message: t("role:roleCreated"), data: newRole });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:roleCreateError") });
     }
 }
 
@@ -27,22 +27,21 @@ export const updateRole = async (req, res) =>  {
 
         const { id, name, description, permissions } = validation.data;
 
-        const newRole = await updateRoleService(id, {name, description, permissions});
-        if(!newRole) return res.status(400).json({ message: 'Error creating Role' });
+        const updatedRole = await updateRoleService(id, { name, description, permissions });
+        if(!updatedRole) return res.status(400).json({ message: t("role:roleUpdateError") });
 
-        res.status(201).json({ message: 'Role updated successfully', data: newRole });
+        res.status(200).json({ message: t("role:roleUpdated"), data: updatedRole });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:roleUpdateError") });
     }
 }
 
 export const getAllRoles = async (req, res) =>  {
     try {
         const roles = await getAllRolesService();
-
-        res.status(200).json({ message: 'Roles retrieved successfully', data: roles });
+        res.status(200).json({ message: t("role:rolesRetrieved"), data: roles });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:rolesGetError") });
     }
 }
 
@@ -53,12 +52,12 @@ export const allRolesDatatable = async (req, res) =>  {
         const data = await datatable.toJson();
 
         res.status(200).json({ 
-            message: 'Roles retrieved successfully', 
+            message: t("role:rolesRetrieved"), 
             data: data.data,
             totalCount: data.totalCount
         });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:rolesDatatableError") });
     }
 }
 
@@ -70,11 +69,11 @@ export const getRoleById = async (req, res) =>  {
         const { id } = validation.data;
 
         const role = await getRoleByIdService(id);
-        if(!role) return res.status(404).json({ message: 'Role not found' });
+        if(!role) return res.status(404).json({ message: t("role:roleNotFound") });
 
-        res.status(200).json({ message: 'Role retrieved successfully', data: role });
+        res.status(200).json({ message: t("role:roleRetrieved"), data: role });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:rolesGetError") });
     }
 }
 
@@ -86,14 +85,14 @@ export const addPermissionToRole = async (req, res) =>  {
         const { id, permissionIds } = validation.data;
 
         const role = await getRoleByIdService(id);
-        if(!role) return res.status(404).json({ message: 'Role not found' });
+        if(!role) return res.status(404).json({ message: t("role:roleNotFound") });
 
         const roleUpdated = await addPermissionsToRoleService(role, permissionIds);
-        if(!roleUpdated) return res.status(400).json({ message: 'No permissions were added' });
+        if(!roleUpdated) return res.status(400).json({ message: t("role:permissionsAddError") });
 
-        res.status(200).json({ message: 'Permission added to role successfully', data: roleUpdated });
+        res.status(200).json({ message: t("role:permissionsAdded"), data: roleUpdated });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:permissionsAddFail") });
     }
 }
 
@@ -105,24 +104,24 @@ export const removePermissionFromRole = async (req, res) =>  {
         const { id, permissionIds } = validation.data;
 
         const role = await getRoleByIdService(id);
-        if(!role) return res.status(404).json({ message: 'Role not found' });
+        if(!role) return res.status(404).json({ message: t("role:roleNotFound") });
 
         const removedRole = await removePermissionsFromRoleService(role, permissionIds);
-        if(!removedRole) return res.status(400).json({ message: 'No permissions were removed' });
+        if(!removedRole) return res.status(400).json({ message: t("role:permissionsRemoveError") });
 
-        res.status(200).json({ message: 'Role removed successfully', data: removedRole });
+        res.status(200).json({ message: t("role:permissionsRemoved"), data: removedRole });
     } catch (error) {
-        return res.status(500).json({ message: error });
+        return res.status(500).json({ message: t("role:permissionsRemoveFail") });
     }
 }
 
 export const deleteRole = async (req, res) => {
     try {
         const deletedRole = await deleteRoleService(req.params.id);
-        if(!deletedRole) return res.status(404).json({ message: 'Role not found' });
+        if(!deletedRole) return res.status(404).json({ message: t("role:roleNotFound") });
 
-        res.status(200).json({ message: 'Role deleted successfully', data: deletedRole });
+        res.status(200).json({ message: t("role:roleDeleted"), data: deletedRole });
     } catch (error) {
-        return res.status(500).json({ message:  error });
+        return res.status(500).json({ message: t("role:roleDeleteError") });
     }
 }

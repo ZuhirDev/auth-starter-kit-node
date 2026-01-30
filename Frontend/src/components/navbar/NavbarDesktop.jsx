@@ -4,9 +4,9 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserMenu from '@/modules/user/components/UserMenu';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { ModeToggle } from '@/components/mode-toggle';
-// import VisibilityWrapper from '@/components/VisibilityWrapper';
 import { useTranslation } from 'react-i18next';
 import getNavItems from '@/config/navigation';
+import Notification from '@/components/notification/Notification';
 
 const NavbarDesktop = () => {
   const location = useLocation();
@@ -38,7 +38,7 @@ const NavbarDesktop = () => {
         </nav>
 
         <div className="flex items-center gap-4">
-          {/* <VisibilityWrapper showButton /> */}
+          <Notification />
           <ModeToggle />
           <LanguageSwitcher />
           <UserMenu />

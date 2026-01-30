@@ -16,6 +16,16 @@ const permissionsData = [
   { name: 'read', resource: 'manage_users', description: '' },
   { name: 'update', resource: 'manage_users', description: '' },
   { name: 'delete', resource: 'manage_users', description: '' },
+
+  { name: 'create', resource: 'manage_logs', description: '' },
+  { name: 'read', resource: 'manage_logs', description: '' },
+  { name: 'update', resource: 'manage_logs', description: '' },
+  { name: 'delete', resource: 'manage_logs', description: '' },
+
+  { name: 'create', resource: 'manage_config', description: '' },
+  { name: 'read', resource: 'manage_config', description: '' },
+  { name: 'update', resource: 'manage_config', description: '' },
+  { name: 'delete', resource: 'manage_config', description: '' },
 ];
 
 const rolePermissionSeeder = async () => {
@@ -25,9 +35,9 @@ const rolePermissionSeeder = async () => {
     await Role.deleteMany({});
 
     const createdPermissions = await Permission.insertMany(permissionsData);
-    console.log(`✅Created ${createdPermissions.length} permissions.`);
+    console.log(`✅ Created ${createdPermissions.length} permissions.`);
 
-    const permissionIds = createdPermissions.map(p => p._id);
+    const permissionIds = createdPermissions.map(p => p.id);
 
     const role = new Role({
       name: 'role_permission_manager',

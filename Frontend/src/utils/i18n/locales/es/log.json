@@ -1,0 +1,10 @@
+{
+  "logs": "Registros",
+  "user": "Usuario",
+  "module": "Módulo",
+  "action": "Acción",
+  "targetId": "ID de destino",
+  "status": "Estado",
+  "ipAddress": "Dirección IP",
+  "createdAt": "Creado el"
+}

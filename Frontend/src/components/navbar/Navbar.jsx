@@ -6,7 +6,6 @@ import { SquareTerminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MAIN_ROUTES from '@/routes/path';
 import { config } from '@/config/config';
-import Notification from '../Notification';
 
 const Navbar = () => {
   const isMobile = useScreenType(1100);

@@ -7,12 +7,14 @@ import { addPermissionToRoleService, createRoleService, deleteRoleService, remov
 import useModal from "@/hooks/useModal";
 import PermissionManager from "@admin/permission/components/PermissionManager";
 import { useUserPermissions } from "@/modules/user/hooks/useUserPermissions";
+import { useTranslation } from "react-i18next";
 
 const RoleTable = () => {
 
     const refTable = useRef(null);
     const { isOpen, open, close, data } = useModal();
     const { hasPermission } = useUserPermissions();
+    const { t } = useTranslation();
 
     const closeRoleManager = () => {
         close();
@@ -22,29 +24,30 @@ const RoleTable = () => {
     const columns = useMemo(
         () => [
         {
+            id: "id",
+            accessorKey: "id",
+            header: t('common:id'),
+            hiddenByDefault: true,
+            cell: ({ row }) => <span className="font-medium">{row.original.id}</span>,
+        },            
+        {
             id: "name",
             accessorKey: "name",
-            header: "Nombre",
-            cell: ({ row }) => (
-            <span className="font-medium">{row.original.name}</span>
-            ),
+            header: t('common:name'),
+            cell: ({ row }) => <span className="font-medium">{row.original.name}</span>,
         },
         {
             id: "description",
             accessorKey: "description",
-            header: "Descripción",
-            cell: ({ row }) => (
-            <span className="font-medium">{row.original.description}</span>
-            ),
+            header: t('role:description'),
+            cell: ({ row }) => <span className="font-medium">{row.original.description}</span>,
         },
         {
             id: "permissions",
             accessorKey: "permissions",
-            header: "Permisos",
+            header: t('permission:permissions'),
             editable: false,
-            cell: ({ row }) => (
-            <span className="font-medium">{row.original.permissions.length}</span>
-            ),
+            cell: ({ row }) => <span className="font-medium">{row.original.permissions.length}</span>,
         },
         ],
         []
@@ -115,7 +118,7 @@ const RoleTable = () => {
                         size="icon"
                         disabled={!hasPermission("update:manage_roles")}                        
                         onClick={() => table.setEditingRow(row)}
-                        title="Editar"
+                        title={t('common:edit')}
                     >
                         <Pencil className="h-4 w-4" />
                     </Button>
@@ -125,7 +128,7 @@ const RoleTable = () => {
                         size="icon"
                         disabled={!hasPermission("update:manage_roles")}
                         onClick={() => open(row.original)}
-                        title="Ver permisos"
+                        title={t('roles:viewPermissions')}
                     >
                         <Eye className="h-4 w-4" />
                     </Button>
@@ -135,7 +138,7 @@ const RoleTable = () => {
                         size="icon"
                         disabled={!hasPermission("delete:manage_roles")}                        
                         onClick={() => table.deleteRow(row)}
-                        title="Eliminar"
+                        title={t('common:delete')}
                     >
                         <Trash2 className="h-4 w-4" />
                     </Button>
@@ -149,7 +152,7 @@ const RoleTable = () => {
                 onClose={closeRoleManager}
                 entity={data}
                 title={`${data?.name}`}
-                description={'Assign or remove permissions for this role.'}
+                description={t('roles:assignPermissionsDescription')}
                 onSave={handlePermissionManager}
             />
         </div>
