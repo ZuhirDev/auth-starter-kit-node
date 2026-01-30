@@ -6,6 +6,19 @@
 ![Docker](https://img.shields.io/badge/Infrastructure-Docker-blue)
 ![JWT](https://img.shields.io/badge/Auth-JWT-yellow)
 
+## 🛑 Estado del proyecto
+
+> **Nota importante**  
+> Este proyecto **no continuará su desarrollo en esta arquitectura**.  
+>  
+> Actualmente se encuentra en proceso de **migración a una nueva versión basada en Arquitectura Hexagonal**, con el objetivo de:
+> - Desacoplar completamente la lógica de negocio de la infraestructura  
+> - Hacer el sistema **agnóstico al tipo de base de datos**  
+> - Mejorar la mantenibilidad, testabilidad y escalabilidad a largo plazo  
+>  
+> Este repositorio queda como **referencia del enfoque inicial**, mientras que el desarrollo activo continuará en el nuevo proyecto.
+
+
 **Un kit de inicio completo para proyectos Node.js + React**, diseñado para acelerar el desarrollo de aplicaciones modernas con una arquitectura modular, escalable y fácilmente reutilizable.
 
 ---
