@@ -5,6 +5,7 @@
 ![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
 ![Docker](https://img.shields.io/badge/Infrastructure-Docker-blue)
 ![JWT](https://img.shields.io/badge/Auth-JWT-yellow)
+![Status](https://img.shields.io/badge/status-deprecated-red)
 
 ## 🛑 Estado del proyecto
 
