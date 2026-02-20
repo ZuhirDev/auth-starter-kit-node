@@ -15,7 +15,7 @@
 
 ## 🛑 Project Status: Architecture Migration
 
-> **⚠️ Important Notice**v
+> **⚠️ Important Notice**
 >
 > **Active development for this architecture has been discontinued.** The project is currently being migrated to a **Hexagonal Architecture** (Domain-Driven Design approach) to achieve:  
 > * **Complete Decoupling:** Full isolation of business logic from external frameworks.  
