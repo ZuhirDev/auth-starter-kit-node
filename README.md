@@ -1,91 +1,105 @@
-# Starter Kit Fullstack ⚡
+# ⚡ Fullstack Starter Kit
 
-![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
-![React](https://img.shields.io/badge/Frontend-React-blue)
-![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen)
-![Docker](https://img.shields.io/badge/Infrastructure-Docker-blue)
-![JWT](https://img.shields.io/badge/Auth-JWT-yellow)
-![Status](https://img.shields.io/badge/status-deprecated-red)
+<div align="center">
 
-## 🛑 Estado del proyecto
+![Node.js](https://img.shields.io/badge/Backend-Node.js-339933?style=flat-square&logo=nodedotjs&logoColor=white)
+![React](https://img.shields.io/badge/Frontend-React-61DAFB?style=flat-square&logo=react&logoColor=black)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-47A248?style=flat-square&logo=mongodb&logoColor=white)
+![Docker](https://img.shields.io/badge/Infrastructure-Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![JWT](https://img.shields.io/badge/Auth-JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Deprecated-red?style=flat-square)
 
-> **Nota importante**  
-> Este proyecto **no continuará su desarrollo en esta arquitectura**.  
->  
-> Actualmente se encuentra en proceso de **migración a una nueva versión basada en Arquitectura Hexagonal**, con el objetivo de:
-> - Desacoplar completamente la lógica de negocio de la infraestructura  
-> - Hacer el sistema **agnóstico al tipo de base de datos**  
-> - Mejorar la mantenibilidad, testabilidad y escalabilidad a largo plazo  
->  
-> Este repositorio queda como **referencia del enfoque inicial**, mientras que el desarrollo activo continuará en el nuevo proyecto.
-
-
-**Un kit de inicio completo para proyectos Node.js + React**, diseñado para acelerar el desarrollo de aplicaciones modernas con una arquitectura modular, escalable y fácilmente reutilizable.
+</div>
 
 ---
 
-## 🧩 Funcionalidades principales
+## 🛑 Project Status: Architecture Migration
 
-### 🔐 Autenticación y usuarios
-- 🧾 Registro, inicio y cierre de sesión  
-- 🔄 Recuperación y actualización de contraseñas  
-- 📧 Verificación de correo electrónico  
-- 🔒 Autenticación en dos factores (2FA)  
-- ♻️ Refresh Tokens  
-- 🌍 Inicio de sesión con Google (OAuth 2.0) — extensible a otros proveedores  
-- 🛡️ Protección de rutas mediante permisos  
-
-### 🧭 Panel de Administración
-- 👥 Gestión de usuarios: crear, editar, eliminar, activar/desactivar  
-- 🧩 Roles y permisos dinámicos  
-- 📜 Logs de auditoría para acciones sensibles
-- 🌗 Modo claro / oscuro  
-- 🌐 Soporte multilenguaje (inglés y español)
+> **⚠️ Important Notice**v
+>
+> **Active development for this architecture has been discontinued.** The project is currently being migrated to a **Hexagonal Architecture** (Domain-Driven Design approach) to achieve:  
+> * **Complete Decoupling:** Full isolation of business logic from external frameworks.  
+> * **Infrastructure Agnosticism:** Flexibility to switch between databases or service providers seamlessly.  
+> * **Test-Driven Scalability:** Enhanced support for unit and integration testing.  
+>
+> *This repository remains a reference for the original modular approach.*
 
 ---
 
-## 🏗 Arquitectura y Gestión de Roles / Permisos
+## 📖 Overview
 
-El proyecto utiliza una **arquitectura modular y escalable**, en la que cada funcionalidad (feature) es independiente y reutilizable, tanto en el backend como en el frontend.  
-Esto permite mantener y extender el sistema sin afectar otras partes del código.
-
-### 🔒 Roles y Permisos
-La autorización se gestiona **exclusivamente a través de permisos**, mientras que los **roles actúan como agrupaciones de permisos**.
-
-> Actualmente los permisos se almacenan en el token, pero próximamente se gestionarán a través de un sistema de caché para reflejar los cambios de manera inmediata.
-
-Este enfoque centraliza la autorización en los **permisos del usuario**, garantizando un control granular, flexible y escalable.
+A **professional-grade boilerplate for Node.js + React**, designed to jumpstart modern web applications. The project emphasizes **modularity, security, and developer experience**, providing a solid foundation for fullstack solutions.
 
 ---
 
-## 🐳 Dockerización
+## 🧩 Key Features
 
-El proyecto está completamente **dockerizado** para facilitar su despliegue en cualquier entorno, evitando configuraciones manuales.  
+### 🔐 Authentication & Security
+* **Advanced Auth Flow:** Secure Sign-up, Login, and Multi-factor Authentication (2FA).  
+* **Security-First:** JWT implemented with **HTTP-Only Cookies** to mitigate XSS risks.  
+* **OAuth 2.0 Ready:** Google Login integrated natively, with easy expansion for other providers.  
+* **Session Safety:** Automatic token rotation using Refresh Tokens.
 
-El archivo [`docker-compose.yml`](./Infrastructure/docker-compose.yml) gestiona los siguientes contenedores:
-
-- 🟢 **Backend:** servidor Node.js con Express  
-- 🟣 **Base de datos:** MongoDB  
-- 🟠 **Mongo Express:** interfaz web para la administración de MongoDB  
-- 🔵 **Nginx:** proxy inverso optimizado para producción  
-- 🟡 **Frontend:** aplicación React lista para despliegue  
-- ✉️ **MailDev:** servidor SMTP para pruebas de correo electrónico  
-
-Con esta configuración puedes levantar todo el entorno, manteniendo consistencia entre desarrollo, pruebas y producción.  
-
-📄 Para más detalles sobre instalación, configuración y despliegue, consulta el archivo [`Despliegue.md`](./Deploy.md).
+### 🧭 Enterprise Admin Dashboard
+* **User Management:** Full CRUD operations with account status control.  
+* **Granular RBAC:** Role-based permissions for dynamic access control.  
+* **Audit Trails:** Logging of all sensitive administrative actions.  
+* **Globalization:** Native **i18n** support (English/Spanish) and Dark/Light UI modes.
 
 ---
 
-## 🔐 Credenciales de acceso para pruebas
+## 🛠 System Design
 
-| 📧 Email        | 🔑 Contraseña | 🧾 Descripción |
-|-----------------|---------------|----------------|
-| admin@admin.es  | 11111111      | Usuario administrador. Puede gestionar usuarios, roles y permisos. |
-| user@user.es    | 11111111      | Usuario estándar. El administrador puede asignarle roles o permisos adicionales. |
+### 🚀 Real-Time Notifications (WebSockets)
+The system uses **WebSockets** to deliver notifications in real time.  
+* Administrators can create notifications in the dashboard.  
+* Active users receive these notifications instantly through the client interface.  
+* WebSocket infrastructure ensures that updates are synchronized live across all connected clients.
+
+### ⚙️ Global Configuration & Seeders
+The project includes **seeders** for creating users, roles, permissions, and system configuration.  
+* **Global Configuration:** Toggle core functionalities on or off (e.g., enable/disable OAuth login) without modifying the code.  
+* **Role & Permission Management:** Seeded roles and permissions simplify access control setup and maintain consistency across environments.  
+* **Initial Data Setup:** Seeders allow quick initialization of the application for development or testing environments.
+
+### 🏗️ Feature-Oriented Architecture
+Follows a **Screaming Architecture** pattern, where each module (`user`, `admin`, etc.) contains its own logic, models, and routes. This ensures scaling the app does not introduce regressions in unrelated modules.
 
 ---
 
-## 📬 Uso con Postman
+## 🐳 Infrastructure & Deployment
 
-Se incluye un archivo [`Postman.json`](./Backend/Postman.json), una colección preconfigurada para Postman que permite probar el backend de forma rápida y sencilla.
+The project provides a production-ready **Infrastructure-as-Code** setup. The local environment is fully orchestrated via Docker, with a pre-configured **Nginx** reverse proxy.
+
+| Service | Technology | Role |
+| :--- | :--- | :--- |
+| **API** | Node.js (Express) | Main backend service |
+| **Database** | MongoDB | NoSQL data store |
+| **Proxy** | Nginx | Reverse proxy & load balancing |
+| **Client** | React | Frontend application |
+| **DevTools** | Mongo Express | Database management interface |
+| **Email** | MailDev | Local SMTP for testing emails |
+
+### 🚀 Quick Start
+Local deployment is fully contained in the `/Infrastructure` folder:  
+1. Ensure **Docker** is installed.  
+2. Run `docker compose up -d --build`.  
+3. Access the application via the Nginx entry point.
+
+📄 For detailed setup instructions, see the [**Deployment Guide**](./Deploy.md).
+
+---
+
+## 🔐 Test Credentials
+
+| Account | Email | Password | Access |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `admin@admin.es` | `11111111` | Full system control |
+| **Standard User** | `user@user.es` | `11111111` | Restricted access |
+
+---
+
+## 📬 API Documentation
+
+Test the API immediately using the pre-configured Postman collection:  
+👉 [**Postman.json**](./Backend/Postman.json)

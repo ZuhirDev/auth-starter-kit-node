@@ -1,35 +1,37 @@
-# Índice
-- [🛠️ Guía de despliegue local con Docker](#️-guía-de-despliegue-local-con-docker)
-  - [📥 1. Clonar el repositorio](#-1-clonar-el-repositorio)
-  - [⚙️ 2. Configurar las variables de entorno](#️-2-configurar-las-variables-de-entorno)
-  - [🎨 3. Preparar el frontend](#-3-preparar-el-frontend)
-  - [🐳 4. Levantar los contenedores Docker](#-4-levantar-los-contenedores-docker)
-  - [🧠 5. Preparar el backend](#-5-preparar-el-backend)
-  - [🌐 6. Acceder a la aplicación](#-6-acceder-a-la-aplicación)
-  - [📝 Notas sobre la configuración](#-notas-sobre-la-configuración)
-    - [📧 Pruebas de correo en local](#-pruebas-de-correo-en-local)
-    - [🗄️ Acceso a la base de datos](#️-acceso-a-la-base-de-datos)
-    - [🔌 Pruebas de la API](#-pruebas-de-la-api)
+# Table of Contents
+- [🛠️ Local Deployment Guide with Docker](#️-local-deployment-guide-with-docker)
+  - [📥 1. Clone the Repository](#-1-clone-the-repository)
+  - [⚙️ 2. Configure Environment Variables](#️-2-configure-environment-variables)
+  - [🎨 3. Prepare the Frontend](#-3-prepare-the-frontend)
+  - [🐳 4. Spin up Docker Containers](#-4-spin-up-docker-containers)
+  - [🧠 5. Set up the Backend](#-5-set-up-the-backend)
+  - [🌐 6. Access the Application](#-6-access-the-application)
+  - [📝 Configuration Notes](#-configuration-notes)
+    - [📧 Local Email Testing](#-local-email-testing)
+    - [🗄️ Database Access](#️-database-access)
+    - [🔌 API Testing](#-api-testing)
 
-# 🛠️ Guía de despliegue local con Docker
+---
 
-Esta guía muestra los pasos recomendados para desplegar el proyecto en un entorno local usando Docker. Incluye preparación del frontend, arranque de la infraestructura y comprobaciones básicas.
+# 🛠️ Local Deployment Guide with Docker
 
-## 📥 1. Clonar el repositorio
+This guide details the recommended workflow for deploying the project in a local environment using Docker. It covers frontend preparation, infrastructure provisioning, and initial setup verification.
 
-- Clona el repositorio y entra al directorio del proyecto.
+## 📥 1. Clone the Repository
+
+- Clone the repository and navigate into the project's root directory:
 
     ```bash
-    git clone https://github.com/ZuhirDev/auth-starter-kit-node.git
+    git clone https://github.com/ZuhirDev/auth-starter-kit-node
     cd auth-starter-kit-node
     ```
+---
 
-## ⚙️ 2. Configurar las variables de entorno
+## ⚙️ 2. Configure Environment Variables
 
-El archivo `.env` contiene la configuración necesaria para que la aplicación funcione correctamente.
+The `.env` file contains the essential configuration required for the application to function correctly.
 
-- Copia los archivos de ejemplo para Backend y Frontend:
-
+- Copy the example environment files for both the Backend and Frontend:
 ```bash
 cp Backend/.env.example Backend/.env
 ```
@@ -37,66 +39,76 @@ cp Backend/.env.example Backend/.env
 ```bash
 cp Frontend/.env.example Frontend/.env
 ```
+---
 
-## 🎨 3. Preparar el frontend
+## 🎨 3. Prepare the Frontend
 
-El frontend requiere instalar dependencias y generar la build de producción.
+The frontend requires dependency installation and a production-ready build.
 
-- Se debe instalar las librerías necesarias del frontend.
+- Install the necessary frontend libraries:
     
     ```bash
     cd Frontend
     npm install
     ```
-- Luego, compilar el código para producción.
+- Compile the code for production:
 
     ```bash
     npm run build
     ```
-Esto genera los archivos estáticos que el servidor usará para mostrar la interfaz.
+This generates the static assets that the server will use to serve the user interface.
 
-## 🐳 4. Levantar los contenedores Docker
+---
 
-Se levantan los contenedores que contienen la base de datos, servidor web, Node y otros servicios necesarios.
 
-- Se ejecuta Docker Compose para construir y correr los contenedores en segundo plano.
+## 🐳 4. Spin up Docker Containers
 
+This process launches the containers responsible for the database, web server, Node.js, and other services.
+
+- Run Docker Compose to build and start the containers:
     ```bash
     cd Infrastructure
     docker compose up -d --build
     ```
 
-Esto pone en marcha toda la infraestructura del proyecto.
+This initializes the entire project infrastructure.
 
-## 🧠 5. Preparar el backend
+---
 
-El backend requiere instalar dependencias y compilar el código.
 
-- Instala dependencias y ejecuta los seed dentro del contenedor `backend`:
+## 🧠 5. Set up the Backend
+
+The backend setup involves dependency installation and database seeding.
+
+- Install dependencies and execute the seeders directly within the `backend` container:
 
 ```bash
 docker compose exec backend sh -c "npm install && npm run seed"
 ```
 
-## 🌐 6. Acceder a la aplicación
+---
 
-Una vez todo está listo y corriendo, se puede acceder a la aplicación abriendo un navegador web y visitando la dirección [http://localhost:85](http://localhost:85).
+## 🌐 6. Access the Application
 
-## 📝 Notas sobre la configuración
+Once the services are fully operational, you can access the application by navigating to [http://localhost:85](http://localhost:85) in your web browser.
 
-### 📧 Pruebas de correo en local
-Se utiliza **MailDev** para simular el envío de correos:  
-  - Interfaz web: [http://localhost:1080](http://localhost:1080)  
-  - Servidor SMTP: puerto **1025**  
+---
 
-### 🗄️ Acceso a la base de datos
-Se puede acceder mediante **Mongo Express**: [http://localhost:8081](http://localhost:8081)  
-  - Usuario: `admin`  
-  - Contraseña: `pass`  
+## 📝 Configuration Notes
 
-### 🔌 Pruebas de la API
-La API está disponible en `http://localhost:85/api` y se puede probar fácilmente con [`Postman.json`](./Backend/Postman.json) o cualquier cliente HTTP.
+### 📧 Local Email Testing
+The project uses **MailDev** to intercept and simulate email delivery:  
 
-> 🔹 Estas herramientas son únicamente para desarrollo y pruebas locales.
+  - Web Interface: [http://localhost:1080](http://localhost:1080)  
+  - SMTP Server Port: **1025**
 
+### 🗄️ Database Access
+Manage the data through **Mongo Express**: [http://localhost:8081](http://localhost:8081)  
 
+  - Username: `admin`  
+  - Password: `pass`  
+
+### 🔌 API Testing
+The API is exposed at `http://localhost:85/api`. You can test the endpoints using the provided [`Postman.json`](./Backend/Postman.json) collection or any standard HTTP client.
+
+> 🔹 *Note: These tools and credentials are intended strictly for local development and testing purposes.*
